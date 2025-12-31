@@ -79,7 +79,8 @@ export function HeroSection() {
               </motion.a>
               
               <motion.a
-                href="#"
+                href="/Gideon-Otuedor-Resume.pdf"
+                download="Gideon-Otuedor-Resume.pdf"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 className="inline-flex items-center gap-2 px-6 py-3 rounded-full glass-card hover:bg-secondary/50 transition-all duration-300 font-medium"
