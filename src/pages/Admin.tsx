@@ -245,7 +245,8 @@ const Admin = () => {
     try {
       const fileExt = file.name.split('.').pop();
       const fileName = `project-${projectId}-${Date.now()}.${fileExt}`;
-      const filePath = `projects/${fileName}`;
+      // Use user_id as folder prefix for proper RLS policy compliance
+      const filePath = `${user!.id}/projects/${fileName}`;
 
       const { error: uploadError } = await supabase.storage
         .from('portfolio-assets')
@@ -301,7 +302,8 @@ const Admin = () => {
     setUploadingResume(true);
     try {
       const fileName = `resume-${Date.now()}.pdf`;
-      const filePath = `resumes/${fileName}`;
+      // Use user_id as folder prefix for proper RLS policy compliance
+      const filePath = `${user!.id}/resumes/${fileName}`;
 
       const { error: uploadError } = await supabase.storage
         .from('portfolio-assets')
