@@ -1,24 +1,31 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
-import { ExternalLink, Github, Layers } from "lucide-react";
+import { ExternalLink, Github } from "lucide-react";
+
+import churchplusImg from "@/assets/projects/churchplus.png";
+import projectVenusImg from "@/assets/projects/project-venus.png";
+import productdriveImg from "@/assets/projects/productdrive.png";
+import quiverImg from "@/assets/projects/quiver.png";
 
 const projects = [
   {
-    title: "Churchplus",
+    title: "ChurchPlus",
     description: "Comprehensive church management system",
     tech: ["Vue 3", "Vuex", "Element Plus"],
     features: "Events, giving, attendance, member tools",
     type: "Company Project",
     color: "from-primary to-cyan-400",
+    image: churchplusImg,
   },
   {
-    title: "Learning Management System",
+    title: "Project Venus",
     description: "Complete learning platform with role-based access",
     tech: ["TypeScript", "Next.js", "Tailwind"],
     features: "Faster load time, reusable components, role access",
     type: "Personal Project",
     color: "from-green-400 to-emerald-500",
+    image: projectVenusImg,
   },
   {
     title: "Quiver",
@@ -27,14 +34,16 @@ const projects = [
     features: "Smooth feed, messaging, optimized UI",
     type: "Professional Project",
     color: "from-purple-400 to-pink-500",
+    image: quiverImg,
   },
   {
-    title: "PaymentReminder",
-    description: "Payment tracking and reminder system",
-    tech: ["React", "Bootstrap"],
-    features: "Tracks payments & sends reminders",
-    type: "Product Drive",
-    color: "from-orange-400 to-red-500",
+    title: "Product Drive",
+    description: "Web solutions agency landing page",
+    tech: ["React", "Tailwind", "Framer Motion"],
+    features: "Modern design, smooth animations, responsive",
+    type: "Agency Project",
+    color: "from-blue-400 to-indigo-500",
+    image: productdriveImg,
   },
 ];
 
@@ -81,11 +90,13 @@ export function ProjectsSection() {
             >
               <div className="glass-card rounded-2xl overflow-hidden h-full hover:glow-primary transition-all duration-500">
                 {/* Project Header */}
-                <div className={`h-40 bg-gradient-to-br ${project.color} relative overflow-hidden`}>
-                  <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[size:20px_20px]" />
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <Layers className="w-16 h-16 text-primary-foreground/80" />
-                  </div>
+                <div className="h-48 relative overflow-hidden">
+                  <img 
+                    src={project.image} 
+                    alt={project.title}
+                    className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-card/80 to-transparent" />
                   
                   {/* Badge */}
                   <div className="absolute top-4 right-4 px-3 py-1 rounded-full bg-card/90 backdrop-blur-sm text-xs font-medium">
