@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Settings } from "lucide-react";
+import { Link } from "react-router-dom";
 import { ThemeToggle } from "./ThemeToggle";
+import { useAuth } from "@/hooks/useAuth";
 
 const navLinks = [
   { name: "About", href: "#about" },
@@ -14,6 +16,7 @@ const navLinks = [
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { user } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -58,6 +61,15 @@ export function Navbar() {
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-accent group-hover:w-full transition-all duration-300" />
               </motion.a>
             ))}
+            {user && (
+              <Link
+                to="/admin"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-primary/20 to-accent/20 border border-primary/30 text-foreground hover:from-primary/30 hover:to-accent/30 transition-all duration-300"
+              >
+                <Settings className="w-4 h-4" />
+                Admin
+              </Link>
+            )}
             <ThemeToggle />
           </div>
 
@@ -94,6 +106,16 @@ export function Navbar() {
                     {link.name}
                   </a>
                 ))}
+                {user && (
+                  <Link
+                    to="/admin"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-primary/20 to-accent/20 border border-primary/30 text-foreground"
+                  >
+                    <Settings className="w-4 h-4" />
+                    Admin
+                  </Link>
+                )}
               </div>
             </motion.div>
           )}
