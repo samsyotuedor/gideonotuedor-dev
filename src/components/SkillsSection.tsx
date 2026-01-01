@@ -1,39 +1,26 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
-import { Code, Palette, Layout, GitBranch, Sparkles } from "lucide-react";
 
-const skillCategories = [
-  {
-    title: "Frontend",
-    icon: Code,
-    color: "from-primary to-cyan-400",
-    skills: ["JavaScript", "TypeScript", "React", "Next.js", "Vue"],
-  },
-  {
-    title: "UI Tools",
-    icon: Palette,
-    color: "from-purple-400 to-pink-500",
-    skills: ["Tailwind", "Bootstrap", "Shadcn", "Element Plus"],
-  },
-  {
-    title: "UX",
-    icon: Layout,
-    color: "from-green-400 to-emerald-500",
-    skills: ["Wireframing", "Prototyping", "Usability Testing"],
-  },
-  {
-    title: "Workflow",
-    icon: GitBranch,
-    color: "from-orange-400 to-red-500",
-    skills: ["Git", "GitHub", "Agile"],
-  },
-  {
-    title: "Extras",
-    icon: Sparkles,
-    color: "from-yellow-400 to-orange-500",
-    skills: ["Photoshop", "Sketch"],
-  },
+// Import skill logos
+import javascriptLogo from "@/assets/skills/javascript.svg";
+import typescriptLogo from "@/assets/skills/typescript.svg";
+import reactLogo from "@/assets/skills/react.svg";
+import nextjsLogo from "@/assets/skills/nextjs.svg";
+import vueLogo from "@/assets/skills/vue.svg";
+import tailwindLogo from "@/assets/skills/tailwind.svg";
+import nodejsLogo from "@/assets/skills/nodejs.svg";
+import gitLogo from "@/assets/skills/git.svg";
+
+const skills = [
+  { name: "JavaScript", logo: javascriptLogo, bgColor: "bg-yellow-500/20" },
+  { name: "TypeScript", logo: typescriptLogo, bgColor: "bg-blue-500/20" },
+  { name: "React", logo: reactLogo, bgColor: "bg-cyan-500/20" },
+  { name: "Next.js", logo: nextjsLogo, bgColor: "bg-gray-500/20" },
+  { name: "Vue", logo: vueLogo, bgColor: "bg-green-500/20" },
+  { name: "Tailwind", logo: tailwindLogo, bgColor: "bg-teal-500/20" },
+  { name: "Node.js", logo: nodejsLogo, bgColor: "bg-lime-500/20" },
+  { name: "Git", logo: gitLogo, bgColor: "bg-orange-500/20" },
 ];
 
 export function SkillsSection() {
@@ -62,46 +49,35 @@ export function SkillsSection() {
             transition={{ delay: 0.2 }}
             className="text-3xl md:text-4xl font-bold mt-2"
           >
-            My <span className="text-gradient">Expertise</span>
+            Tools I Work <span className="text-gradient">With</span>
           </motion.h2>
         </div>
 
         {/* Skills Grid */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 max-w-6xl mx-auto">
-          {skillCategories.map((category, index) => (
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
+          {skills.map((skill, index) => (
             <motion.div
-              key={category.title}
+              key={skill.name}
               initial={{ opacity: 0, y: 50 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ delay: 0.3 + index * 0.1 }}
-              whileHover={{ y: -8, scale: 1.02 }}
+              whileHover={{ y: -8, scale: 1.05 }}
               className="glass-card rounded-2xl p-6 text-center hover:glow-primary transition-all duration-300"
             >
-              {/* Icon */}
+              {/* Logo */}
               <motion.div
-                whileHover={{ rotate: 10 }}
-                className={`w-14 h-14 mx-auto mb-4 rounded-xl bg-gradient-to-br ${category.color} flex items-center justify-center shadow-lg`}
+                whileHover={{ rotate: 5 }}
+                className={`w-16 h-16 mx-auto mb-4 rounded-xl ${skill.bgColor} flex items-center justify-center`}
               >
-                <category.icon className="w-7 h-7 text-primary-foreground" />
+                <img 
+                  src={skill.logo} 
+                  alt={`${skill.name} logo`} 
+                  className="w-10 h-10"
+                />
               </motion.div>
               
-              {/* Title */}
-              <h3 className="text-lg font-semibold mb-4 text-foreground">{category.title}</h3>
-              
-              {/* Skills */}
-              <div className="flex flex-wrap justify-center gap-2">
-                {category.skills.map((skill, i) => (
-                  <motion.span
-                    key={skill}
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={isInView ? { opacity: 1, scale: 1 } : {}}
-                    transition={{ delay: 0.5 + index * 0.1 + i * 0.05 }}
-                    className="px-3 py-1 rounded-full text-xs font-medium bg-secondary text-secondary-foreground hover:bg-primary hover:text-primary-foreground transition-colors cursor-default"
-                  >
-                    {skill}
-                  </motion.span>
-                ))}
-              </div>
+              {/* Name */}
+              <h3 className="text-sm font-semibold text-foreground">{skill.name}</h3>
             </motion.div>
           ))}
         </div>
