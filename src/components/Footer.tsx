@@ -23,60 +23,47 @@ export function Footer() {
   ];
 
   return (
-    <footer className="py-12 border-t border-border relative overflow-hidden">
-      {/* Background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-t from-primary/5 to-transparent" />
-      
-      <div className="container mx-auto px-6 relative z-10">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-          {/* Logo & Copyright */}
-          <div className="text-center md:text-left">
-            <motion.a
-              href="#"
-              className="text-2xl font-bold text-gradient inline-block mb-2"
-              whileHover={{ scale: 1.05 }}
-            >
-              GO<span className="text-foreground">.</span>
-            </motion.a>
-            <p className="text-sm text-muted-foreground">
-              © {currentYear} Gideon Otuedor. All rights reserved.
-            </p>
-          </div>
+    <footer className="py-8 border-t border-border/50">
+      <div className="container-custom">
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          className="flex flex-col md:flex-row items-center justify-between gap-6"
+        >
+          {/* Logo */}
+          <motion.a
+            href="#"
+            className="text-xl font-bold text-gradient"
+            whileHover={{ scale: 1.02 }}
+          >
+            GO<span className="text-foreground">.</span>
+          </motion.a>
 
           {/* Made with love */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="flex items-center gap-2 text-muted-foreground text-sm"
-          >
-            Made with
-            <motion.span
-              animate={{ scale: [1, 1.2, 1] }}
-              transition={{ duration: 1, repeat: Infinity }}
-            >
-              <Heart className="w-4 h-4 text-red-500 fill-red-500" />
-            </motion.span>
-            in Lagos, Nigeria
-          </motion.div>
+          <p className="text-sm text-muted-foreground flex items-center gap-1.5">
+            © {currentYear} Gideon Otuedor. Built with{" "}
+            <Heart className="w-4 h-4 text-red-500 fill-red-500 inline" /> in Lagos, Nigeria
+          </p>
 
           {/* Social Links */}
-          <div className="flex gap-4">
+          <div className="flex gap-3">
             {socialLinks.map((link) => (
               <motion.a
                 key={link.label}
                 href={link.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                whileHover={{ scale: 1.2, y: -2 }}
-                whileTap={{ scale: 0.9 }}
-                className="p-2 rounded-full text-muted-foreground hover:text-foreground hover:bg-secondary transition-all"
+                whileHover={{ scale: 1.1, y: -2 }}
+                whileTap={{ scale: 0.95 }}
+                className="p-2.5 rounded-xl glass-card text-muted-foreground hover:text-foreground hover:glow-primary transition-all"
                 aria-label={link.label}
               >
-                <link.icon className="w-5 h-5" />
+                <link.icon className="w-4 h-4" />
               </motion.a>
             ))}
           </div>
-        </div>
+        </motion.div>
       </div>
     </footer>
   );

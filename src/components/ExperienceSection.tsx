@@ -71,30 +71,25 @@ export function ExperienceSection() {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section id="experience" className="py-24 relative" ref={ref}>
-      {/* Background decoration */}
+    <section id="experience" className="section-padding relative" ref={ref}>
+      {/* Background */}
       <div className="absolute left-0 top-1/2 -translate-y-1/2 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
-      
-      <div className="container mx-auto px-6 relative z-10">
+
+      <div className="container-custom relative z-10">
         {/* Section Header */}
-        <div className="text-center mb-16">
-          <motion.span
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ delay: 0.1 }}
-            className="text-primary font-medium"
-          >
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-16"
+        >
+          <span className="text-primary font-medium text-sm uppercase tracking-wider">
             Work Experience
-          </motion.span>
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ delay: 0.2 }}
-            className="text-3xl md:text-4xl font-bold mt-2"
-          >
+          </span>
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mt-3">
             My <span className="text-gradient">Professional Journey</span>
-          </motion.h2>
-        </div>
+          </h2>
+        </motion.div>
 
         {/* Timeline */}
         <div className="max-w-4xl mx-auto">
@@ -103,40 +98,42 @@ export function ExperienceSection() {
               key={`${exp.company}-${exp.title}`}
               initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
               animate={isInView ? { opacity: 1, x: 0 } : {}}
-              transition={{ delay: 0.3 + index * 0.15 }}
+              transition={{ delay: 0.2 + index * 0.1 }}
               className="relative mb-8 last:mb-0"
             >
               {/* Timeline line */}
               {index !== experiences.length - 1 && (
                 <div className="absolute left-6 top-16 w-0.5 h-full bg-gradient-to-b from-primary/50 to-transparent" />
               )}
-              
+
               <div className="flex gap-4">
                 {/* Icon */}
                 <motion.div
                   whileHover={{ scale: 1.1, rotate: 5 }}
                   className={`flex-shrink-0 w-12 h-12 rounded-xl bg-gradient-to-br ${exp.color} flex items-center justify-center shadow-lg`}
                 >
-                  <exp.icon className="w-6 h-6 text-primary-foreground" />
+                  <exp.icon className="w-6 h-6 text-white" />
                 </motion.div>
-                
+
                 {/* Content */}
                 <motion.div
                   whileHover={{ y: -2 }}
-                  className="flex-1 glass-card rounded-2xl p-6 hover:glow-primary transition-all duration-300"
+                  className="flex-1 glass-card gradient-border rounded-2xl p-6 hover:glow-primary transition-all duration-300"
                 >
                   <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4">
-                    <h3 className="text-xl font-semibold text-foreground">{exp.title}</h3>
+                    <h3 className="text-xl font-semibold text-foreground">
+                      {exp.title}
+                    </h3>
                     <span className="text-primary font-medium">{exp.company}</span>
                   </div>
-                  
+
                   <ul className="space-y-2">
                     {exp.achievements.map((achievement, i) => (
                       <motion.li
                         key={i}
                         initial={{ opacity: 0, x: -20 }}
                         animate={isInView ? { opacity: 1, x: 0 } : {}}
-                        transition={{ delay: 0.5 + index * 0.1 + i * 0.05 }}
+                        transition={{ delay: 0.4 + index * 0.1 + i * 0.05 }}
                         className="flex items-start gap-2 text-muted-foreground"
                       >
                         <CheckCircle className="w-4 h-4 text-primary mt-1 flex-shrink-0" />

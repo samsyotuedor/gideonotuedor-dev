@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
-import { ExternalLink, Github } from "lucide-react";
+import { ExternalLink, Github, Layers } from "lucide-react";
 
 import churchplusImg from "@/assets/projects/churchplus.png";
 import projectVenusImg from "@/assets/projects/project-venus.png";
@@ -10,39 +10,39 @@ import quiverImg from "@/assets/projects/quiver.png";
 
 const projects = [
   {
-    title: "ChurchPlus",
-    description: "Comprehensive church management system",
-    tech: ["Vue 3", "Vuex", "Element Plus"],
-    features: "Events, giving, attendance, member tools",
-    type: "Company Project",
-    color: "from-primary to-cyan-400",
+    title: "Churchplus",
+    description: "A comprehensive church management system with member management, attendance tracking, and financial tools for religious organizations.",
+    tech: ["Vue 3", "Vuex", "Element Plus", "Node.js"],
+    features: ["Member Management", "Attendance Tracking", "Financial Reports"],
+    type: "Enterprise SaaS",
+    gradient: "from-blue-500 to-cyan-500",
     image: churchplusImg,
   },
   {
-    title: "Project Venus",
-    description: "Complete learning platform with role-based access",
-    tech: ["TypeScript", "Next.js", "Tailwind"],
-    features: "Faster load time, reusable components, role access",
-    type: "Personal Project",
-    color: "from-green-400 to-emerald-500",
+    title: "Learning Management System",
+    description: "Full-featured LMS platform with course creation, student progress tracking, assessments, and interactive learning modules.",
+    tech: ["Next.js", "TypeScript", "Tailwind CSS"],
+    features: ["Course Builder", "Progress Tracking", "Video Lessons"],
+    type: "EdTech Platform",
+    gradient: "from-green-500 to-emerald-500",
     image: projectVenusImg,
   },
   {
     title: "Quiver",
-    description: "Social platform with smooth user experience",
-    tech: ["Vue 3", "Pinia", "Tailwind"],
-    features: "Smooth feed, messaging, optimized UI",
-    type: "Professional Project",
-    color: "from-purple-400 to-pink-500",
+    description: "Modern e-commerce platform with efficient state management, responsive design, and optimized performance for seamless shopping.",
+    tech: ["Vue 3", "Pinia", "Tailwind CSS"],
+    features: ["Product Catalog", "Cart Management", "Checkout Flow"],
+    type: "E-commerce",
+    gradient: "from-purple-500 to-pink-500",
     image: quiverImg,
   },
   {
-    title: "Product Drive",
-    description: "Web solutions agency landing page",
-    tech: ["React", "Tailwind", "Framer Motion"],
-    features: "Modern design, smooth animations, responsive",
-    type: "Agency Project",
-    color: "from-blue-400 to-indigo-500",
+    title: "Payment Reminder",
+    description: "Automated payment reminder system helping businesses track invoices and send timely notifications to improve cash flow.",
+    tech: ["React", "Node.js", "MongoDB"],
+    features: ["Invoice Tracking", "Auto Reminders", "Payment Analytics"],
+    type: "FinTech Tool",
+    gradient: "from-orange-500 to-red-500",
     image: productdriveImg,
   },
 ];
@@ -52,70 +52,82 @@ export function ProjectsSection() {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section id="projects" className="py-24 relative" ref={ref}>
-      {/* Background decoration */}
+    <section id="projects" className="section-padding relative" ref={ref}>
+      {/* Background */}
       <div className="absolute right-0 top-1/3 w-96 h-96 bg-accent/5 rounded-full blur-3xl" />
-      
-      <div className="container mx-auto px-6 relative z-10">
+
+      <div className="container-custom relative z-10">
         {/* Section Header */}
-        <div className="text-center mb-16">
-          <motion.span
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ delay: 0.1 }}
-            className="text-primary font-medium"
-          >
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-16"
+        >
+          <span className="text-primary font-medium text-sm uppercase tracking-wider">
             Featured Work
-          </motion.span>
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ delay: 0.2 }}
-            className="text-3xl md:text-4xl font-bold mt-2"
-          >
-            My <span className="text-gradient">Projects</span>
-          </motion.h2>
-        </div>
+          </span>
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mt-3">
+            Projects I've <span className="text-gradient">Built</span>
+          </h2>
+          <p className="text-muted-foreground mt-4 max-w-2xl mx-auto">
+            A selection of projects showcasing my expertise in building scalable, user-focused web applications.
+          </p>
+        </motion.div>
 
         {/* Projects Grid */}
         <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
           {projects.map((project, index) => (
             <motion.div
               key={project.title}
-              initial={{ opacity: 0, y: 50 }}
+              initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: 0.3 + index * 0.15 }}
-              whileHover={{ y: -8 }}
+              transition={{ delay: 0.2 + index * 0.1 }}
+              whileHover={{ y: -5 }}
               className="group"
             >
-              <div className="glass-card rounded-2xl overflow-hidden h-full hover:glow-primary transition-all duration-500">
-                {/* Project Header */}
+              <div className="glass-card gradient-border rounded-2xl overflow-hidden h-full">
+                {/* Project Image */}
                 <div className="h-48 relative overflow-hidden">
                   <img 
                     src={project.image} 
                     alt={project.title}
                     className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-card/80 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-card/90 via-card/20 to-transparent" />
                   
                   {/* Badge */}
-                  <div className="absolute top-4 right-4 px-3 py-1 rounded-full bg-card/90 backdrop-blur-sm text-xs font-medium">
+                  <div className="absolute top-4 right-4 px-3 py-1 rounded-full bg-card/90 backdrop-blur-sm text-xs font-medium border border-border/50">
                     {project.type}
                   </div>
+
+                  {/* Decorative Icon */}
+                  <div className="absolute bottom-4 right-4 opacity-10">
+                    <Layers className="w-16 h-16 text-foreground" />
+                  </div>
                 </div>
-                
+
                 {/* Project Content */}
                 <div className="p-6">
                   <h3 className="text-xl font-semibold mb-2 text-foreground group-hover:text-gradient transition-all">
                     {project.title}
                   </h3>
-                  <p className="text-muted-foreground mb-4">{project.description}</p>
-                  
-                  {/* Features */}
-                  <p className="text-sm text-muted-foreground mb-4 italic">
-                    "{project.features}"
+                  <p className="text-muted-foreground mb-4 text-sm line-clamp-2">
+                    {project.description}
                   </p>
-                  
+
+                  {/* Features */}
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {project.features.map((feature) => (
+                      <span
+                        key={feature}
+                        className="text-xs px-2.5 py-1 rounded-full bg-primary/10 text-primary"
+                      >
+                        {feature}
+                      </span>
+                    ))}
+                  </div>
+
                   {/* Tech Stack */}
                   <div className="flex flex-wrap gap-2 mb-6">
                     {project.tech.map((tech) => (
@@ -127,24 +139,23 @@ export function ProjectsSection() {
                       </span>
                     ))}
                   </div>
-                  
+
                   {/* Actions */}
-                  <div className="flex gap-4">
+                  <div className="flex gap-3">
                     <motion.button
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      className="flex items-center gap-2 px-4 py-2 rounded-lg bg-primary text-primary-foreground text-sm font-medium transition-colors"
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 btn-gradient rounded-xl text-sm font-medium transition-all"
                     >
-                      <ExternalLink size={16} />
+                      <ExternalLink className="w-4 h-4" />
                       View Demo
                     </motion.button>
                     <motion.button
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
-                      className="flex items-center gap-2 px-4 py-2 rounded-lg border border-border hover:bg-secondary text-sm font-medium transition-colors"
+                      className="p-2.5 glass-card rounded-xl hover:glow-primary transition-all"
                     >
-                      <Github size={16} />
-                      GitHub
+                      <Github className="w-4 h-4" />
                     </motion.button>
                   </div>
                 </div>
