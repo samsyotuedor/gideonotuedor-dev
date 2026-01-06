@@ -1,10 +1,10 @@
 import { Navbar } from "@/components/Navbar";
 import { HeroSection } from "@/components/HeroSection";
-import { AboutSection } from "@/components/AboutSection";
-import { ExperienceSection } from "@/components/ExperienceSection";
-import { ProjectsSection } from "@/components/ProjectsSection";
-import { SkillsSection } from "@/components/SkillsSection";
-import { ContactSection } from "@/components/ContactSection";
+import { AboutPreview } from "@/components/previews/AboutPreview";
+import { ExperiencePreview } from "@/components/previews/ExperiencePreview";
+import { ProjectsPreview } from "@/components/previews/ProjectsPreview";
+import { SkillsPreview } from "@/components/previews/SkillsPreview";
+import { ContactPreview } from "@/components/previews/ContactPreview";
 import { Footer } from "@/components/Footer";
 import { MouseTracker } from "@/components/MouseTracker";
 
@@ -14,11 +14,11 @@ const Index = () => {
       <MouseTracker />
       <Navbar />
       <HeroSection />
-      <AboutSection />
-      <ExperienceSection />
-      <ProjectsSection />
-      <SkillsSection />
-      <ContactSection />
+      <AboutPreview />
+      <ExperiencePreview />
+      <ProjectsPreview />
+      <SkillsPreview />
+      <ContactPreview />
       <Footer />
     </main>
   );
