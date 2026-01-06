@@ -42,8 +42,7 @@ export function Footer() {
 
           {/* Made with love */}
           <p className="text-sm text-muted-foreground flex items-center gap-1.5">
-            © {currentYear} Gideon Otuedor. Built with{" "}
-            <Heart className="w-4 h-4 text-red-500 fill-red-500 inline" /> in Lagos, Nigeria
+            © {currentYear} Gideon Otuedor. Lagos, Nigeria
           </p>
 
           {/* Social Links */}
