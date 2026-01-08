@@ -46,13 +46,13 @@ const About = () => {
     <main className="min-h-screen bg-background">
       <Navbar />
       
-      <section className="section-padding pt-24 relative" ref={ref}>
+      <section className="section-padding pt-20 md:pt-24 relative" ref={ref}>
         {/* Background */}
         <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-3xl" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] md:w-[600px] h-[400px] md:h-[600px] bg-primary/5 rounded-full blur-3xl" />
         </div>
 
-        <div className="container-custom relative z-10">
+        <div className="container-custom relative z-10 px-4 md:px-8">
           {/* Back Link */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
@@ -73,48 +73,48 @@ const About = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="text-center mb-16"
+            className="text-center mb-10 md:mb-16"
           >
-            <span className="text-primary font-medium text-sm uppercase tracking-wider">
+            <span className="text-primary font-medium text-xs md:text-sm uppercase tracking-wider">
               About Me
             </span>
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mt-3">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mt-3">
               Get to Know <span className="text-gradient">Who I Am</span>
             </h1>
           </motion.div>
 
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-start max-w-6xl mx-auto">
+          <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-start max-w-6xl mx-auto">
             {/* Left - Bio */}
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
             >
-              <div className="glass-card gradient-border rounded-2xl p-8">
-                <p className="text-lg leading-relaxed text-muted-foreground mb-6">
+              <div className="glass-card gradient-border rounded-xl md:rounded-2xl p-5 md:p-8">
+                <p className="text-base md:text-lg leading-relaxed text-muted-foreground mb-4 md:mb-6">
                   I'm a <span className="text-foreground font-medium">Front-End Developer and CTO</span> with 4+ years of experience building scalable digital products across multiple industries. I specialize in <span className="text-primary font-medium">JavaScript, TypeScript, React, Next.js, and Vue</span> — with strong focus on UX optimization, code quality, and performance.
                 </p>
-                <p className="text-lg leading-relaxed text-muted-foreground">
+                <p className="text-base md:text-lg leading-relaxed text-muted-foreground">
                   I've led teams, shipped high-impact features, improved deployment pipelines, and delivered applications that users genuinely enjoy using. My approach combines technical excellence with a deep understanding of user needs.
                 </p>
               </div>
 
               {/* Highlights Grid */}
-              <div className="grid grid-cols-2 gap-4 mt-6">
+              <div className="grid grid-cols-2 gap-3 md:gap-4 mt-4 md:mt-6">
                 {highlights.map((item, index) => (
                   <motion.div
                     key={item.label}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.4 + index * 0.1 }}
-                    className="glass-card rounded-xl p-4 flex items-center gap-3"
+                    className="glass-card rounded-lg md:rounded-xl p-3 md:p-4 flex items-center gap-2 md:gap-3"
                   >
-                    <div className="p-2 rounded-lg bg-primary/10">
-                      <item.icon className="w-5 h-5 text-primary" />
+                    <div className="p-1.5 md:p-2 rounded-lg bg-primary/10">
+                      <item.icon className="w-4 h-4 md:w-5 md:h-5 text-primary" />
                     </div>
                     <div>
-                      <p className="text-xs text-muted-foreground">{item.label}</p>
-                      <p className="font-medium text-foreground">{item.value}</p>
+                      <p className="text-[10px] md:text-xs text-muted-foreground">{item.label}</p>
+                      <p className="font-medium text-foreground text-xs md:text-sm">{item.value}</p>
                     </div>
                   </motion.div>
                 ))}
@@ -127,10 +127,10 @@ const About = () => {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: 0.3 }}
             >
-              <h3 className="text-xl font-semibold mb-6">
+              <h3 className="text-lg md:text-xl font-semibold mb-4 md:mb-6">
                 Tools I Work With
               </h3>
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+              <div className="grid grid-cols-4 sm:grid-cols-4 gap-2 md:gap-4">
                 {tools.map((tool, index) => (
                   <motion.div
                     key={tool.name}
@@ -138,12 +138,12 @@ const About = () => {
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ delay: 0.5 + index * 0.05 }}
                     whileHover={{ scale: 1.05, y: -5 }}
-                    className="glass-card rounded-xl p-4 text-center cursor-pointer group"
+                    className="glass-card rounded-lg md:rounded-xl p-2 md:p-4 text-center cursor-pointer group"
                   >
-                    <div className="w-12 h-12 mx-auto mb-3 rounded-xl bg-secondary flex items-center justify-center p-2 group-hover:bg-primary/10 transition-colors">
-                      <img src={tool.logo} alt={tool.name} className="w-8 h-8" />
+                    <div className="w-8 h-8 md:w-12 md:h-12 mx-auto mb-1 md:mb-3 rounded-lg md:rounded-xl bg-secondary flex items-center justify-center p-1 md:p-2 group-hover:bg-primary/10 transition-colors">
+                      <img src={tool.logo} alt={tool.name} className="w-5 h-5 md:w-8 md:h-8" />
                     </div>
-                    <span className="text-sm font-medium text-foreground">
+                    <span className="text-[10px] md:text-sm font-medium text-foreground">
                       {tool.name}
                     </span>
                   </motion.div>
@@ -151,19 +151,19 @@ const About = () => {
               </div>
 
               {/* Stats */}
-              <div className="mt-8 grid grid-cols-3 gap-4">
+              <div className="mt-6 md:mt-8 grid grid-cols-3 gap-2 md:gap-4">
                 {stats.map((stat, index) => (
                   <motion.div
                     key={stat.label}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.8 + index * 0.1 }}
-                    className="text-center glass-card rounded-xl p-4"
+                    className="text-center glass-card rounded-lg md:rounded-xl p-2 md:p-4"
                   >
-                    <p className="text-2xl font-bold text-gradient">
+                    <p className="text-lg md:text-2xl font-bold text-gradient">
                       {stat.value}
                     </p>
-                    <p className="text-xs text-muted-foreground mt-1">
+                    <p className="text-[10px] md:text-xs text-muted-foreground mt-1">
                       {stat.label}
                     </p>
                   </motion.div>
