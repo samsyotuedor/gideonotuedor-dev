@@ -113,7 +113,7 @@ export function HeroSection() {
                 </motion.a>
                 
                 <motion.a
-                  href="/Gideon-Otuedor-Resume.pdf"
+                  href="/Gideon-Resume.pdf"
                   download="Gideon-Otuedor-Resume.pdf"
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
