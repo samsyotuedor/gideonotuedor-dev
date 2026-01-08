@@ -1,7 +1,10 @@
 import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
-import { Calendar, Mail, Phone, Clock, Video, MessageSquare } from "lucide-react";
+import { useRef, useEffect } from "react";
+import { Calendar, Mail, Phone, Clock, Video, MessageSquare, ExternalLink } from "lucide-react";
 import { FadeInOnScroll, StaggerContainer, staggerChildVariants } from "./ScrollAnimations";
+
+// Calendly event URLs - Update these with your actual Calendly links
+const CALENDLY_USERNAME = "gideon-otuedor"; // Replace with your Calendly username
 
 const bookingOptions = [
   {
@@ -10,6 +13,7 @@ const bookingOptions = [
     description: "Brief intro call to discuss your project needs",
     icon: MessageSquare,
     color: "from-primary to-accent",
+    calendlyEvent: "15min-chat", // Replace with your actual event slug
   },
   {
     title: "Discovery Call",
@@ -17,6 +21,7 @@ const bookingOptions = [
     description: "Deep dive into your project requirements and goals",
     icon: Video,
     color: "from-accent to-primary",
+    calendlyEvent: "30min-discovery", // Replace with your actual event slug
   },
   {
     title: "Technical Consultation",
@@ -24,12 +29,54 @@ const bookingOptions = [
     description: "Comprehensive technical planning session",
     icon: Calendar,
     color: "from-primary via-accent to-primary",
+    calendlyEvent: "60min-consultation", // Replace with your actual event slug
   },
 ];
+
+// Declare Calendly on window for TypeScript
+declare global {
+  interface Window {
+    Calendly?: {
+      initPopupWidget: (options: { url: string }) => void;
+    };
+  }
+}
 
 export function BookingSection() {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+
+  // Load Calendly widget script
+  useEffect(() => {
+    // Add Calendly stylesheet
+    const link = document.createElement("link");
+    link.href = "https://assets.calendly.com/assets/external/widget.css";
+    link.rel = "stylesheet";
+    document.head.appendChild(link);
+
+    // Add Calendly script
+    const script = document.createElement("script");
+    script.src = "https://assets.calendly.com/assets/external/widget.js";
+    script.async = true;
+    document.body.appendChild(script);
+
+    return () => {
+      // Cleanup
+      document.head.removeChild(link);
+      document.body.removeChild(script);
+    };
+  }, []);
+
+  const openCalendly = (eventSlug: string) => {
+    const url = `https://calendly.com/${CALENDLY_USERNAME}/${eventSlug}`;
+    
+    if (window.Calendly) {
+      window.Calendly.initPopupWidget({ url });
+    } else {
+      // Fallback: open in new tab if widget isn't loaded
+      window.open(url, "_blank");
+    }
+  };
 
   return (
     <section ref={ref} className="section-padding relative overflow-hidden">
@@ -62,7 +109,7 @@ export function BookingSection() {
         </FadeInOnScroll>
 
         <StaggerContainer className="grid md:grid-cols-3 gap-6 mb-12">
-          {bookingOptions.map((option, index) => (
+          {bookingOptions.map((option) => (
             <motion.div
               key={option.title}
               variants={staggerChildVariants}
@@ -88,16 +135,34 @@ export function BookingSection() {
                 <p className="text-muted-foreground mb-6">{option.description}</p>
                 
                 <motion.button
+                  onClick={() => openCalendly(option.calendlyEvent)}
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className="w-full py-3 rounded-xl btn-gradient font-medium text-sm"
+                  className="w-full py-3 rounded-xl btn-gradient font-medium text-sm inline-flex items-center justify-center gap-2 cursor-pointer"
                 >
+                  <Calendar className="w-4 h-4" />
                   Schedule Now
                 </motion.button>
               </div>
             </motion.div>
           ))}
         </StaggerContainer>
+
+        {/* Direct Calendly link */}
+        <FadeInOnScroll>
+          <div className="text-center mb-8">
+            <motion.a
+              href={`https://calendly.com/${CALENDLY_USERNAME}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              whileHover={{ scale: 1.02 }}
+              className="inline-flex items-center gap-2 text-primary hover:text-accent transition-colors cursor-pointer"
+            >
+              <span>View all available times on Calendly</span>
+              <ExternalLink className="w-4 h-4" />
+            </motion.a>
+          </div>
+        </FadeInOnScroll>
 
         {/* Quick contact options */}
         <FadeInOnScroll>
@@ -106,7 +171,7 @@ export function BookingSection() {
               href="mailto:samsyotuedor40@gmail.com"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl glass-card hover:glow-primary transition-all duration-300"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl glass-card hover:glow-primary transition-all duration-300 cursor-pointer"
             >
               <Mail className="w-5 h-5 text-primary" />
               <span>samsyotuedor40@gmail.com</span>
@@ -116,7 +181,7 @@ export function BookingSection() {
               href="tel:+2347085814726"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl glass-card hover:glow-accent transition-all duration-300"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl glass-card hover:glow-accent transition-all duration-300 cursor-pointer"
             >
               <Phone className="w-5 h-5 text-accent" />
               <span>+234 708 581 4726</span>
