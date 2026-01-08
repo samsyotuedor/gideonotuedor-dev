@@ -114,7 +114,7 @@ export function HeroSection() {
                 
                 <motion.a
                   href="/Gideon-Resume.pdf"
-                  download="Gideon-Otuedor-Resume.pdf"
+                  download="Gideon-Resume.pdf"
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   className="inline-flex items-center gap-2 px-6 py-3 rounded-xl glass-card-strong font-medium cursor-pointer"
@@ -134,7 +134,7 @@ export function HeroSection() {
                 {[
                   { href: "https://github.com/samsyotuedor", icon: Github, label: "GitHub" },
                   { href: "https://linkedin.com/in/gideon-otuedor-92447b212", icon: Linkedin, label: "LinkedIn" },
-                  { href: "https://devcraftbygideon.vercel.app", icon: Globe, label: "Portfolio" },
+                  { href: "https://gideonotuedor-dev.vercel.app", icon: Globe, label: "Portfolio" },
                 ].map((social) => (
                   <motion.a
                     key={social.label}
