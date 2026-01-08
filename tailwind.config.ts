@@ -14,8 +14,8 @@ export default {
     },
     extend: {
       fontFamily: {
-        roboto: ["Roboto", "system-ui", "sans-serif"],
-        mono: ["Roboto Mono", "monospace"],
+        poppins: ["Poppins", "system-ui", "sans-serif"],
+        raleway: ["Raleway", "sans-serif"],
       },
       colors: {
         border: "hsl(var(--border))",
