@@ -1,13 +1,26 @@
 import { useRef, useState } from "react";
 import { motion } from "framer-motion";
+import profileImage from "@/assets/profile-3d.png";
 
 interface Rotating3DImageProps {
-  src: string;
-  alt: string;
+  src?: string;
+  alt?: string;
   className?: string;
+  size?: "sm" | "md" | "lg";
 }
 
-export const Rotating3DImage = ({ src, alt, className = "" }: Rotating3DImageProps) => {
+const sizeClasses = {
+  sm: "w-48 h-48 md:w-64 md:h-64",
+  md: "w-64 h-64 md:w-80 md:h-80",
+  lg: "w-80 h-80 md:w-[400px] md:h-[400px] lg:w-[500px] lg:h-[500px]",
+};
+
+export const Rotating3DImage = ({ 
+  src = profileImage, 
+  alt = "3D Profile", 
+  className = "",
+  size = "md"
+}: Rotating3DImageProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [rotation, setRotation] = useState({ x: 0, y: 0 });
   const [isHovered, setIsHovered] = useState(false);
@@ -34,7 +47,7 @@ export const Rotating3DImage = ({ src, alt, className = "" }: Rotating3DImagePro
   return (
     <div
       ref={containerRef}
-      className={`relative perspective-1000 ${className}`}
+      className={`relative perspective-1000 ${sizeClasses[size]} ${className}`}
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={handleMouseLeave}
