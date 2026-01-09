@@ -1,343 +1,298 @@
-import { Suspense, useRef, useMemo } from "react";
+import { Suspense, useRef, useMemo, useState } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { Float, MeshDistortMaterial, Sphere, Box, Torus, Text, Stars } from "@react-three/drei";
+import { Float, MeshDistortMaterial, Sphere, Box, Torus, Text, Stars, RoundedBox, Trail, Environment } from "@react-three/drei";
 import * as THREE from "three";
 
-// Developer Desk with Monitor Setup
-function DeveloperDesk({ position }: { position: [number, number, number] }) {
+// Interactive Mouse Tracking
+function MouseTracker({ children }: { children: React.ReactNode }) {
   const groupRef = useRef<THREE.Group>(null);
+  const { viewport } = useThree();
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   
   useFrame((state) => {
     if (groupRef.current) {
-      groupRef.current.rotation.y = Math.sin(state.clock.elapsedTime * 0.2) * 0.1 + 0.3;
-      groupRef.current.position.y = position[1] + Math.sin(state.clock.elapsedTime * 0.3) * 0.15;
+      const targetX = (state.pointer.x * viewport.width) / 20;
+      const targetY = (state.pointer.y * viewport.height) / 20;
+      
+      groupRef.current.rotation.y = THREE.MathUtils.lerp(
+        groupRef.current.rotation.y,
+        targetX * 0.15,
+        0.05
+      );
+      groupRef.current.rotation.x = THREE.MathUtils.lerp(
+        groupRef.current.rotation.x,
+        -targetY * 0.1,
+        0.05
+      );
     }
   });
-
-  return (
-    <group ref={groupRef} position={position} scale={0.6}>
-      {/* Desk */}
-      <mesh position={[0, -0.5, 0]}>
-        <boxGeometry args={[4, 0.15, 2]} />
-        <meshStandardMaterial color="#2d1f1f" metalness={0.3} roughness={0.7} />
-      </mesh>
-      
-      {/* Desk legs */}
-      {[[-1.7, -1.5, 0.7], [1.7, -1.5, 0.7], [-1.7, -1.5, -0.7], [1.7, -1.5, -0.7]].map((pos, i) => (
-        <mesh key={i} position={pos as [number, number, number]}>
-          <boxGeometry args={[0.1, 2, 0.1]} />
-          <meshStandardMaterial color="#1a1a1a" metalness={0.8} roughness={0.2} />
-        </mesh>
-      ))}
-      
-      {/* Main Monitor */}
-      <group position={[0, 0.6, -0.5]}>
-        {/* Monitor frame */}
-        <mesh>
-          <boxGeometry args={[2.2, 1.4, 0.08]} />
-          <meshStandardMaterial color="#1a1a2e" metalness={0.8} roughness={0.2} />
-        </mesh>
-        {/* Monitor screen - glowing */}
-        <mesh position={[0, 0, 0.05]}>
-          <planeGeometry args={[2, 1.2]} />
-          <meshBasicMaterial color="#3b82f6" opacity={0.9} transparent />
-        </mesh>
-        {/* Code lines on screen */}
-        {[-0.4, -0.2, 0, 0.2, 0.4].map((y, i) => (
-          <mesh key={i} position={[-0.3 + (i % 2) * 0.2, y, 0.06]}>
-            <boxGeometry args={[0.8 - (i % 3) * 0.1, 0.06, 0.01]} />
-            <meshBasicMaterial color={i % 2 === 0 ? "#22d3ee" : "#a855f7"} />
-          </mesh>
-        ))}
-        {/* Monitor stand */}
-        <mesh position={[0, -0.85, 0.3]}>
-          <boxGeometry args={[0.3, 0.3, 0.3]} />
-          <meshStandardMaterial color="#1a1a1a" metalness={0.8} roughness={0.2} />
-        </mesh>
-        <mesh position={[0, -1, 0.3]}>
-          <boxGeometry args={[0.8, 0.05, 0.5]} />
-          <meshStandardMaterial color="#1a1a1a" metalness={0.8} roughness={0.2} />
-        </mesh>
-      </group>
-      
-      {/* Secondary Monitor */}
-      <group position={[1.5, 0.5, -0.3]} rotation={[0, -0.4, 0]}>
-        <mesh>
-          <boxGeometry args={[1.2, 0.9, 0.06]} />
-          <meshStandardMaterial color="#1a1a2e" metalness={0.8} roughness={0.2} />
-        </mesh>
-        <mesh position={[0, 0, 0.04]}>
-          <planeGeometry args={[1.05, 0.75]} />
-          <meshBasicMaterial color="#22d3ee" opacity={0.8} transparent />
-        </mesh>
-      </group>
-      
-      {/* Keyboard */}
-      <mesh position={[0, -0.35, 0.4]}>
-        <boxGeometry args={[1.2, 0.05, 0.4]} />
-        <meshStandardMaterial color="#1f1f1f" metalness={0.6} roughness={0.3} />
-      </mesh>
-      
-      {/* Mouse */}
-      <mesh position={[0.9, -0.35, 0.4]}>
-        <boxGeometry args={[0.15, 0.04, 0.25]} />
-        <meshStandardMaterial color="#1f1f1f" metalness={0.6} roughness={0.3} />
-      </mesh>
-      
-      {/* Coffee mug */}
-      <mesh position={[-1.3, -0.25, 0.3]}>
-        <cylinderGeometry args={[0.1, 0.08, 0.2, 16]} />
-        <meshStandardMaterial color="#ffffff" />
-      </mesh>
-      
-      {/* Monitor glow */}
-      <pointLight position={[0, 0.5, 0.5]} color="#3b82f6" intensity={3} distance={4} />
-      <pointLight position={[1.5, 0.4, 0]} color="#22d3ee" intensity={1.5} distance={3} />
-    </group>
-  );
+  
+  return <group ref={groupRef}>{children}</group>;
 }
 
-// Office Chair
-function OfficeChair({ position }: { position: [number, number, number] }) {
+// Floating Laptop with Code Screen
+function FloatingLaptop({ position }: { position: [number, number, number] }) {
   const groupRef = useRef<THREE.Group>(null);
+  const screenRef = useRef<THREE.Mesh>(null);
   
   useFrame((state) => {
     if (groupRef.current) {
-      groupRef.current.rotation.y = Math.sin(state.clock.elapsedTime * 0.15) * 0.2 - 0.2;
+      groupRef.current.rotation.y = Math.sin(state.clock.elapsedTime * 0.3) * 0.2;
+      groupRef.current.position.y = position[1] + Math.sin(state.clock.elapsedTime * 0.5) * 0.15;
     }
   });
 
-  return (
-    <group ref={groupRef} position={position} scale={0.5}>
-      {/* Seat */}
-      <mesh position={[0, 0, 0]}>
-        <boxGeometry args={[1, 0.15, 1]} />
-        <meshStandardMaterial color="#1a1a2e" metalness={0.3} roughness={0.6} />
-      </mesh>
-      
-      {/* Backrest */}
-      <mesh position={[0, 0.7, -0.4]}>
-        <boxGeometry args={[1, 1.2, 0.1]} />
-        <meshStandardMaterial color="#1a1a2e" metalness={0.3} roughness={0.6} />
-      </mesh>
-      
-      {/* Chair base */}
-      <mesh position={[0, -0.5, 0]}>
-        <cylinderGeometry args={[0.08, 0.08, 0.8, 8]} />
-        <meshStandardMaterial color="#333" metalness={0.8} roughness={0.2} />
-      </mesh>
-      
-      {/* Chair wheel base */}
-      <mesh position={[0, -0.9, 0]} rotation={[0, 0, 0]}>
-        <cylinderGeometry args={[0.5, 0.5, 0.08, 6]} />
-        <meshStandardMaterial color="#333" metalness={0.8} roughness={0.2} />
-      </mesh>
-    </group>
-  );
-}
-
-// Floating Code Block with syntax highlighting effect
-function FloatingCodeBlock({ position, color = "#3b82f6" }: { position: [number, number, number]; color?: string }) {
-  const meshRef = useRef<THREE.Mesh>(null);
-  
-  useFrame((state) => {
-    if (meshRef.current) {
-      meshRef.current.rotation.x = Math.sin(state.clock.elapsedTime * 0.4) * 0.1;
-      meshRef.current.rotation.z = Math.cos(state.clock.elapsedTime * 0.3) * 0.1;
+  // Create code line pattern texture
+  const codeTexture = useMemo(() => {
+    const canvas = document.createElement('canvas');
+    canvas.width = 512;
+    canvas.height = 512;
+    const ctx = canvas.getContext('2d')!;
+    
+    // Dark background
+    ctx.fillStyle = '#0f172a';
+    ctx.fillRect(0, 0, 512, 512);
+    
+    // Code lines
+    const colors = ['#3b82f6', '#22d3ee', '#a855f7', '#10b981', '#f59e0b', '#f97316'];
+    for (let i = 0; i < 25; i++) {
+      ctx.fillStyle = colors[i % colors.length];
+      const width = 80 + Math.random() * 200;
+      const indent = 20 + (i % 4) * 20;
+      ctx.fillRect(indent, 20 + i * 19, width, 6);
     }
-  });
-
-  return (
-    <Float speed={2} rotationIntensity={0.5} floatIntensity={1}>
-      <mesh ref={meshRef} position={position}>
-        <boxGeometry args={[0.8, 1.2, 0.1]} />
-        <meshStandardMaterial 
-          color="#0f172a"
-          metalness={0.5}
-          roughness={0.3}
-          emissive={color}
-          emissiveIntensity={0.1}
-        />
-      </mesh>
-      {/* Code lines simulation */}
-      {[0.35, 0.15, -0.05, -0.25, -0.45].map((y, i) => (
-        <mesh key={i} position={[position[0], position[1] + y, position[2] + 0.06]}>
-          <boxGeometry args={[0.55 - (i % 3) * 0.1, 0.05, 0.01]} />
-          <meshBasicMaterial color={["#3b82f6", "#22d3ee", "#a855f7", "#10b981", "#f59e0b"][i % 5]} />
-        </mesh>
-      ))}
-    </Float>
-  );
-}
-
-// Terminal/Console Window
-function FloatingTerminal({ position }: { position: [number, number, number] }) {
-  const meshRef = useRef<THREE.Group>(null);
-  
-  useFrame((state) => {
-    if (meshRef.current) {
-      meshRef.current.rotation.y = Math.sin(state.clock.elapsedTime * 0.3) * 0.1;
-      meshRef.current.position.y = position[1] + Math.sin(state.clock.elapsedTime * 0.4) * 0.2;
-    }
-  });
+    
+    const texture = new THREE.CanvasTexture(canvas);
+    texture.needsUpdate = true;
+    return texture;
+  }, []);
 
   return (
     <Float speed={1.5} rotationIntensity={0.3} floatIntensity={0.8}>
-      <group ref={meshRef} position={position}>
-        {/* Terminal window */}
-        <mesh>
-          <boxGeometry args={[1.2, 0.9, 0.08]} />
-          <meshStandardMaterial color="#1e1e2e" metalness={0.4} roughness={0.3} />
+      <group ref={groupRef} position={position} scale={0.8}>
+        {/* Laptop Base */}
+        <mesh position={[0, -0.05, 0.4]} rotation={[-0.1, 0, 0]}>
+          <boxGeometry args={[2.4, 0.08, 1.6]} />
+          <meshStandardMaterial color="#1a1a2e" metalness={0.9} roughness={0.2} />
         </mesh>
-        {/* Terminal header */}
-        <mesh position={[0, 0.38, 0.045]}>
-          <boxGeometry args={[1.15, 0.1, 0.01]} />
-          <meshBasicMaterial color="#374151" />
+        
+        {/* Keyboard area */}
+        <mesh position={[0, 0, 0.4]}>
+          <boxGeometry args={[2.2, 0.02, 1.4]} />
+          <meshStandardMaterial color="#0f0f1a" metalness={0.7} roughness={0.3} />
         </mesh>
-        {/* Terminal buttons */}
-        {[[-0.45, "#ef4444"], [-0.38, "#fbbf24"], [-0.31, "#22c55e"]].map(([x, color], i) => (
-          <mesh key={i} position={[x as number, 0.38, 0.05]}>
-            <circleGeometry args={[0.02, 16]} />
-            <meshBasicMaterial color={color as string} />
+        
+        {/* Keyboard keys grid */}
+        {Array.from({ length: 4 }).map((_, row) =>
+          Array.from({ length: 10 }).map((_, col) => (
+            <mesh key={`${row}-${col}`} position={[-0.9 + col * 0.2, 0.03, 0.1 + row * 0.25]}>
+              <boxGeometry args={[0.14, 0.03, 0.18]} />
+              <meshStandardMaterial color="#2a2a3e" metalness={0.5} roughness={0.4} />
+            </mesh>
+          ))
+        )}
+        
+        {/* Screen Frame (hinged open) */}
+        <group position={[0, 0.9, -0.35]} rotation={[0.3, 0, 0]}>
+          {/* Screen bezel */}
+          <mesh>
+            <boxGeometry args={[2.5, 1.7, 0.06]} />
+            <meshStandardMaterial color="#1a1a2e" metalness={0.9} roughness={0.2} />
           </mesh>
-        ))}
-        {/* Terminal text lines */}
-        {[0.2, 0.05, -0.1, -0.25].map((y, i) => (
-          <mesh key={i} position={[-0.2 + (i % 2) * 0.1, y, 0.05]}>
-            <boxGeometry args={[0.6 - (i % 3) * 0.15, 0.04, 0.01]} />
-            <meshBasicMaterial color={i === 0 ? "#10b981" : "#64748b"} />
+          
+          {/* Screen Display */}
+          <mesh ref={screenRef} position={[0, 0, 0.04]}>
+            <planeGeometry args={[2.2, 1.45]} />
+            <meshBasicMaterial map={codeTexture} />
           </mesh>
-        ))}
-      </group>
-    </Float>
-  );
-}
-
-// React Logo Spinning
-function ReactLogo({ position }: { position: [number, number, number] }) {
-  const groupRef = useRef<THREE.Group>(null);
-  
-  useFrame((state) => {
-    if (groupRef.current) {
-      groupRef.current.rotation.y = state.clock.elapsedTime * 0.5;
-      groupRef.current.rotation.z = Math.sin(state.clock.elapsedTime * 0.3) * 0.2;
-    }
-  });
-
-  return (
-    <Float speed={2} rotationIntensity={0.3} floatIntensity={0.6}>
-      <group ref={groupRef} position={position} scale={0.5}>
-        {/* Center sphere */}
-        <mesh>
-          <sphereGeometry args={[0.15, 16, 16]} />
-          <meshStandardMaterial color="#61dafb" emissive="#61dafb" emissiveIntensity={0.5} />
-        </mesh>
-        {/* Orbital rings */}
-        {[0, Math.PI / 3, (2 * Math.PI) / 3].map((rotation, i) => (
-          <mesh key={i} rotation={[Math.PI / 2, rotation, 0]}>
-            <torusGeometry args={[0.6, 0.03, 16, 64]} />
-            <meshStandardMaterial color="#61dafb" emissive="#61dafb" emissiveIntensity={0.3} />
+          
+          {/* Animated scan line effect */}
+          <mesh position={[0, 0, 0.05]}>
+            <planeGeometry args={[2.2, 0.02]} />
+            <meshBasicMaterial color="#3b82f6" transparent opacity={0.6} />
           </mesh>
-        ))}
-      </group>
-    </Float>
-  );
-}
-
-// Git Branch Visualization
-function GitBranch({ position }: { position: [number, number, number] }) {
-  const groupRef = useRef<THREE.Group>(null);
-  
-  useFrame((state) => {
-    if (groupRef.current) {
-      groupRef.current.rotation.y = state.clock.elapsedTime * 0.2;
-    }
-  });
-
-  return (
-    <Float speed={1.8} rotationIntensity={0.4} floatIntensity={0.7}>
-      <group ref={groupRef} position={position} scale={0.4}>
-        {/* Main branch line */}
-        <mesh position={[0, 0, 0]}>
-          <cylinderGeometry args={[0.05, 0.05, 1.5, 8]} />
-          <meshStandardMaterial color="#f97316" emissive="#f97316" emissiveIntensity={0.3} />
+          
+          {/* Screen glow */}
+          <pointLight position={[0, 0, 0.5]} color="#3b82f6" intensity={2} distance={3} />
+        </group>
+        
+        {/* Trackpad */}
+        <mesh position={[0, 0.02, 0.8]}>
+          <boxGeometry args={[0.8, 0.01, 0.5]} />
+          <meshStandardMaterial color="#252538" metalness={0.6} roughness={0.3} />
         </mesh>
-        {/* Branch commits */}
-        {[-0.5, 0, 0.5].map((y, i) => (
-          <mesh key={i} position={[0, y, 0]}>
-            <sphereGeometry args={[0.12, 16, 16]} />
-            <meshStandardMaterial color="#22c55e" emissive="#22c55e" emissiveIntensity={0.4} />
-          </mesh>
-        ))}
-        {/* Side branch */}
-        <mesh position={[0.3, 0.15, 0]} rotation={[0, 0, -Math.PI / 4]}>
-          <cylinderGeometry args={[0.03, 0.03, 0.5, 8]} />
-          <meshStandardMaterial color="#8b5cf6" emissive="#8b5cf6" emissiveIntensity={0.3} />
-        </mesh>
-        <mesh position={[0.5, 0.35, 0]}>
-          <sphereGeometry args={[0.1, 16, 16]} />
-          <meshStandardMaterial color="#8b5cf6" emissive="#8b5cf6" emissiveIntensity={0.4} />
+        
+        {/* Apple logo / glow accent */}
+        <mesh position={[0, 0.04, -0.1]}>
+          <circleGeometry args={[0.08, 32]} />
+          <meshBasicMaterial color="#3b82f6" />
         </mesh>
       </group>
     </Float>
   );
 }
 
-// HTML/JSX Tag
-function CodeTag({ position, tag, color }: { position: [number, number, number]; tag: string; color: string }) {
-  const meshRef = useRef<THREE.Group>(null);
+// Orbiting Code Symbol
+function OrbitingSymbol({ 
+  symbol, 
+  radius, 
+  speed, 
+  color,
+  initialAngle = 0
+}: { 
+  symbol: string; 
+  radius: number; 
+  speed: number; 
+  color: string;
+  initialAngle?: number;
+}) {
+  const meshRef = useRef<THREE.Mesh>(null);
+  const angleRef = useRef(initialAngle);
   
   useFrame((state) => {
     if (meshRef.current) {
-      meshRef.current.rotation.y = Math.sin(state.clock.elapsedTime * 0.3 + position[0]) * 0.2;
-      meshRef.current.position.y = position[1] + Math.sin(state.clock.elapsedTime * 0.5 + position[0]) * 0.1;
+      angleRef.current += speed * 0.01;
+      meshRef.current.position.x = Math.cos(angleRef.current) * radius;
+      meshRef.current.position.z = Math.sin(angleRef.current) * radius;
+      meshRef.current.position.y = Math.sin(angleRef.current * 2) * 0.5;
+      meshRef.current.rotation.y = -angleRef.current;
     }
   });
 
   return (
-    <Float speed={1.5} rotationIntensity={0.2} floatIntensity={0.4}>
-      <group ref={meshRef} position={position}>
-        <mesh>
-          <boxGeometry args={[0.6, 0.25, 0.05]} />
+    <mesh ref={meshRef}>
+      <RoundedBox args={[0.6, 0.3, 0.08]} radius={0.04}>
+        <meshStandardMaterial 
+          color="#0f172a"
+          metalness={0.8}
+          roughness={0.2}
+          emissive={color}
+          emissiveIntensity={0.2}
+        />
+      </RoundedBox>
+      <pointLight color={color} intensity={1} distance={2} />
+    </mesh>
+  );
+}
+
+// Glowing Tech Cube with Trail
+function GlowingCube({ position, color, size = 0.4 }: { position: [number, number, number]; color: string; size?: number }) {
+  const meshRef = useRef<THREE.Mesh>(null);
+  const [hovered, setHovered] = useState(false);
+  
+  useFrame((state) => {
+    if (meshRef.current) {
+      meshRef.current.rotation.x += 0.008;
+      meshRef.current.rotation.y += 0.012;
+      meshRef.current.rotation.z += 0.004;
+      meshRef.current.position.y = position[1] + Math.sin(state.clock.elapsedTime * 0.8 + position[0]) * 0.3;
+    }
+  });
+
+  return (
+    <Float speed={2} rotationIntensity={0.5} floatIntensity={0.6}>
+      <Trail
+        width={1}
+        length={8}
+        color={color}
+        attenuation={(t) => t * t}
+      >
+        <mesh 
+          ref={meshRef} 
+          position={position}
+          onPointerOver={() => setHovered(true)}
+          onPointerOut={() => setHovered(false)}
+        >
+          <boxGeometry args={[size, size, size]} />
           <meshStandardMaterial 
-            color="#1e1e2e" 
-            metalness={0.5} 
-            roughness={0.3}
+            color={color}
+            metalness={0.95}
+            roughness={0.05}
             emissive={color}
-            emissiveIntensity={0.1}
+            emissiveIntensity={hovered ? 0.8 : 0.4}
           />
         </mesh>
+      </Trail>
+      <pointLight position={position} color={color} intensity={1.5} distance={3} />
+    </Float>
+  );
+}
+
+// Floating Code Bracket with 3D Text effect
+function CodeBracket({ position, symbol, color, scale = 1 }: { position: [number, number, number]; symbol: string; color: string; scale?: number }) {
+  const groupRef = useRef<THREE.Group>(null);
+  
+  useFrame((state) => {
+    if (groupRef.current) {
+      groupRef.current.rotation.y = Math.sin(state.clock.elapsedTime * 0.4 + position[0]) * 0.3;
+      groupRef.current.position.y = position[1] + Math.sin(state.clock.elapsedTime * 0.6 + position[0] * 2) * 0.2;
+    }
+  });
+
+  return (
+    <Float speed={1.2} rotationIntensity={0.4} floatIntensity={0.5}>
+      <group ref={groupRef} position={position} scale={scale}>
+        {/* Background pill */}
+        <mesh>
+          <RoundedBox args={[0.8, 0.4, 0.1]} radius={0.05}>
+            <meshStandardMaterial 
+              color="#0f172a"
+              metalness={0.6}
+              roughness={0.3}
+              transparent
+              opacity={0.9}
+            />
+          </RoundedBox>
+        </mesh>
+        
+        {/* Glow ring */}
+        <mesh>
+          <torusGeometry args={[0.5, 0.02, 16, 32]} />
+          <meshStandardMaterial 
+            color={color}
+            emissive={color}
+            emissiveIntensity={0.5}
+            transparent
+            opacity={0.6}
+          />
+        </mesh>
+        
+        <pointLight color={color} intensity={1} distance={2.5} />
       </group>
     </Float>
   );
 }
 
-function TechCube({ position, color }: { position: [number, number, number]; color: string }) {
+// Glowing Torus Ring
+function GlowingTorus({ position, color, size = 0.5 }: { position: [number, number, number]; color: string; size?: number }) {
   const meshRef = useRef<THREE.Mesh>(null);
   
   useFrame((state) => {
     if (meshRef.current) {
-      meshRef.current.rotation.x += 0.005;
-      meshRef.current.rotation.y += 0.008;
+      meshRef.current.rotation.x = state.clock.elapsedTime * 0.3;
+      meshRef.current.rotation.y = state.clock.elapsedTime * 0.4;
     }
   });
 
   return (
-    <Float speed={1.5} rotationIntensity={1} floatIntensity={0.5}>
-      <Box ref={meshRef} args={[0.5, 0.5, 0.5]} position={position}>
+    <Float speed={1.8} rotationIntensity={0.6} floatIntensity={0.7}>
+      <mesh ref={meshRef} position={position}>
+        <torusGeometry args={[size, size * 0.2, 16, 48]} />
         <meshStandardMaterial 
           color={color}
-          metalness={0.9}
-          roughness={0.1}
+          metalness={0.95}
+          roughness={0.05}
           emissive={color}
-          emissiveIntensity={0.3}
+          emissiveIntensity={0.4}
         />
-      </Box>
+      </mesh>
+      <pointLight position={position} color={color} intensity={1} distance={3} />
     </Float>
   );
 }
 
-function GlowingSphere() {
+// Animated Sphere with distortion
+function AnimatedSphere({ position, color }: { position: [number, number, number]; color: string }) {
   const meshRef = useRef<THREE.Mesh>(null);
   
   useFrame((state) => {
@@ -348,39 +303,55 @@ function GlowingSphere() {
   });
 
   return (
-    <Sphere ref={meshRef} args={[1.2, 64, 64]} position={[0, 0, -3]}>
-      <MeshDistortMaterial
-        color="#3b82f6"
-        attach="material"
-        distort={0.25}
-        speed={1.5}
-        roughness={0.1}
-        metalness={0.8}
-        opacity={0.5}
-        transparent
-      />
-    </Sphere>
+    <Float speed={1.5} rotationIntensity={0.3} floatIntensity={0.5}>
+      <Sphere ref={meshRef} args={[0.4, 32, 32]} position={position}>
+        <MeshDistortMaterial
+          color={color}
+          distort={0.3}
+          speed={2}
+          roughness={0.1}
+          metalness={0.9}
+          emissive={color}
+          emissiveIntensity={0.3}
+        />
+      </Sphere>
+      <pointLight position={position} color={color} intensity={0.8} distance={2} />
+    </Float>
   );
 }
 
-function ParticleField() {
-  const count = 400;
+// Floating Particles
+function FloatingParticles() {
+  const count = 300;
   const particlesRef = useRef<THREE.Points>(null);
   
-  const positions = useMemo(() => {
+  const [positions, colors] = useMemo(() => {
     const positions = new Float32Array(count * 3);
+    const colors = new Float32Array(count * 3);
+    const colorOptions = [
+      new THREE.Color('#3b82f6'),
+      new THREE.Color('#22d3ee'),
+      new THREE.Color('#a855f7'),
+      new THREE.Color('#10b981'),
+    ];
+    
     for (let i = 0; i < count; i++) {
-      positions[i * 3] = (Math.random() - 0.5) * 25;
-      positions[i * 3 + 1] = (Math.random() - 0.5) * 25;
-      positions[i * 3 + 2] = (Math.random() - 0.5) * 25;
+      positions[i * 3] = (Math.random() - 0.5) * 30;
+      positions[i * 3 + 1] = (Math.random() - 0.5) * 30;
+      positions[i * 3 + 2] = (Math.random() - 0.5) * 30;
+      
+      const color = colorOptions[Math.floor(Math.random() * colorOptions.length)];
+      colors[i * 3] = color.r;
+      colors[i * 3 + 1] = color.g;
+      colors[i * 3 + 2] = color.b;
     }
-    return positions;
+    return [positions, colors];
   }, []);
 
   useFrame((state) => {
     if (particlesRef.current) {
-      particlesRef.current.rotation.y = state.clock.elapsedTime * 0.015;
-      particlesRef.current.rotation.x = state.clock.elapsedTime * 0.008;
+      particlesRef.current.rotation.y = state.clock.elapsedTime * 0.02;
+      particlesRef.current.rotation.x = Math.sin(state.clock.elapsedTime * 0.01) * 0.1;
     }
   });
 
@@ -393,18 +364,57 @@ function ParticleField() {
           array={positions}
           itemSize={3}
         />
+        <bufferAttribute
+          attach="attributes-color"
+          count={count}
+          array={colors}
+          itemSize={3}
+        />
       </bufferGeometry>
       <pointsMaterial
-        size={0.03}
-        color="#3b82f6"
+        size={0.06}
+        vertexColors
         transparent
-        opacity={0.5}
+        opacity={0.7}
         sizeAttenuation
       />
     </points>
   );
 }
 
+// React Logo
+function ReactLogo({ position }: { position: [number, number, number] }) {
+  const groupRef = useRef<THREE.Group>(null);
+  
+  useFrame((state) => {
+    if (groupRef.current) {
+      groupRef.current.rotation.y = state.clock.elapsedTime * 0.5;
+      groupRef.current.rotation.z = Math.sin(state.clock.elapsedTime * 0.3) * 0.2;
+    }
+  });
+
+  return (
+    <Float speed={2} rotationIntensity={0.3} floatIntensity={0.6}>
+      <group ref={groupRef} position={position} scale={0.6}>
+        {/* Center sphere */}
+        <mesh>
+          <sphereGeometry args={[0.15, 16, 16]} />
+          <meshStandardMaterial color="#61dafb" emissive="#61dafb" emissiveIntensity={0.8} />
+        </mesh>
+        {/* Orbital rings */}
+        {[0, Math.PI / 3, (2 * Math.PI) / 3].map((rotation, i) => (
+          <mesh key={i} rotation={[Math.PI / 2, rotation, 0]}>
+            <torusGeometry args={[0.6, 0.03, 16, 64]} />
+            <meshStandardMaterial color="#61dafb" emissive="#61dafb" emissiveIntensity={0.5} />
+          </mesh>
+        ))}
+        <pointLight color="#61dafb" intensity={2} distance={4} />
+      </group>
+    </Float>
+  );
+}
+
+// Main Scene Content
 function SceneContent() {
   const { viewport } = useThree();
   const scale = Math.min(viewport.width, viewport.height) / 12;
@@ -412,79 +422,88 @@ function SceneContent() {
   return (
     <>
       {/* Lighting */}
-      <ambientLight intensity={0.4} />
-      <pointLight position={[10, 10, 10]} intensity={1.2} color="#ffffff" />
-      <pointLight position={[-10, -10, -10]} intensity={0.6} color="#3b82f6" />
-      <pointLight position={[0, 5, 5]} intensity={0.9} color="#22d3ee" />
-      <spotLight position={[5, 10, 5]} angle={0.3} penumbra={1} intensity={0.5} color="#a855f7" />
+      <ambientLight intensity={0.3} />
+      <pointLight position={[10, 10, 10]} intensity={1} color="#ffffff" />
+      <pointLight position={[-10, -10, -10]} intensity={0.5} color="#3b82f6" />
+      <pointLight position={[0, 5, 5]} intensity={0.8} color="#22d3ee" />
+      <spotLight position={[5, 10, 5]} angle={0.3} penumbra={1} intensity={0.6} color="#a855f7" />
       
       {/* Stars background */}
       <Stars 
-        radius={100} 
+        radius={80} 
         depth={50} 
-        count={2500} 
+        count={3000} 
         factor={4} 
-        saturation={0} 
+        saturation={0.5} 
         fade 
-        speed={0.4} 
+        speed={0.3} 
       />
       
-      {/* Particle field */}
-      <ParticleField />
+      {/* Floating Particles */}
+      <FloatingParticles />
       
-      {/* Main glowing sphere */}
-      <GlowingSphere />
+      {/* Mouse-tracked group */}
+      <MouseTracker>
+        {/* Main Floating Laptop */}
+        <FloatingLaptop position={[2 * scale, 0, 0]} />
+        
+        {/* React Logo */}
+        <ReactLogo position={[-2.5 * scale, 1, -1]} />
+        
+        {/* Glowing Cubes - Orbiting */}
+        <GlowingCube position={[-3 * scale, 0.5, 1]} color="#3b82f6" size={0.35} />
+        <GlowingCube position={[3 * scale, 1.5, -1]} color="#22d3ee" size={0.4} />
+        <GlowingCube position={[-1.5 * scale, -1.5, 0.5]} color="#a855f7" size={0.3} />
+        <GlowingCube position={[1 * scale, 2, 1]} color="#f59e0b" size={0.35} />
+        <GlowingCube position={[0, -2, -2]} color="#10b981" size={0.45} />
+        
+        {/* Code Brackets */}
+        <CodeBracket position={[-3.5 * scale, 2, 0]} symbol="{}" color="#f97316" scale={1.2} />
+        <CodeBracket position={[3.5 * scale, -1, 0.5]} symbol="</>" color="#22d3ee" scale={1} />
+        <CodeBracket position={[-2 * scale, -2, -0.5]} symbol="[]" color="#a855f7" scale={0.9} />
+        <CodeBracket position={[2 * scale, 2.5, -1]} symbol="()" color="#10b981" scale={1.1} />
+        
+        {/* Glowing Torus Rings */}
+        <GlowingTorus position={[0, 3, -3]} color="#3b82f6" size={0.8} />
+        <GlowingTorus position={[-4 * scale, 0, -2]} color="#a855f7" size={0.5} />
+        <GlowingTorus position={[4 * scale, -0.5, -1.5]} color="#22d3ee" size={0.6} />
+        
+        {/* Animated Spheres */}
+        <AnimatedSphere position={[-1 * scale, 2.5, 1]} color="#f97316" />
+        <AnimatedSphere position={[3.5 * scale, 0, 2]} color="#10b981" />
+        <AnimatedSphere position={[0, -2.5, 0]} color="#ec4899" />
+        
+        {/* Orbiting Symbols */}
+        <group position={[0, 0, -2]}>
+          <OrbitingSymbol symbol="{}" radius={4} speed={0.5} color="#3b82f6" initialAngle={0} />
+          <OrbitingSymbol symbol="</>" radius={5} speed={-0.4} color="#22d3ee" initialAngle={Math.PI / 2} />
+          <OrbitingSymbol symbol="[]" radius={4.5} speed={0.6} color="#a855f7" initialAngle={Math.PI} />
+          <OrbitingSymbol symbol="=>" radius={5.5} speed={-0.35} color="#f59e0b" initialAngle={Math.PI * 1.5} />
+        </group>
+      </MouseTracker>
       
-      {/* Developer Workspace - Main feature */}
-      <DeveloperDesk position={[2.5 * scale, -0.5, 0]} />
-      
-      {/* Office Chair */}
-      <OfficeChair position={[2.5 * scale, -0.8, 1.5]} />
-      
-      {/* Floating Code Elements */}
-      <FloatingCodeBlock position={[-3 * scale, 1.5, 0]} color="#3b82f6" />
-      <FloatingCodeBlock position={[-2 * scale, -1, 1]} color="#22d3ee" />
-      
-      {/* Terminal Window */}
-      <FloatingTerminal position={[-2.5 * scale, 0.5, -1]} />
-      
-      {/* React Logo */}
-      <ReactLogo position={[0, 2.5, -2]} />
-      
-      {/* Git Branch */}
-      <GitBranch position={[-1.5 * scale, -1.5, 0.5]} />
-      
-      {/* Code Tags */}
-      <CodeTag position={[3 * scale, 2, -1]} tag="<div>" color="#f97316" />
-      <CodeTag position={[-3 * scale, -0.5, 1]} tag="</>" color="#22d3ee" />
-      
-      {/* Tech cubes */}
-      <TechCube position={[1 * scale, 2.5, 1]} color="#f59e0b" />
-      <TechCube position={[-1 * scale, -2, -1]} color="#10b981" />
-      <TechCube position={[3.5 * scale, 1, 2]} color="#8b5cf6" />
-      
-      {/* Floating Torus rings */}
-      <Float speed={2} rotationIntensity={0.3} floatIntensity={0.5}>
-        <Torus args={[0.7, 0.15, 16, 32]} position={[0, 2, -4]}>
-          <meshStandardMaterial 
-            color="#22d3ee"
-            metalness={0.9}
-            roughness={0.1}
-            emissive="#22d3ee"
-            emissiveIntensity={0.3}
-          />
-        </Torus>
-      </Float>
+      {/* Background distorted sphere */}
+      <Sphere args={[3, 64, 64]} position={[0, 0, -8]}>
+        <MeshDistortMaterial
+          color="#3b82f6"
+          distort={0.4}
+          speed={1.5}
+          roughness={0.2}
+          metalness={0.8}
+          opacity={0.15}
+          transparent
+        />
+      </Sphere>
     </>
   );
 }
 
 export function Scene3D() {
   return (
-    <div className="absolute inset-0 pointer-events-none">
+    <div className="absolute inset-0 pointer-events-auto">
       <Canvas
-        camera={{ position: [0, 0, 10], fov: 45 }}
-        dpr={[1, 1.5]}
+        camera={{ position: [0, 0, 12], fov: 45 }}
+        dpr={[1, 2]}
         gl={{ 
           antialias: true,
           alpha: true,
