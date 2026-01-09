@@ -3,6 +3,7 @@ import { useInView } from "framer-motion";
 import { useRef, useState } from "react";
 import { Mail, Phone, MapPin, Send, Github, Linkedin, Globe } from "lucide-react";
 import { toast } from "sonner";
+import { Rotating3DImage } from "./Rotating3DImage";
 
 export function ContactSection() {
   const ref = useRef(null);
@@ -19,27 +20,6 @@ export function ContactSection() {
     window.location.href = mailtoLink;
     toast.success("Opening your email client...");
   };
-
-  const contactInfo = [
-    {
-      icon: Mail,
-      label: "Email",
-      value: "samsyotuedor40@gmail.com",
-      href: "mailto:samsyotuedor40@gmail.com",
-    },
-    {
-      icon: Phone,
-      label: "Phone",
-      value: "+234 708 581 4726",
-      href: "tel:+2347085814726",
-    },
-    {
-      icon: MapPin,
-      label: "Location",
-      value: "Lagos, Nigeria",
-      href: null,
-    },
-  ];
 
   const socialLinks = [
     {
@@ -84,87 +64,12 @@ export function ContactSection() {
           </p>
         </motion.div>
 
-        <div className="grid lg:grid-cols-2 gap-12 max-w-5xl mx-auto">
-          {/* Contact Info */}
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 max-w-6xl mx-auto items-center">
+          {/* Contact Form */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ delay: 0.3 }}
-          >
-            <div className="glass-card gradient-border rounded-2xl p-8">
-              <h3 className="text-xl font-semibold mb-6">
-                Contact Information
-              </h3>
-
-              {/* Contact Cards */}
-              <div className="space-y-5 mb-8">
-                {contactInfo.map((item, index) => (
-                  <motion.div
-                    key={item.label}
-                    initial={{ opacity: 0, x: -30 }}
-                    animate={isInView ? { opacity: 1, x: 0 } : {}}
-                    transition={{ delay: 0.4 + index * 0.1 }}
-                  >
-                    {item.href ? (
-                      <a
-                        href={item.href}
-                        className="flex items-center gap-4 group"
-                      >
-                        <div className="p-3 rounded-xl bg-primary/10 group-hover:bg-primary/20 transition-colors">
-                          <item.icon className="w-5 h-5 text-primary" />
-                        </div>
-                        <div>
-                          <p className="text-sm text-muted-foreground">{item.label}</p>
-                          <p className="font-medium text-foreground group-hover:text-primary transition-colors">
-                            {item.value}
-                          </p>
-                        </div>
-                      </a>
-                    ) : (
-                      <div className="flex items-center gap-4">
-                        <div className="p-3 rounded-xl bg-primary/10">
-                          <item.icon className="w-5 h-5 text-primary" />
-                        </div>
-                        <div>
-                          <p className="text-sm text-muted-foreground">{item.label}</p>
-                          <p className="font-medium text-foreground">{item.value}</p>
-                        </div>
-                      </div>
-                    )}
-                  </motion.div>
-                ))}
-              </div>
-
-              {/* Social Links */}
-              <div>
-                <h4 className="text-sm font-medium text-muted-foreground mb-4">
-                  Connect with me
-                </h4>
-                <div className="flex gap-3">
-                  {socialLinks.map((link) => (
-                    <motion.a
-                      key={link.label}
-                      href={link.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      whileHover={{ scale: 1.1 }}
-                      whileTap={{ scale: 0.95 }}
-                      className="p-3 glass-card rounded-xl hover:glow-primary transition-all duration-300"
-                      aria-label={link.label}
-                    >
-                      <link.icon className="w-5 h-5 text-muted-foreground hover:text-primary transition-colors" />
-                    </motion.a>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Contact Form */}
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ delay: 0.4 }}
           >
             <form onSubmit={handleSubmit} className="glass-card gradient-border rounded-2xl p-8">
               <h3 className="text-xl font-semibold mb-6">
@@ -184,13 +89,13 @@ export function ContactSection() {
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     className="w-full px-4 py-3 rounded-xl bg-secondary border border-border focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all text-foreground placeholder:text-muted-foreground"
-                    placeholder="John Doe"
+                    placeholder="What's your good name?"
                   />
                 </div>
 
                 <div>
                   <label htmlFor="email" className="block text-sm font-medium text-muted-foreground mb-2">
-                    Email Address
+                    Your Email
                   </label>
                   <input
                     type="email"
@@ -200,13 +105,13 @@ export function ContactSection() {
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     className="w-full px-4 py-3 rounded-xl bg-secondary border border-border focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all text-foreground placeholder:text-muted-foreground"
-                    placeholder="john@example.com"
+                    placeholder="What's your email address?"
                   />
                 </div>
 
                 <div>
                   <label htmlFor="message" className="block text-sm font-medium text-muted-foreground mb-2">
-                    Message
+                    Your Message
                   </label>
                   <textarea
                     id="message"
@@ -216,7 +121,7 @@ export function ContactSection() {
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                     className="w-full px-4 py-3 rounded-xl bg-secondary border border-border focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all text-foreground placeholder:text-muted-foreground resize-none"
-                    placeholder="Tell me about your project..."
+                    placeholder="How can I help you?"
                   />
                 </div>
 
@@ -224,13 +129,43 @@ export function ContactSection() {
                   type="submit"
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className="w-full py-3.5 rounded-xl btn-gradient font-medium flex items-center justify-center gap-2 shadow-lg hover:shadow-primary/25 transition-all"
+                  className="w-full py-3.5 rounded-xl btn-gradient font-medium flex items-center justify-center gap-2 shadow-lg hover:shadow-primary/25 transition-all uppercase tracking-wide"
                 >
                   <Send size={18} />
                   Send Message
                 </motion.button>
+
+                {/* Social Links */}
+                <div className="pt-4 border-t border-border">
+                  <div className="flex items-center justify-center gap-4">
+                    {socialLinks.map((link) => (
+                      <motion.a
+                        key={link.label}
+                        href={link.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.95 }}
+                        className="p-3 glass-card rounded-xl hover:glow-primary transition-all duration-300"
+                        aria-label={link.label}
+                      >
+                        <link.icon className="w-5 h-5 text-muted-foreground hover:text-primary transition-colors" />
+                      </motion.a>
+                    ))}
+                  </div>
+                </div>
               </div>
             </form>
+          </motion.div>
+
+          {/* 3D Rotating Image */}
+          <motion.div
+            initial={{ opacity: 0, x: 50 }}
+            animate={isInView ? { opacity: 1, x: 0 } : {}}
+            transition={{ delay: 0.4 }}
+            className="flex items-center justify-center"
+          >
+            <Rotating3DImage size="lg" />
           </motion.div>
         </div>
       </div>
