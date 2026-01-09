@@ -6,6 +6,8 @@ import { toast } from "sonner";
 
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { Rotating3DImage } from "@/components/Rotating3DImage";
+import profile3D from "@/assets/profile-3d.png";
 
 const Contact = () => {
   const ref = useRef(null);
@@ -102,6 +104,20 @@ const Contact = () => {
             <p className="text-muted-foreground mt-4 max-w-2xl mx-auto">
               Have a project in mind or just want to chat? I'd love to hear from you.
             </p>
+          </motion.div>
+
+          {/* 3D Profile Image */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.2, duration: 0.6 }}
+            className="flex justify-center mb-12"
+          >
+            <Rotating3DImage
+              src={profile3D}
+              alt="Gideon Otuedor"
+              className="w-48 h-48 md:w-64 md:h-64"
+            />
           </motion.div>
 
           <div className="grid lg:grid-cols-2 gap-12 max-w-5xl mx-auto">
