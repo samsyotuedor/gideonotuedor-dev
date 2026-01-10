@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import { Mail, Phone, MapPin, Send, Github, Linkedin, Globe } from "lucide-react";
 import { toast } from "sonner";
 import { Rotating3DImage } from "./Rotating3DImage";
+import { Rotating3DCard } from "./Rotating3DCard";
 
 export function ContactSection() {
   const ref = useRef(null);
@@ -139,18 +140,17 @@ export function ContactSection() {
                 <div className="pt-4 border-t border-border">
                   <div className="flex items-center justify-center gap-4">
                     {socialLinks.map((link) => (
-                      <motion.a
-                        key={link.label}
-                        href={link.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.95 }}
-                        className="p-3 glass-card rounded-xl hover:glow-primary transition-all duration-300"
-                        aria-label={link.label}
-                      >
-                        <link.icon className="w-5 h-5 text-muted-foreground hover:text-primary transition-colors" />
-                      </motion.a>
+                      <Rotating3DCard key={link.label}>
+                        <a
+                          href={link.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="p-3 glass-card rounded-xl block transition-all duration-300"
+                          aria-label={link.label}
+                        >
+                          <link.icon className="w-5 h-5 text-muted-foreground hover:text-primary transition-colors" />
+                        </a>
+                      </Rotating3DCard>
                     ))}
                   </div>
                 </div>
