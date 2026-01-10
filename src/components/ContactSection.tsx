@@ -5,6 +5,7 @@ import { Mail, Phone, MapPin, Send, Github, Linkedin, Globe } from "lucide-react
 import { toast } from "sonner";
 import { Rotating3DImage } from "./Rotating3DImage";
 import { Rotating3DCard } from "./Rotating3DCard";
+import { EarthCanvas } from "./canvas";
 
 export function ContactSection() {
   const ref = useRef(null);
@@ -167,6 +168,12 @@ export function ContactSection() {
           >
             <Rotating3DImage size="lg" />
           </motion.div>
+          <motion.div
+				variants={slideIn("right", "tween", 0.2, 1)}
+				className="xl:flex-1 xl:h-auto md:h-[550px] h-[350px]"
+			>
+				<EarthCanvas />
+			</motion.div>
         </div>
       </div>
     </section>
