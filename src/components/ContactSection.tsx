@@ -1,9 +1,8 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef, useState } from "react";
-import { Mail, Phone, MapPin, Send, Github, Linkedin, Globe } from "lucide-react";
+import { Send, Github, Linkedin, Globe } from "lucide-react";
 import { toast } from "sonner";
-import { Rotating3DImage } from "./Rotating3DImage";
 import { Rotating3DCard } from "./Rotating3DCard";
 import { EarthCanvas } from "./canvas";
 
@@ -159,21 +158,15 @@ export function ContactSection() {
             </form>
           </motion.div>
 
-          {/* 3D Rotating Image */}
+          {/* 3D Earth Globe */}
           <motion.div
             initial={{ opacity: 0, x: 50 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ delay: 0.4 }}
-            className="flex items-center justify-center"
+            className="h-[400px] md:h-[500px] lg:h-[550px] w-full"
           >
-            <Rotating3DImage size="lg" />
+            <EarthCanvas />
           </motion.div>
-          <motion.div
-				variants={slideIn("right", "tween", 0.2, 1)}
-				className="xl:flex-1 xl:h-auto md:h-[550px] h-[350px]"
-			>
-				<EarthCanvas />
-			</motion.div>
         </div>
       </div>
     </section>
