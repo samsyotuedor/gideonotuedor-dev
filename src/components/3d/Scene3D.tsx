@@ -426,13 +426,12 @@ function SceneContent() {
       <pointLight position={[10, 10, 10]} intensity={1} color="#ffffff" />
       <pointLight position={[-10, -10, -10]} intensity={0.5} color="#3b82f6" />
       <pointLight position={[0, 5, 5]} intensity={0.8} color="#22d3ee" />
-      <spotLight position={[5, 10, 5]} angle={0.3} penumbra={1} intensity={0.6} color="#a855f7" />
       
       {/* Stars background */}
       <Stars 
         radius={80} 
         depth={50} 
-        count={3000} 
+        count={2000} 
         factor={4} 
         saturation={0.5} 
         fade 
@@ -450,50 +449,13 @@ function SceneContent() {
         {/* React Logo */}
         <ReactLogo position={[-2.5 * scale, 1, -1]} />
         
-        {/* Glowing Cubes - Orbiting */}
-        <GlowingCube position={[-3 * scale, 0.5, 1]} color="#3b82f6" size={0.35} />
-        <GlowingCube position={[3 * scale, 1.5, -1]} color="#22d3ee" size={0.4} />
-        <GlowingCube position={[-1.5 * scale, -1.5, 0.5]} color="#a855f7" size={0.3} />
-        <GlowingCube position={[1 * scale, 2, 1]} color="#f59e0b" size={0.35} />
-        <GlowingCube position={[0, -2, -2]} color="#10b981" size={0.45} />
+        {/* Single small rotating cube - Tech Studio setup */}
+        <GlowingCube position={[3 * scale, 1.5, -1]} color="#3b82f6" size={0.25} />
         
         {/* Code Brackets */}
         <CodeBracket position={[-3.5 * scale, 2, 0]} symbol="{}" color="#f97316" scale={1.2} />
         <CodeBracket position={[3.5 * scale, -1, 0.5]} symbol="</>" color="#22d3ee" scale={1} />
-        <CodeBracket position={[-2 * scale, -2, -0.5]} symbol="[]" color="#a855f7" scale={0.9} />
-        <CodeBracket position={[2 * scale, 2.5, -1]} symbol="()" color="#10b981" scale={1.1} />
-        
-        {/* Glowing Torus Rings */}
-        <GlowingTorus position={[0, 3, -3]} color="#3b82f6" size={0.8} />
-        <GlowingTorus position={[-4 * scale, 0, -2]} color="#a855f7" size={0.5} />
-        <GlowingTorus position={[4 * scale, -0.5, -1.5]} color="#22d3ee" size={0.6} />
-        
-        {/* Animated Spheres */}
-        <AnimatedSphere position={[-1 * scale, 2.5, 1]} color="#f97316" />
-        <AnimatedSphere position={[3.5 * scale, 0, 2]} color="#10b981" />
-        <AnimatedSphere position={[0, -2.5, 0]} color="#ec4899" />
-        
-        {/* Orbiting Symbols */}
-        <group position={[0, 0, -2]}>
-          <OrbitingSymbol symbol="{}" radius={4} speed={0.5} color="#3b82f6" initialAngle={0} />
-          <OrbitingSymbol symbol="</>" radius={5} speed={-0.4} color="#22d3ee" initialAngle={Math.PI / 2} />
-          <OrbitingSymbol symbol="[]" radius={4.5} speed={0.6} color="#a855f7" initialAngle={Math.PI} />
-          <OrbitingSymbol symbol="=>" radius={5.5} speed={-0.35} color="#f59e0b" initialAngle={Math.PI * 1.5} />
-        </group>
       </MouseTracker>
-      
-      {/* Background distorted sphere */}
-      <Sphere args={[3, 64, 64]} position={[0, 0, -8]}>
-        <MeshDistortMaterial
-          color="#3b82f6"
-          distort={0.4}
-          speed={1.5}
-          roughness={0.2}
-          metalness={0.8}
-          opacity={0.15}
-          transparent
-        />
-      </Sphere>
     </>
   );
 }
