@@ -89,24 +89,21 @@ const Contact = () => {
 
           {/* Main Layout: Form on Left, Earth on Right */}
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center min-h-[70vh]">
-            {/* Contact Form Card */}
+            {/* Contact Form Card - Matching reference design */}
             <motion.div
               initial={{ opacity: 0, x: -50 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6 }}
-              className="glass-card rounded-2xl p-8 lg:p-10 border border-border/30"
+              className="bg-[#1a1f2e]/80 backdrop-blur-sm rounded-2xl p-8 lg:p-10 border border-white/10"
             >
-              <span className="text-primary/80 font-medium text-sm italic">
-                Get in Touch
-              </span>
-              <h1 className="text-4xl md:text-5xl font-bold mt-2 mb-8">
-                Contact.
+              <h1 className="text-2xl md:text-3xl font-bold text-white mb-8">
+                Send a Message
               </h1>
               
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-foreground mb-2">
-                    Your Name.
+                  <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-3">
+                    Your Name
                   </label>
                   <input
                     type="text"
@@ -115,14 +112,14 @@ const Contact = () => {
                     maxLength={100}
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="w-full px-4 py-4 rounded-lg bg-secondary/50 border border-border/50 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all text-foreground placeholder:text-muted-foreground"
-                    placeholder="What's your name?"
+                    className="w-full px-5 py-4 rounded-xl bg-[#252a3a] border-none focus:ring-2 focus:ring-[#3b82f6]/50 outline-none transition-all text-gray-300 placeholder:text-gray-500"
+                    placeholder="John Doe"
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-foreground mb-2">
-                    Your Email.
+                  <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-3">
+                    Email Address
                   </label>
                   <input
                     type="email"
@@ -131,24 +128,24 @@ const Contact = () => {
                     maxLength={255}
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    className="w-full px-4 py-4 rounded-lg bg-secondary/50 border border-border/50 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all text-foreground placeholder:text-muted-foreground"
-                    placeholder="What's your email?"
+                    className="w-full px-5 py-4 rounded-xl bg-[#252a3a] border-none focus:ring-2 focus:ring-[#3b82f6]/50 outline-none transition-all text-gray-300 placeholder:text-gray-500"
+                    placeholder="john@example.com"
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="message" className="block text-sm font-medium text-foreground mb-2">
-                    Your Message.
+                  <label htmlFor="message" className="block text-sm font-medium text-gray-300 mb-3">
+                    Message
                   </label>
                   <textarea
                     id="message"
                     required
                     maxLength={1000}
-                    rows={5}
+                    rows={6}
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    className="w-full px-4 py-4 rounded-lg bg-secondary/50 border border-border/50 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all text-foreground placeholder:text-muted-foreground resize-none"
-                    placeholder="What do you want to say?"
+                    className="w-full px-5 py-4 rounded-xl bg-[#252a3a] border-none focus:ring-2 focus:ring-[#3b82f6]/50 outline-none transition-all text-gray-300 placeholder:text-gray-500 resize-none"
+                    placeholder="Tell me about your project..."
                   />
                 </div>
 
@@ -156,7 +153,7 @@ const Contact = () => {
                   type="submit"
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className="w-full py-4 rounded-lg btn-gradient font-medium flex items-center justify-center gap-2 shadow-lg hover:shadow-primary/25 transition-all"
+                  className="w-full py-4 rounded-xl bg-[#3b82f6] hover:bg-[#2563eb] font-medium flex items-center justify-center gap-2 text-white transition-all mt-4"
                 >
                   <Send size={18} />
                   Send Message

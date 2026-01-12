@@ -3,15 +3,17 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls, Preload } from "@react-three/drei";
 import * as THREE from "three";
 
-// Create flowing ribbon curve
+// Create flowing organic ribbon curve with wave variations
 function FlowingRibbon({ 
   radius = 2, 
-  thickness = 0.12, 
-  segments = 64, 
-  color = "#f0d0c0",
+  thickness = 0.2, 
+  segments = 80, 
+  color = "#f5d5d5",
   yOffset = 0,
   phase = 0,
-  amplitude = 0.3
+  amplitude = 0.4,
+  waveFrequency = 4,
+  tilt = 0.15
 }: {
   radius?: number;
   thickness?: number;
@@ -20,29 +22,43 @@ function FlowingRibbon({
   yOffset?: number;
   phase?: number;
   amplitude?: number;
+  waveFrequency?: number;
+  tilt?: number;
 }) {
   const geometry = useMemo(() => {
     const points: THREE.Vector3[] = [];
     for (let i = 0; i <= segments; i++) {
-      const angle = (i / segments) * Math.PI * 2 + phase;
-      const y = yOffset + Math.sin(angle * 3 + phase) * amplitude;
-      const r = radius + Math.sin(angle * 2 + phase) * 0.2;
+      const t = i / segments;
+      const angle = t * Math.PI * 2 + phase;
+      
+      // Create organic wave pattern
+      const wave1 = Math.sin(angle * waveFrequency + phase) * amplitude;
+      const wave2 = Math.sin(angle * 2 + phase * 0.5) * (amplitude * 0.3);
+      const y = yOffset + wave1 + wave2;
+      
+      // Radius variation for organic feel
+      const radiusVariation = Math.sin(angle * 3 + phase) * 0.15 + Math.cos(angle * 5) * 0.08;
+      const r = radius + radiusVariation;
+      
+      // Add slight tilt
+      const tiltOffset = Math.sin(angle) * tilt;
+      
       points.push(new THREE.Vector3(
         Math.cos(angle) * r,
-        y,
+        y + tiltOffset,
         Math.sin(angle) * r
       ));
     }
     const curve = new THREE.CatmullRomCurve3(points, true);
-    return new THREE.TubeGeometry(curve, segments * 2, thickness, 8, true);
-  }, [radius, thickness, segments, yOffset, phase, amplitude]);
+    return new THREE.TubeGeometry(curve, segments * 2, thickness, 12, true);
+  }, [radius, thickness, segments, yOffset, phase, amplitude, waveFrequency, tilt]);
 
   return (
     <mesh geometry={geometry}>
       <meshStandardMaterial
         color={color}
-        metalness={0.2}
-        roughness={0.4}
+        metalness={0.15}
+        roughness={0.35}
         side={THREE.DoubleSide}
       />
     </mesh>
@@ -98,23 +114,27 @@ function Earth() {
         </mesh>
       </group>
 
-      {/* Flowing organic ribbons wrapping around the globe */}
+      {/* Flowing organic ribbons wrapping around the globe - thicker and more organic */}
       <group ref={ribbonsRef}>
-        {/* Main ribbons - pink/cream colored flowing bands */}
-        <FlowingRibbon radius={1.9} thickness={0.15} color="#f5d5d0" yOffset={-0.8} phase={0} amplitude={0.4} />
-        <FlowingRibbon radius={2.0} thickness={0.13} color="#e8c5c0" yOffset={-0.4} phase={0.5} amplitude={0.35} />
-        <FlowingRibbon radius={2.1} thickness={0.14} color="#f0d0c8" yOffset={0} phase={1} amplitude={0.38} />
-        <FlowingRibbon radius={2.0} thickness={0.12} color="#e5c0b8" yOffset={0.4} phase={1.5} amplitude={0.32} />
-        <FlowingRibbon radius={1.95} thickness={0.13} color="#f8d8d0" yOffset={0.8} phase={2} amplitude={0.36} />
+        {/* Main thick ribbons - pink/cream colored flowing bands */}
+        <FlowingRibbon radius={1.85} thickness={0.22} color="#f5d5d8" yOffset={-0.9} phase={0} amplitude={0.45} waveFrequency={4} tilt={0.2} />
+        <FlowingRibbon radius={1.92} thickness={0.25} color="#e8c8c5" yOffset={-0.5} phase={0.6} amplitude={0.4} waveFrequency={3} tilt={0.15} />
+        <FlowingRibbon radius={2.0} thickness={0.28} color="#f0d0cc" yOffset={-0.1} phase={1.2} amplitude={0.42} waveFrequency={4} tilt={0.18} />
+        <FlowingRibbon radius={1.95} thickness={0.24} color="#e5c0bc" yOffset={0.3} phase={1.8} amplitude={0.38} waveFrequency={3} tilt={0.22} />
+        <FlowingRibbon radius={1.88} thickness={0.26} color="#f8d8d4" yOffset={0.7} phase={2.4} amplitude={0.44} waveFrequency={4} tilt={0.16} />
         
-        {/* Additional overlapping ribbons for density */}
-        <FlowingRibbon radius={1.85} thickness={0.11} color="#ddb8b0" yOffset={-0.6} phase={0.8} amplitude={0.28} />
-        <FlowingRibbon radius={2.05} thickness={0.10} color="#f0c8c0" yOffset={0.2} phase={1.8} amplitude={0.30} />
-        <FlowingRibbon radius={1.92} thickness={0.12} color="#e8d0c8" yOffset={0.6} phase={2.5} amplitude={0.34} />
+        {/* Additional overlapping ribbons for density and depth */}
+        <FlowingRibbon radius={1.8} thickness={0.2} color="#ddb8b4" yOffset={-0.7} phase={0.9} amplitude={0.35} waveFrequency={5} tilt={0.12} />
+        <FlowingRibbon radius={2.05} thickness={0.18} color="#f0c8c4" yOffset={0.1} phase={2.0} amplitude={0.36} waveFrequency={3} tilt={0.2} />
+        <FlowingRibbon radius={1.9} thickness={0.22} color="#e8d0cc" yOffset={0.5} phase={2.8} amplitude={0.4} waveFrequency={4} tilt={0.14} />
         
-        {/* Top and bottom accent ribbons */}
-        <FlowingRibbon radius={1.8} thickness={0.10} color="#c8a8a0" yOffset={1.0} phase={0.3} amplitude={0.25} />
-        <FlowingRibbon radius={1.85} thickness={0.11} color="#d0b0a8" yOffset={-1.0} phase={2.8} amplitude={0.28} />
+        {/* Top and bottom accent ribbons - slightly thinner */}
+        <FlowingRibbon radius={1.75} thickness={0.16} color="#d0b0ac" yOffset={1.0} phase={0.4} amplitude={0.3} waveFrequency={5} tilt={0.1} />
+        <FlowingRibbon radius={1.78} thickness={0.18} color="#c8a8a4" yOffset={-1.1} phase={3.2} amplitude={0.32} waveFrequency={4} tilt={0.12} />
+        
+        {/* Extra ribbons for more coverage like reference */}
+        <FlowingRibbon radius={1.82} thickness={0.2} color="#f2d4d0" yOffset={-0.3} phase={1.5} amplitude={0.38} waveFrequency={3} tilt={0.18} />
+        <FlowingRibbon radius={1.98} thickness={0.22} color="#e0c0bc" yOffset={0.9} phase={0.2} amplitude={0.42} waveFrequency={4} tilt={0.2} />
       </group>
 
       {/* Small floating particles */}
