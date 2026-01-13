@@ -1,164 +1,152 @@
-import { Suspense, useRef, useMemo } from "react";
+import { Suspense, useRef } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls, Preload } from "@react-three/drei";
 import * as THREE from "three";
 
-// Create flowing organic ribbon curve with wave variations
-function FlowingRibbon({ 
-  radius = 2, 
-  thickness = 0.2, 
-  segments = 80, 
-  color = "#f5d5d5",
-  yOffset = 0,
-  phase = 0,
-  amplitude = 0.4,
-  waveFrequency = 4,
-  tilt = 0.15
-}: {
-  radius?: number;
-  thickness?: number;
-  segments?: number;
-  color?: string;
-  yOffset?: number;
-  phase?: number;
-  amplitude?: number;
-  waveFrequency?: number;
-  tilt?: number;
-}) {
-  const geometry = useMemo(() => {
-    const points: THREE.Vector3[] = [];
-    for (let i = 0; i <= segments; i++) {
-      const t = i / segments;
-      const angle = t * Math.PI * 2 + phase;
-      
-      // Create organic wave pattern
-      const wave1 = Math.sin(angle * waveFrequency + phase) * amplitude;
-      const wave2 = Math.sin(angle * 2 + phase * 0.5) * (amplitude * 0.3);
-      const y = yOffset + wave1 + wave2;
-      
-      // Radius variation for organic feel
-      const radiusVariation = Math.sin(angle * 3 + phase) * 0.15 + Math.cos(angle * 5) * 0.08;
-      const r = radius + radiusVariation;
-      
-      // Add slight tilt
-      const tiltOffset = Math.sin(angle) * tilt;
-      
-      points.push(new THREE.Vector3(
-        Math.cos(angle) * r,
-        y + tiltOffset,
-        Math.sin(angle) * r
-      ));
-    }
-    const curve = new THREE.CatmullRomCurve3(points, true);
-    return new THREE.TubeGeometry(curve, segments * 2, thickness, 12, true);
-  }, [radius, thickness, segments, yOffset, phase, amplitude, waveFrequency, tilt]);
+// Grid lines for latitude
+function LatitudeLines() {
+  const lines = [];
+  for (let i = -60; i <= 60; i += 30) {
+    const phi = (90 - i) * (Math.PI / 180);
+    const radius = 1.5 * Math.sin(phi);
+    const y = 1.5 * Math.cos(phi);
+    
+    lines.push(
+      <mesh key={`lat-${i}`} position={[0, y, 0]} rotation={[Math.PI / 2, 0, 0]}>
+        <ringGeometry args={[radius - 0.008, radius + 0.008, 64]} />
+        <meshBasicMaterial color="#4a9eff" transparent opacity={0.6} side={THREE.DoubleSide} />
+      </mesh>
+    );
+  }
+  return <>{lines}</>;
+}
 
+// Grid lines for longitude
+function LongitudeLines() {
+  const lines = [];
+  for (let i = 0; i < 180; i += 30) {
+    lines.push(
+      <mesh key={`long-${i}`} rotation={[0, (i * Math.PI) / 180, 0]}>
+        <torusGeometry args={[1.5, 0.008, 8, 64]} />
+        <meshBasicMaterial color="#4a9eff" transparent opacity={0.6} />
+      </mesh>
+    );
+  }
+  return <>{lines}</>;
+}
+
+// Location pin marker
+function LocationPin({ position }: { position: [number, number, number] }) {
   return (
-    <mesh geometry={geometry}>
-      <meshStandardMaterial
-        color={color}
-        metalness={0.15}
-        roughness={0.35}
-        side={THREE.DoubleSide}
-      />
+    <group position={position}>
+      <mesh>
+        <sphereGeometry args={[0.06, 16, 16]} />
+        <meshStandardMaterial color="#ff6b6b" emissive="#ff6b6b" emissiveIntensity={0.5} />
+      </mesh>
+      <pointLight color="#ff6b6b" intensity={0.3} distance={0.5} />
+    </group>
+  );
+}
+
+// Connection arcs between points
+function ConnectionArc({ start, end, color = "#4a9eff" }: { start: [number, number, number]; end: [number, number, number]; color?: string }) {
+  const curve = new THREE.QuadraticBezierCurve3(
+    new THREE.Vector3(...start),
+    new THREE.Vector3(
+      (start[0] + end[0]) / 2 * 1.5,
+      (start[1] + end[1]) / 2 * 1.5 + 0.5,
+      (start[2] + end[2]) / 2 * 1.5
+    ),
+    new THREE.Vector3(...end)
+  );
+  
+  const tubeGeometry = new THREE.TubeGeometry(curve, 50, 0.015, 8, false);
+  
+  return (
+    <mesh geometry={tubeGeometry}>
+      <meshBasicMaterial color={color} transparent opacity={0.7} />
     </mesh>
   );
 }
 
-function Earth() {
-  const earthRef = useRef<THREE.Group>(null);
-  const ribbonsRef = useRef<THREE.Group>(null);
+function Globe() {
+  const globeRef = useRef<THREE.Group>(null);
 
-  useFrame((state) => {
-    if (earthRef.current) {
-      earthRef.current.rotation.y += 0.002;
-    }
-    if (ribbonsRef.current) {
-      ribbonsRef.current.rotation.y += 0.003;
+  useFrame(() => {
+    if (globeRef.current) {
+      globeRef.current.rotation.y += 0.003;
     }
   });
 
+  // Convert lat/long to 3D position
+  const latLongToPosition = (lat: number, long: number, radius: number = 1.5): [number, number, number] => {
+    const phi = (90 - lat) * (Math.PI / 180);
+    const theta = (long + 180) * (Math.PI / 180);
+    return [
+      -radius * Math.sin(phi) * Math.cos(theta),
+      radius * Math.cos(phi),
+      radius * Math.sin(phi) * Math.sin(theta)
+    ];
+  };
+
+  // Key locations
+  const locations: [number, number][] = [
+    [40.7128, -74.006],   // New York
+    [51.5074, -0.1278],   // London
+    [35.6762, 139.6503],  // Tokyo
+    [-33.8688, 151.2093], // Sydney
+    [6.5244, 3.3792],     // Lagos
+  ];
+
   return (
-    <group>
-      {/* Main Earth sphere - dark blue ocean */}
-      <group ref={earthRef}>
-        <mesh>
-          <sphereGeometry args={[1.6, 64, 64]} />
-          <meshStandardMaterial
-            color="#0a1628"
-            metalness={0.9}
-            roughness={0.1}
-          />
-        </mesh>
-        {/* Green continents layer */}
-        <mesh>
-          <sphereGeometry args={[1.62, 64, 64]} />
-          <meshStandardMaterial
-            color="#1a5a3a"
-            metalness={0.7}
-            roughness={0.3}
-            transparent
-            opacity={0.7}
-          />
-        </mesh>
-        {/* Highlight layer for depth */}
-        <mesh>
-          <sphereGeometry args={[1.64, 64, 64]} />
-          <meshStandardMaterial
-            color="#2d8a5f"
-            metalness={0.6}
-            roughness={0.4}
-            transparent
-            opacity={0.3}
-          />
-        </mesh>
-      </group>
+    <group ref={globeRef}>
+      {/* Main globe sphere - dark with subtle gradient */}
+      <mesh>
+        <sphereGeometry args={[1.5, 64, 64]} />
+        <meshStandardMaterial
+          color="#0f1729"
+          metalness={0.3}
+          roughness={0.7}
+          transparent
+          opacity={0.95}
+        />
+      </mesh>
+      
+      {/* Globe glow rim */}
+      <mesh>
+        <sphereGeometry args={[1.52, 64, 64]} />
+        <meshBasicMaterial
+          color="#1e40af"
+          transparent
+          opacity={0.15}
+          side={THREE.BackSide}
+        />
+      </mesh>
 
-      {/* Flowing organic ribbons wrapping around the globe - thicker and more organic */}
-      <group ref={ribbonsRef}>
-        {/* Main thick ribbons - pink/cream colored flowing bands */}
-        <FlowingRibbon radius={1.85} thickness={0.22} color="#f5d5d8" yOffset={-0.9} phase={0} amplitude={0.45} waveFrequency={4} tilt={0.2} />
-        <FlowingRibbon radius={1.92} thickness={0.25} color="#e8c8c5" yOffset={-0.5} phase={0.6} amplitude={0.4} waveFrequency={3} tilt={0.15} />
-        <FlowingRibbon radius={2.0} thickness={0.28} color="#f0d0cc" yOffset={-0.1} phase={1.2} amplitude={0.42} waveFrequency={4} tilt={0.18} />
-        <FlowingRibbon radius={1.95} thickness={0.24} color="#e5c0bc" yOffset={0.3} phase={1.8} amplitude={0.38} waveFrequency={3} tilt={0.22} />
-        <FlowingRibbon radius={1.88} thickness={0.26} color="#f8d8d4" yOffset={0.7} phase={2.4} amplitude={0.44} waveFrequency={4} tilt={0.16} />
-        
-        {/* Additional overlapping ribbons for density and depth */}
-        <FlowingRibbon radius={1.8} thickness={0.2} color="#ddb8b4" yOffset={-0.7} phase={0.9} amplitude={0.35} waveFrequency={5} tilt={0.12} />
-        <FlowingRibbon radius={2.05} thickness={0.18} color="#f0c8c4" yOffset={0.1} phase={2.0} amplitude={0.36} waveFrequency={3} tilt={0.2} />
-        <FlowingRibbon radius={1.9} thickness={0.22} color="#e8d0cc" yOffset={0.5} phase={2.8} amplitude={0.4} waveFrequency={4} tilt={0.14} />
-        
-        {/* Top and bottom accent ribbons - slightly thinner */}
-        <FlowingRibbon radius={1.75} thickness={0.16} color="#d0b0ac" yOffset={1.0} phase={0.4} amplitude={0.3} waveFrequency={5} tilt={0.1} />
-        <FlowingRibbon radius={1.78} thickness={0.18} color="#c8a8a4" yOffset={-1.1} phase={3.2} amplitude={0.32} waveFrequency={4} tilt={0.12} />
-        
-        {/* Extra ribbons for more coverage like reference */}
-        <FlowingRibbon radius={1.82} thickness={0.2} color="#f2d4d0" yOffset={-0.3} phase={1.5} amplitude={0.38} waveFrequency={3} tilt={0.18} />
-        <FlowingRibbon radius={1.98} thickness={0.22} color="#e0c0bc" yOffset={0.9} phase={0.2} amplitude={0.42} waveFrequency={4} tilt={0.2} />
-      </group>
+      {/* Grid lines */}
+      <LatitudeLines />
+      <LongitudeLines />
 
-      {/* Small floating particles */}
-      {[...Array(8)].map((_, i) => {
-        const angle = (i / 8) * Math.PI * 2;
-        const radius = 2.8 + Math.random() * 0.3;
-        return (
-          <mesh
-            key={`particle-${i}`}
-            position={[
-              Math.cos(angle) * radius,
-              (Math.random() - 0.5) * 2,
-              Math.sin(angle) * radius,
-            ]}
-          >
-            <sphereGeometry args={[0.06, 8, 8]} />
-            <meshStandardMaterial
-              color="#f0d0c8"
-              emissive="#f0d0c8"
-              emissiveIntensity={0.3}
-            />
-          </mesh>
-        );
-      })}
+      {/* Location pins */}
+      {locations.map((loc, i) => (
+        <LocationPin key={i} position={latLongToPosition(loc[0], loc[1], 1.55)} />
+      ))}
+
+      {/* Connection arcs */}
+      <ConnectionArc 
+        start={latLongToPosition(locations[0][0], locations[0][1], 1.55)} 
+        end={latLongToPosition(locations[1][0], locations[1][1], 1.55)} 
+      />
+      <ConnectionArc 
+        start={latLongToPosition(locations[1][0], locations[1][1], 1.55)} 
+        end={latLongToPosition(locations[2][0], locations[2][1], 1.55)} 
+        color="#60a5fa"
+      />
+      <ConnectionArc 
+        start={latLongToPosition(locations[4][0], locations[4][1], 1.55)} 
+        end={latLongToPosition(locations[0][0], locations[0][1], 1.55)} 
+        color="#818cf8"
+      />
     </group>
   );
 }
@@ -173,26 +161,25 @@ export function EarthCanvas() {
         fov: 45,
         near: 0.1,
         far: 200,
-        position: [-4, 3, 6],
+        position: [-3, 2, 5],
       }}
       style={{ background: "transparent" }}
     >
       <Suspense fallback={null}>
         <OrbitControls
           autoRotate
-          autoRotateSpeed={0.3}
+          autoRotateSpeed={0.5}
           enableZoom={false}
           maxPolarAngle={Math.PI / 1.5}
           minPolarAngle={Math.PI / 3}
         />
         
-        {/* Lighting for the organic look */}
-        <ambientLight intensity={0.4} />
-        <directionalLight position={[5, 5, 5]} intensity={1.2} />
-        <pointLight position={[-5, 3, -5]} intensity={0.6} color="#f5d5d0" />
-        <pointLight position={[3, -3, 5]} intensity={0.4} color="#8ab4f8" />
+        {/* Lighting */}
+        <ambientLight intensity={0.3} />
+        <directionalLight position={[5, 5, 5]} intensity={0.8} />
+        <pointLight position={[-5, 3, -5]} intensity={0.4} color="#4a9eff" />
         
-        <Earth />
+        <Globe />
         <Preload all />
       </Suspense>
     </Canvas>
