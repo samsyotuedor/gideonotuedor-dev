@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { Mail, ArrowDown, Github, Linkedin, FileDown, Globe } from "lucide-react";
 import { Suspense, lazy } from "react";
-import { ComputersCanvas } from "./canvas";
+import desktopSetup from "@/assets/desktop-setup.png";
 
 const Scene3D = lazy(() => import("./3d/Scene3D").then(m => ({ default: m.Scene3D })));
 
@@ -152,9 +152,9 @@ export function HeroSection() {
               </motion.div>
             </motion.div>
             
-            {/* 3D Computer Canvas */}
+            {/* Desktop Setup Image */}
             <motion.div
-              className="flex-1 w-full lg:w-auto"
+              className="flex-1 w-full lg:w-auto lg:min-w-[600px] xl:min-w-[700px]"
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.8, delay: 0.3 }}
@@ -166,9 +166,13 @@ export function HeroSection() {
                   transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
                 />
                 
-                <div className="relative rounded-3xl overflow-hidden glass-card-strong gradient-border">
-                  <ComputersCanvas />
-                </div>
+                <motion.img
+                  src={desktopSetup}
+                  alt="Developer Desktop Setup"
+                  className="relative w-full h-auto rounded-2xl"
+                  whileHover={{ scale: 1.02 }}
+                  transition={{ duration: 0.3 }}
+                />
                 
                 {/* Floating badges */}
                 <motion.div
