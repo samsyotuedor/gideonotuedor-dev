@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Mail, ArrowDown, Github, Linkedin, FileDown, Globe } from "lucide-react";
 import { Suspense, lazy } from "react";
+import { ComputersCanvas } from "./canvas";
 
 const Scene3D = lazy(() => import("./3d/Scene3D").then(m => ({ default: m.Scene3D })));
 
@@ -151,38 +152,27 @@ export function HeroSection() {
               </motion.div>
             </motion.div>
             
-            {/* Profile Card */}
+            {/* 3D Computer Canvas */}
             <motion.div
-              className="flex-shrink-0"
+              className="flex-1 w-full lg:w-auto"
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.8, delay: 0.3 }}
             >
               <div className="relative">
                 <motion.div
-                  className="absolute -inset-4 rounded-full bg-gradient-to-r from-primary to-accent opacity-20 blur-2xl"
-                  animate={{ scale: [1, 1.1, 1], opacity: [0.2, 0.4, 0.2] }}
+                  className="absolute -inset-4 rounded-3xl bg-gradient-to-r from-primary/20 to-accent/20 opacity-30 blur-2xl"
+                  animate={{ scale: [1, 1.05, 1], opacity: [0.3, 0.5, 0.3] }}
                   transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
                 />
                 
-                <motion.div 
-                  className="relative w-64 h-64 md:w-72 md:h-72 rounded-3xl gradient-border overflow-hidden glass-card-strong"
-                  whileHover={{ scale: 1.02 }}
-                >
-                  <div className="absolute inset-[1px] rounded-3xl flex items-center justify-center">
-                    <div className="text-center p-8">
-                      <div className="w-24 h-24 mx-auto mb-4 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center animate-glow-pulse">
-                        <span className="text-3xl font-bold text-primary-foreground">GO</span>
-                      </div>
-                      <p className="text-lg font-medium mb-1">Gideon Otuedor</p>
-                      <p className="text-sm text-muted-foreground">Lagos, Nigeria</p>
-                    </div>
-                  </div>
-                </motion.div>
+                <div className="relative rounded-3xl overflow-hidden glass-card-strong gradient-border">
+                  <ComputersCanvas />
+                </div>
                 
-                {/* Badges */}
+                {/* Floating badges */}
                 <motion.div
-                  className="absolute -bottom-3 -right-3 px-4 py-3 rounded-2xl glass-card-strong glow-primary"
+                  className="absolute -bottom-3 -right-3 px-4 py-3 rounded-2xl glass-card-strong glow-primary z-10"
                   animate={{ y: [0, -5, 0] }}
                   transition={{ duration: 3, repeat: Infinity }}
                 >
@@ -191,7 +181,7 @@ export function HeroSection() {
                 </motion.div>
 
                 <motion.div
-                  className="absolute -top-3 -left-3 px-4 py-3 rounded-2xl glass-card-strong glow-accent"
+                  className="absolute -top-3 -left-3 px-4 py-3 rounded-2xl glass-card-strong glow-accent z-10"
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ delay: 1 }}
