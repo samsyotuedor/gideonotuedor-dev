@@ -1,8 +1,8 @@
 import { motion, useMotionValue, useTransform, useSpring } from "framer-motion";
 import { Mail, ArrowDown, Github, Linkedin, FileDown, Globe } from "lucide-react";
 import { Suspense, lazy, useState, useRef } from "react";
-import desktopSetup from "@/assets/desktop-setup.png";
-import { ComputersCanvas } from "./canvas";
+// import desktopSetup from "@/assets/desktop-setup.png";
+import { ComputersCanvas } from "@/components/canvas";
 
 const Scene3D = lazy(() => import("./3d/Scene3D").then(m => ({ default: m.Scene3D })));
 
