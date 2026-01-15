@@ -241,8 +241,9 @@ export function HeroSection() {
                   animate={{ scale: [1, 1.1, 1], opacity: [0.3, 0.6, 0.3] }}
                   transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
                 />
+                 <ComputersCanvas />
                 
-                <Rotating3DImage src={desktopSetup} alt="Developer Desktop Setup" />
+                {/* <Rotating3DImage src={desktopSetup} alt="Developer Desktop Setup" /> */}
                 
                 {/* Floating badges */}
                 <motion.div
@@ -287,7 +288,7 @@ export function HeroSection() {
             </motion.a>
           </motion.div>
         </div>
-        <ComputersCanvas />
+       
       </div>
       
       {/* Second Viewport - Code Elements Showcase */}
