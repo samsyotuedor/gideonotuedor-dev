@@ -1,9 +1,84 @@
-import { motion } from "framer-motion";
+import { motion, useMotionValue, useTransform, useSpring } from "framer-motion";
 import { Mail, ArrowDown, Github, Linkedin, FileDown, Globe } from "lucide-react";
-import { Suspense, lazy } from "react";
+import { Suspense, lazy, useState, useRef } from "react";
 import desktopSetup from "@/assets/desktop-setup.png";
 
 const Scene3D = lazy(() => import("./3d/Scene3D").then(m => ({ default: m.Scene3D })));
+
+// 3D Image Component with hover rotation
+function Rotating3DImage({ src, alt }: { src: string; alt: string }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [isHovered, setIsHovered] = useState(false);
+  
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  
+  const rotateX = useSpring(useTransform(y, [-0.5, 0.5], [15, -15]), { stiffness: 100, damping: 20 });
+  const rotateY = useSpring(useTransform(x, [-0.5, 0.5], [-15, 15]), { stiffness: 100, damping: 20 });
+  
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!ref.current) return;
+    const rect = ref.current.getBoundingClientRect();
+    const xPos = (e.clientX - rect.left) / rect.width - 0.5;
+    const yPos = (e.clientY - rect.top) / rect.height - 0.5;
+    x.set(xPos);
+    y.set(yPos);
+  };
+  
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+    x.set(0);
+    y.set(0);
+  };
+
+  return (
+    <motion.div
+      ref={ref}
+      className="relative cursor-pointer"
+      style={{ perspective: 1000 }}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+    >
+      <motion.div
+        style={{
+          rotateX,
+          rotateY,
+          transformStyle: "preserve-3d",
+        }}
+        animate={{
+          rotateY: isHovered ? undefined : [0, 5, -5, 0],
+        }}
+        transition={{
+          duration: 6,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+      >
+        <motion.img
+          src={src}
+          alt={alt}
+          className="w-full h-auto min-h-[400px] lg:min-h-[500px] xl:min-h-[600px] object-contain rounded-2xl"
+          style={{
+            transformStyle: "preserve-3d",
+            boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.5)",
+          }}
+          whileHover={{ scale: 1.02 }}
+        />
+        
+        {/* Reflection/Glow effect */}
+        <motion.div
+          className="absolute inset-0 rounded-2xl pointer-events-none"
+          style={{
+            background: "linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 50%, rgba(0,0,0,0.2) 100%)",
+            transformStyle: "preserve-3d",
+            transform: "translateZ(1px)",
+          }}
+        />
+      </motion.div>
+    </motion.div>
+  );
+}
 
 // Floating code tag component
 function CodeTag({ children, className = "", delay = 0 }: { children: string; className?: string; delay?: number }) {
@@ -152,46 +227,42 @@ export function HeroSection() {
               </motion.div>
             </motion.div>
             
-            {/* Desktop Setup Image */}
+            {/* 3D Desktop Setup Image */}
             <motion.div
-              className="flex-1 w-full lg:w-auto lg:min-w-[600px] xl:min-w-[700px]"
+              className="flex-1 w-full lg:w-auto lg:min-w-[650px] xl:min-w-[750px]"
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.8, delay: 0.3 }}
             >
               <div className="relative">
                 <motion.div
-                  className="absolute -inset-4 rounded-3xl bg-gradient-to-r from-primary/20 to-accent/20 opacity-30 blur-2xl"
-                  animate={{ scale: [1, 1.05, 1], opacity: [0.3, 0.5, 0.3] }}
+                  className="absolute -inset-8 rounded-3xl bg-gradient-to-r from-primary/30 via-accent/20 to-primary/30 opacity-40 blur-3xl"
+                  animate={{ scale: [1, 1.1, 1], opacity: [0.3, 0.6, 0.3] }}
                   transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
                 />
                 
-                <motion.img
-                  src={desktopSetup}
-                  alt="Developer Desktop Setup"
-                  className="relative w-full h-auto rounded-2xl"
-                  whileHover={{ scale: 1.02 }}
-                  transition={{ duration: 0.3 }}
-                />
+                <Rotating3DImage src={desktopSetup} alt="Developer Desktop Setup" />
                 
                 {/* Floating badges */}
                 <motion.div
-                  className="absolute -bottom-3 -right-3 px-4 py-3 rounded-2xl glass-card-strong glow-primary z-10"
-                  animate={{ y: [0, -5, 0] }}
+                  className="absolute -bottom-4 -right-4 px-5 py-4 rounded-2xl glass-card-strong glow-primary z-10"
+                  animate={{ y: [0, -8, 0] }}
                   transition={{ duration: 3, repeat: Infinity }}
+                  style={{ transform: "translateZ(50px)" }}
                 >
-                  <p className="text-2xl font-bold text-gradient">4+</p>
-                  <p className="text-xs text-muted-foreground">Years Exp.</p>
+                  <p className="text-3xl font-bold text-gradient">4+</p>
+                  <p className="text-sm text-muted-foreground">Years Exp.</p>
                 </motion.div>
 
                 <motion.div
-                  className="absolute -top-3 -left-3 px-4 py-3 rounded-2xl glass-card-strong glow-accent z-10"
+                  className="absolute -top-4 -left-4 px-5 py-4 rounded-2xl glass-card-strong glow-accent z-10"
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ delay: 1 }}
+                  style={{ transform: "translateZ(50px)" }}
                 >
-                  <p className="text-2xl font-bold text-gradient">10+</p>
-                  <p className="text-xs text-muted-foreground">Projects</p>
+                  <p className="text-3xl font-bold text-gradient">10+</p>
+                  <p className="text-sm text-muted-foreground">Projects</p>
                 </motion.div>
               </div>
             </motion.div>
