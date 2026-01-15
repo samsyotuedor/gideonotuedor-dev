@@ -132,7 +132,7 @@ export function HeroSection() {
       </Suspense>
 
       {/* First Viewport - Main Hero */}
-      <div className="relative z-10 min-h-screen flex items-center justify-center">
+      <div className="relative  min-h-screen flex items-center justify-center">
         <div className="container-custom">
           {/* Floating Code Tags */}
           <CodeTag className="top-32 left-[5%] hidden lg:block" delay={1.2}>
