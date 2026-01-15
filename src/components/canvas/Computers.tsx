@@ -1,5 +1,5 @@
 "use client";
-import CanvasLoader from "@/app/components/Loader";
+import CanvasLoader from "@/components/Loader";
 import { OrbitControls, Preload, useGLTF } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import { Suspense, useEffect, useState } from "react";
@@ -64,4 +64,4 @@ const ComputersCanvas = () => {
 	);
 };
 
-export default ComputersCanvas;Ï
+export default ComputersCanvas;
