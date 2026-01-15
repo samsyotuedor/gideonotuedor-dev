@@ -229,7 +229,8 @@ export function HeroSection() {
             </motion.div>
             
             {/* 3D Desktop Setup Image */}
-            <motion.div
+            <ComputersCanvas />
+            {/* <motion.div
               className="flex-1 w-full lg:w-auto lg:min-w-[650px] xl:min-w-[750px]"
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -241,11 +242,10 @@ export function HeroSection() {
                   animate={{ scale: [1, 1.1, 1], opacity: [0.3, 0.6, 0.3] }}
                   transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
                 />
-                 <ComputersCanvas />
+               
                 
-                {/* <Rotating3DImage src={desktopSetup} alt="Developer Desktop Setup" /> */}
                 
-                {/* Floating badges */}
+              
                 <motion.div
                   className="absolute -bottom-4 -right-4 px-5 py-4 rounded-2xl glass-card-strong glow-primary z-10"
                   animate={{ y: [0, -8, 0] }}
@@ -267,7 +267,7 @@ export function HeroSection() {
                   <p className="text-sm text-muted-foreground">Projects</p>
                 </motion.div>
               </div>
-            </motion.div>
+            </motion.div> */}
           </div>
           
           {/* Scroll Indicator */}
