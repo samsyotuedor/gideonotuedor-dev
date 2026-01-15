@@ -148,10 +148,10 @@ export function HeroSection() {
             &lt;/div&gt;
           </CodeTag>
 
-          <div className="flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-16">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-6 lg:gap-12">
             {/* Text Content */}
             <motion.div
-              className="flex-1 text-center lg:text-left"
+              className="text-left"
               initial={{ opacity: 0, x: -50 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
@@ -280,78 +280,37 @@ export function HeroSection() {
                 ))}
               </motion.div>
             </motion.div>
-
-            {/* 3D Desktop Setup Image */}
-            {/* <ComputersCanvas /> */}
-            {/* <motion.div
-              className="flex-1 w-full lg:w-auto lg:min-w-[650px] xl:min-w-[750px]"
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.8, delay: 0.3 }}
-            >
-              <div className="relative">
-                <motion.div
-                  className="absolute -inset-8 rounded-3xl bg-gradient-to-r from-primary/30 via-accent/20 to-primary/30 opacity-40 blur-3xl"
-                  animate={{ scale: [1, 1.1, 1], opacity: [0.3, 0.6, 0.3] }}
-                  transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                />
-               
-                
-                
-              
-                <motion.div
-                  className="absolute -bottom-4 -right-4 px-5 py-4 rounded-2xl glass-card-strong glow-primary z-10"
-                  animate={{ y: [0, -8, 0] }}
-                  transition={{ duration: 3, repeat: Infinity }}
-                  style={{ transform: "translateZ(50px)" }}
-                >
-                  <p className="text-3xl font-bold text-gradient">4+</p>
-                  <p className="text-sm text-muted-foreground">Years Exp.</p>
-                </motion.div>
-
-                <motion.div
-                  className="absolute -top-4 -left-4 px-5 py-4 rounded-2xl glass-card-strong glow-accent z-10"
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 1 }}
-                  style={{ transform: "translateZ(50px)" }}
-                >
-                  <p className="text-3xl font-bold text-gradient">10+</p>
-                  <p className="text-sm text-muted-foreground">Projects</p>
-                </motion.div>
-              </div>
-            </motion.div> */}
-          </div>
-          <section className="relative w-full h-screen mx-auto">
-            <div className="paddingX absolute inset-0 top-[120px] max-w-7xl mx-auto flex flex-row items-start gap-5">
-              <div className="flex flex-col justify-center items-center mt-5">
-                <div className="w-5 h-5 rounded-full bg-[#915EFF] " />
-                <div className="w-1 sm:h-80 h-40 violet-gradient" />
-              </div>
-              <div>
-                <h1 className="heroHeadText text-white">
-                  Hi, I&apos;m <span className="text-[#915EFF] ">Om</span>
-                </h1>
-                <p className="heroSubText">A Software Engineer</p>
-              </div>
-            </div>
-            <ComputersCanvas />
-            <div className="absolute xs:bottom-2 bottom-32 w-full flex justify-center items-center">
-              <a href="#about">
-                <div className="w-[35px] h-[64px] rounded-3xl border-4 border-secondary flex justify-center items-start p-2">
-                  <motion.div
-                    animate={{ y: [0, 24, 0] }}
-                    transition={{
-                      duration: 1.5,
-                      repeat: Number.POSITIVE_INFINITY,
-                      repeatType: "loop",
-                    }}
-                    className="w-3 h-3 rounded-full bg-secondary mb-1"
-                  />
+            <section className="relative w-full h-full mx-auto">
+              <div className="paddingX absolute inset-0 top-[120px] max-w-7xl mx-auto flex flex-row items-start gap-5">
+                <div className="flex flex-col justify-center items-center mt-5">
+                  <div className="w-5 h-5 rounded-full bg-[#915EFF] " />
+                  <div className="w-1 sm:h-80 h-40 violet-gradient" />
                 </div>
-              </a>
-            </div>
-          </section>
+                <div>
+                  <h1 className="heroHeadText text-white">
+                    Hi, I&apos;m <span className="text-[#915EFF] ">Om</span>
+                  </h1>
+                  <p className="heroSubText">A Software Engineer</p>
+                </div>
+              </div>
+              <ComputersCanvas />
+              <div className="absolute xs:bottom-2 bottom-32 w-full flex justify-center items-center">
+                <a href="#about">
+                  <div className="w-[35px] h-[64px] rounded-3xl border-4 border-secondary flex justify-center items-start p-2">
+                    <motion.div
+                      animate={{ y: [0, 24, 0] }}
+                      transition={{
+                        duration: 1.5,
+                        repeat: Number.POSITIVE_INFINITY,
+                        repeatType: "loop",
+                      }}
+                      className="w-3 h-3 rounded-full bg-secondary mb-1"
+                    />
+                  </div>
+                </a>
+              </div>
+            </section>
+          </div>
 
           {/* Scroll Indicator */}
           <motion.div
