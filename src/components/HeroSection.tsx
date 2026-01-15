@@ -2,6 +2,7 @@ import { motion, useMotionValue, useTransform, useSpring } from "framer-motion";
 import { Mail, ArrowDown, Github, Linkedin, FileDown, Globe } from "lucide-react";
 import { Suspense, lazy, useState, useRef } from "react";
 import desktopSetup from "@/assets/desktop-setup.png";
+import { ComputersCanvas } from "./canvas";
 
 const Scene3D = lazy(() => import("./3d/Scene3D").then(m => ({ default: m.Scene3D })));
 
@@ -286,6 +287,7 @@ export function HeroSection() {
             </motion.a>
           </motion.div>
         </div>
+        <ComputersCanvas />
       </div>
       
       {/* Second Viewport - Code Elements Showcase */}
