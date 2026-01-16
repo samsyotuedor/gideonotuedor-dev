@@ -281,20 +281,8 @@ export function HeroSection() {
               </motion.div>
             </motion.div>
             <section className="relative  h-full mx-auto">
-              <div className="paddingX absolute inset-0 flex flex-row items-start gap-5">
-                <div className="flex flex-col justify-center items-center mt-5">
-                  <div className="w-5 h-5 rounded-full bg-[#915EFF] " />
-                  <div className="w-1 sm:h-80 h-40 violet-gradient" />
-                </div>
-                <div>
-                  <h1 className="heroHeadText text-white">
-                    Hi, I&apos;m <span className="text-[#915EFF] ">Om</span>
-                  </h1>
-                  <p className="heroSubText">A Software Engineer</p>
-                </div>
-              </div>
               <ComputersCanvas />
-              <div className="absolute xs:bottom-2 bottom-32 w-full flex justify-center items-center">
+              {/* <div className="absolute xs:bottom-2 bottom-32 w-full flex justify-center items-center">
                 <a href="#about">
                   <div className="w-[35px] h-[64px] rounded-3xl border-4 border-secondary flex justify-center items-start p-2">
                     <motion.div
@@ -308,7 +296,7 @@ export function HeroSection() {
                     />
                   </div>
                 </a>
-              </div>
+              </div> */}
             </section>
           </div>
 
