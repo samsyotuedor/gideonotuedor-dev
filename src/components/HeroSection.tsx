@@ -151,7 +151,7 @@ export function HeroSection() {
           <div className="flex flex-col md:flex-row items-center justify-between gap-6 lg:gap-12">
             {/* Text Content */}
             <motion.div
-              className="text-left "
+              className="text-left w-full md:w-1/2"
               initial={{ opacity: 0, x: -50 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
@@ -280,7 +280,7 @@ export function HeroSection() {
                 ))}
               </motion.div>
             </motion.div>
-            <section className="relative  h-full mx-auto">
+            <section className="relative w-full md:1/2  h-screen">
               <ComputersCanvas />
               {/* <div className="absolute xs:bottom-2 bottom-32 w-full flex justify-center items-center">
                 <a href="#about">
