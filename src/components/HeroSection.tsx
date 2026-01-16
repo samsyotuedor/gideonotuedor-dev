@@ -121,7 +121,7 @@ function CodeTag({
 
 export function HeroSection() {
   return (
-    <section className="relative min-h-[200vh] overflow-hidden pt-20">
+    <section className="relative min-h-[200vh] overflow-hidden pt-14 md:pt-16">
       {/* 3D Scene Background */}
       <Suspense
         fallback={
@@ -133,7 +133,7 @@ export function HeroSection() {
 
       {/* First Viewport - Main Hero */}
       <div className="relative min-h-screen flex items-center">
-        <div className="container-custom py-20">
+        <div className="container-custom py-8 md:py-12">
           {/* Floating Code Tags */}
           <CodeTag className="top-32 left-[5%] hidden lg:block" delay={1.2}>
             &lt;div&gt;
@@ -288,7 +288,7 @@ export function HeroSection() {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
-              <div className="relative w-full h-[400px] sm:h-[500px] lg:h-[600px] xl:h-[700px]">
+              <div className="relative w-full h-[350px] sm:h-[400px] lg:h-[450px] xl:h-[500px]">
                 <ComputersCanvas />
               </div>
             </motion.div>
