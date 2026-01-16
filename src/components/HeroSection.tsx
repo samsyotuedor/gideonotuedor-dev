@@ -151,7 +151,7 @@ export function HeroSection() {
           <div className="flex flex-col md:flex-row items-center justify-between gap-6 lg:gap-12">
             {/* Text Content */}
             <motion.div
-              className="text-left"
+              className="text-left "
               initial={{ opacity: 0, x: -50 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
@@ -280,7 +280,7 @@ export function HeroSection() {
                 ))}
               </motion.div>
             </motion.div>
-            <section className="relative w-full h-full mx-auto">
+            <section className="relative  h-full mx-auto">
               <div className="paddingX absolute inset-0 flex flex-row items-start gap-5">
                 <div className="flex flex-col justify-center items-center mt-5">
                   <div className="w-5 h-5 rounded-full bg-[#915EFF] " />
