@@ -289,6 +289,9 @@ export function HeroSection() {
               transition={{ duration: 0.8, delay: 0.2 }}
             >
               <div className="relative w-full h-[350px] sm:h-[400px] lg:h-[450px] xl:h-[500px]">
+                {/* Gradient Background */}
+                <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-primary/20 via-accent/10 to-secondary/20 blur-3xl opacity-60" />
+                <div className="absolute inset-0 rounded-3xl bg-gradient-to-tr from-blue-500/10 via-purple-500/5 to-cyan-500/10" />
                 <ComputersCanvas />
               </div>
             </motion.div>
