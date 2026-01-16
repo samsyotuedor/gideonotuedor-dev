@@ -43,15 +43,22 @@ export function Navbar() {
           : "bg-transparent"
       }`}
     >
-      <nav className="container-custom flex items-center justify-between h-16 md:h-20">
+      <nav className="container-custom flex items-center justify-between h-14 md:h-16">
         {/* Logo */}
         <Link to="/">
-          <motion.span
-            className="text-xl md:text-2xl font-bold text-gradient"
+          <motion.div
+            className="flex items-center gap-2"
             whileHover={{ scale: 1.02 }}
           >
-            GO<span className="text-foreground">.</span>
-          </motion.span>
+            <img 
+              src="/favicon.png" 
+              alt="GO Logo" 
+              className="w-8 h-8 md:w-10 md:h-10"
+            />
+            <span className="text-xl md:text-2xl font-bold text-gradient">
+              GO<span className="text-foreground">.</span>
+            </span>
+          </motion.div>
         </Link>
 
         {/* Desktop Navigation */}
