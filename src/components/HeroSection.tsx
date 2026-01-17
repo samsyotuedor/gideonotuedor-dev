@@ -288,7 +288,7 @@ export function HeroSection() {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
-              <div className="relative w-full h-[450px] sm:h-[500px] lg:h-[550px] xl:h-[600px]">
+              <div className="relative w-full h-[550px] sm:h-[600px] lg:h-[650px] xl:h-[700px]">
                 {/* Tech Studio Background */}
                 <div className="absolute inset-0 rounded-3xl overflow-hidden">
                   {/* Main studio ambient glow */}
