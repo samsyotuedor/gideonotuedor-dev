@@ -288,45 +288,7 @@ export function HeroSection() {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
-              <div className="relative w-full h-[550px] sm:h-[600px] lg:h-[650px] xl:h-[700px]">
-                {/* Tech Studio Background */}
-                <div className="absolute inset-0 rounded-3xl overflow-hidden">
-                  {/* Main studio ambient glow */}
-                  <div className="absolute inset-0 bg-gradient-to-b from-slate-900/80 via-slate-950/90 to-black/95" />
-                  
-                  {/* Neon accent lights - top */}
-                  <div className="absolute top-0 left-1/4 w-1/2 h-1 bg-gradient-to-r from-transparent via-cyan-500/60 to-transparent blur-sm" />
-                  <div className="absolute top-0 right-1/4 w-1/3 h-0.5 bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
-                  
-                  {/* Corner ambient lights */}
-                  <div className="absolute top-0 left-0 w-32 h-32 bg-primary/20 rounded-full blur-3xl" />
-                  <div className="absolute top-0 right-0 w-40 h-40 bg-cyan-500/15 rounded-full blur-3xl" />
-                  <div className="absolute bottom-0 left-1/4 w-48 h-48 bg-purple-500/10 rounded-full blur-3xl" />
-                  <div className="absolute bottom-0 right-0 w-36 h-36 bg-blue-500/15 rounded-full blur-3xl" />
-                  
-                  {/* Center spotlight effect */}
-                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[60%] bg-gradient-radial from-primary/8 via-transparent to-transparent rounded-full blur-2xl" />
-                  
-                  {/* Grid pattern overlay for tech feel */}
-                  <div 
-                    className="absolute inset-0 opacity-[0.03]"
-                    style={{
-                      backgroundImage: `
-                        linear-gradient(rgba(59, 130, 246, 0.3) 1px, transparent 1px),
-                        linear-gradient(90deg, rgba(59, 130, 246, 0.3) 1px, transparent 1px)
-                      `,
-                      backgroundSize: '40px 40px'
-                    }}
-                  />
-                  
-                  {/* Subtle floor reflection */}
-                  <div className="absolute bottom-0 left-0 right-0 h-1/3 bg-gradient-to-t from-primary/5 via-transparent to-transparent" />
-                  
-                  {/* Studio rim lighting */}
-                  <div className="absolute inset-0 rounded-3xl border border-primary/10" />
-                  <div className="absolute inset-[1px] rounded-3xl border border-cyan-500/5" />
-                </div>
-                
+              <div className="relative w-full h-[650px] sm:h-[700px] lg:h-[750px] xl:h-[800px]">
                 <ComputersCanvas />
               </div>
             </motion.div>
