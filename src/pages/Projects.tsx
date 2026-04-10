@@ -7,6 +7,7 @@ import churchplusImg from "@/assets/projects/churchplus.png";
 import projectVenusImg from "@/assets/projects/project-venus.png";
 import productdriveImg from "@/assets/projects/productdrive.png";
 import quiverImg from "@/assets/projects/quiver.png";
+import quizBuilderImg from "@/assets/projects/quiz-builder.png";
 
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
@@ -29,6 +30,15 @@ const projects = [
     type: "EdTech Platform",
     gradient: "from-green-500 to-emerald-500",
     image: projectVenusImg,
+  },
+  {
+    title: "Quiz Builder",
+    description: "Interactive quiz competition app with real-time leaderboards, live scoring, multiple question types, and prize management for classrooms.",
+    tech: ["React", "TypeScript", "Tailwind CSS", "Supabase"],
+    features: ["Live Leaderboard", "Real-time Scoring", "Prize Management"],
+    type: "EdTech App",
+    gradient: "from-violet-500 to-purple-500",
+    image: quizBuilderImg,
   },
   {
     title: "Quiver",
@@ -58,9 +68,6 @@ const Projects = () => {
       <Navbar />
       
       <section className="section-padding pt-24 relative" ref={ref}>
-        {/* Background */}
-        <div className="absolute right-0 top-1/3 w-96 h-96 bg-accent/5 rounded-full blur-3xl" />
-
         <div className="container-custom relative z-10">
           {/* Back Link */}
           <motion.div
@@ -84,7 +91,7 @@ const Projects = () => {
             transition={{ duration: 0.6 }}
             className="text-center mb-16"
           >
-            <span className="text-primary font-medium text-sm uppercase tracking-wider">
+            <span className="text-primary font-medium text-sm uppercase tracking-widest">
               All Projects
             </span>
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mt-3">
@@ -96,17 +103,17 @@ const Projects = () => {
           </motion.div>
 
           {/* Projects Grid */}
-          <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
             {projects.map((project, index) => (
               <motion.div
                 key={project.title}
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2 + index * 0.1 }}
+                transition={{ delay: 0.1 + index * 0.08 }}
                 whileHover={{ y: -5 }}
                 className="group"
               >
-                <div className="glass-card gradient-border rounded-2xl overflow-hidden h-full">
+                <div className="rounded-2xl overflow-hidden h-full border border-border/50 bg-card/50 backdrop-blur-sm hover:border-primary/20 transition-all duration-300">
                   {/* Project Image */}
                   <div className="h-48 relative overflow-hidden">
                     <img 
@@ -114,30 +121,24 @@ const Projects = () => {
                       alt={project.title}
                       className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-card/90 via-card/20 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-card via-transparent to-transparent" />
                     
-                    {/* Badge */}
-                    <div className="absolute top-4 right-4 px-3 py-1 rounded-full bg-card/90 backdrop-blur-sm text-xs font-medium border border-border/50">
+                    <div className="absolute top-3 right-3 px-3 py-1 rounded-full bg-card/90 backdrop-blur-sm text-xs font-medium border border-border/50">
                       {project.type}
-                    </div>
-
-                    {/* Decorative Icon */}
-                    <div className="absolute bottom-4 right-4 opacity-10">
-                      <Layers className="w-16 h-16 text-foreground" />
                     </div>
                   </div>
 
                   {/* Project Content */}
-                  <div className="p-6">
-                    <h3 className="text-xl font-semibold mb-2 text-foreground group-hover:text-gradient transition-all">
+                  <div className="p-5">
+                    <h3 className="text-lg font-semibold mb-2 text-foreground">
                       {project.title}
                     </h3>
-                    <p className="text-muted-foreground mb-4 text-sm">
+                    <p className="text-muted-foreground mb-4 text-sm line-clamp-2">
                       {project.description}
                     </p>
 
                     {/* Features */}
-                    <div className="flex flex-wrap gap-2 mb-4">
+                    <div className="flex flex-wrap gap-1.5 mb-4">
                       {project.features.map((feature) => (
                         <span
                           key={feature}
@@ -149,11 +150,11 @@ const Projects = () => {
                     </div>
 
                     {/* Tech Stack */}
-                    <div className="flex flex-wrap gap-2 mb-6">
+                    <div className="flex flex-wrap gap-1.5 mb-5">
                       {project.tech.map((tech) => (
                         <span
                           key={tech}
-                          className="px-3 py-1 rounded-full text-xs font-medium bg-secondary text-secondary-foreground"
+                          className="px-2.5 py-1 rounded-full text-xs font-medium bg-secondary text-secondary-foreground"
                         >
                           {tech}
                         </span>
@@ -165,7 +166,7 @@ const Projects = () => {
                       <motion.button
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
-                        className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 btn-gradient rounded-xl text-sm font-medium transition-all"
+                        className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 btn-gradient rounded-xl text-sm font-medium"
                       >
                         <ExternalLink className="w-4 h-4" />
                         View Demo
@@ -173,7 +174,7 @@ const Projects = () => {
                       <motion.button
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
-                        className="p-2.5 glass-card rounded-xl hover:glow-primary transition-all"
+                        className="p-2.5 rounded-xl border border-border/50 bg-card/50 hover:border-primary/30 transition-all"
                       >
                         <Github className="w-4 h-4" />
                       </motion.button>

@@ -36,16 +36,14 @@ export function ContactPreview() {
 
   return (
     <section id="contact" className="section-padding relative" ref={ref}>
-      <div className="absolute right-0 bottom-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
-
       <div className="container-custom relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
-          className="text-center mb-12"
+          className="text-center mb-16"
         >
-          <span className="text-primary font-medium text-sm uppercase tracking-wider">
+          <span className="text-primary font-medium text-sm uppercase tracking-widest">
             Get In Touch
           </span>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mt-3">
@@ -58,7 +56,7 @@ export function ContactPreview() {
             initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ delay: 0.2 }}
-            className="glass-card gradient-border rounded-2xl p-8"
+            className="rounded-2xl border border-border/50 bg-card/50 backdrop-blur-sm p-8"
           >
             <div className="grid sm:grid-cols-3 gap-6 mb-6">
               {contactInfo.map((item) => (
@@ -89,7 +87,7 @@ export function ContactPreview() {
                   target="_blank"
                   rel="noopener noreferrer"
                   whileHover={{ scale: 1.1 }}
-                  className="p-3 glass-card rounded-xl hover:glow-primary transition-all"
+                  className="p-3 rounded-xl border border-border/50 bg-card/30 hover:border-primary/30 transition-all"
                 >
                   <link.icon className="w-5 h-5 text-muted-foreground" />
                 </motion.a>
