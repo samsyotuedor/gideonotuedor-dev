@@ -20,13 +20,10 @@ const Index = () => {
   return (
     <PageTransition>
       <main className="min-h-screen bg-background relative">
-        {/* Noise overlay for texture */}
-        <div className="noise-overlay" />
-        
         {/* Custom cursor */}
         <CustomCursor />
         
-        {/* 3D Particle background */}
+        {/* Particle background */}
         <Suspense fallback={null}>
           <ParticleBackground />
         </Suspense>

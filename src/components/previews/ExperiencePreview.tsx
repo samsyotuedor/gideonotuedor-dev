@@ -9,7 +9,6 @@ const experiences = [
     title: "Chief Technology Officer",
     company: "Complustech",
     icon: Users,
-    color: "from-primary to-accent",
     achievements: [
       "Led engineering strategy for Churchplus",
       "Reduced release issues by 35%",
@@ -19,7 +18,6 @@ const experiences = [
     title: "Front-End Developer",
     company: "Complustech",
     icon: Zap,
-    color: "from-cyan-400 to-blue-500",
     achievements: [
       "Reduced development time 25%",
       "Increased user engagement 20%",
@@ -33,16 +31,14 @@ export function ExperiencePreview() {
 
   return (
     <section id="experience" className="section-padding relative" ref={ref}>
-      <div className="absolute left-0 top-1/2 -translate-y-1/2 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
-
       <div className="container-custom relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
-          className="text-center mb-12"
+          className="text-center mb-16"
         >
-          <span className="text-primary font-medium text-sm uppercase tracking-wider">
+          <span className="text-primary font-medium text-sm uppercase tracking-widest">
             Work Experience
           </span>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mt-3">
@@ -54,23 +50,21 @@ export function ExperiencePreview() {
           {experiences.map((exp, index) => (
             <motion.div
               key={`${exp.company}-${exp.title}`}
-              initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
-              animate={isInView ? { opacity: 1, x: 0 } : {}}
-              transition={{ delay: 0.2 + index * 0.1 }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ delay: 0.2 + index * 0.15 }}
               className="relative mb-6 last:mb-0"
             >
               {index !== experiences.length - 1 && (
-                <div className="absolute left-6 top-14 w-0.5 h-full bg-gradient-to-b from-primary/50 to-transparent" />
+                <div className="absolute left-6 top-14 w-px h-full bg-border" />
               )}
 
               <div className="flex gap-4">
-                <div
-                  className={`flex-shrink-0 w-12 h-12 rounded-xl bg-gradient-to-br ${exp.color} flex items-center justify-center shadow-lg`}
-                >
-                  <exp.icon className="w-6 h-6 text-white" />
+                <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
+                  <exp.icon className="w-6 h-6 text-primary" />
                 </div>
 
-                <div className="flex-1 glass-card gradient-border rounded-2xl p-5">
+                <div className="flex-1 rounded-2xl border border-border/50 bg-card/50 backdrop-blur-sm p-5">
                   <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-3">
                     <h3 className="text-lg font-semibold text-foreground">
                       {exp.title}
@@ -78,7 +72,7 @@ export function ExperiencePreview() {
                     <span className="text-primary font-medium text-sm">{exp.company}</span>
                   </div>
 
-                  <ul className="space-y-1">
+                  <ul className="space-y-1.5">
                     {exp.achievements.map((achievement, i) => (
                       <li
                         key={i}
@@ -99,7 +93,7 @@ export function ExperiencePreview() {
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ delay: 0.5 }}
-          className="text-center mt-8"
+          className="text-center mt-10"
         >
           <Link
             to="/experience"

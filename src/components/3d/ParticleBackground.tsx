@@ -3,7 +3,7 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 
 function Particles() {
-  const count = 800;
+  const count = 250;
   const meshRef = useRef<THREE.Points>(null);
   
   const [positions, colors] = useMemo(() => {
@@ -12,8 +12,7 @@ function Particles() {
     
     for (let i = 0; i < count; i++) {
       const i3 = i * 3;
-      // Spread particles in a spherical pattern
-      const radius = Math.random() * 15 + 5;
+      const radius = Math.random() * 18 + 5;
       const theta = Math.random() * Math.PI * 2;
       const phi = Math.acos(2 * Math.random() - 1);
       
@@ -21,22 +20,13 @@ function Particles() {
       positions[i3 + 1] = radius * Math.sin(phi) * Math.sin(theta);
       positions[i3 + 2] = radius * Math.cos(phi);
       
-      // Color gradient from blue to cyan
       const mixRatio = Math.random();
-      colors[i3] = 0.23 * (1 - mixRatio) + 0.13 * mixRatio; // R
-      colors[i3 + 1] = 0.51 * (1 - mixRatio) + 0.83 * mixRatio; // G
-      colors[i3 + 2] = 0.96 * (1 - mixRatio) + 0.93 * mixRatio; // B
+      colors[i3] = 0.23 * (1 - mixRatio) + 0.13 * mixRatio;
+      colors[i3 + 1] = 0.51 * (1 - mixRatio) + 0.83 * mixRatio;
+      colors[i3 + 2] = 0.96 * (1 - mixRatio) + 0.93 * mixRatio;
     }
     
     return [positions, colors];
-  }, []);
-
-  const velocities = useMemo(() => {
-    const vel = new Float32Array(count * 3);
-    for (let i = 0; i < count * 3; i++) {
-      vel[i] = (Math.random() - 0.5) * 0.01;
-    }
-    return vel;
   }, []);
 
   useFrame((state) => {
@@ -47,15 +37,13 @@ function Particles() {
     
     for (let i = 0; i < count; i++) {
       const i3 = i * 3;
-      
-      // Gentle wave motion
-      positionsArray[i3] += Math.sin(time * 0.5 + i * 0.1) * 0.002;
-      positionsArray[i3 + 1] += Math.cos(time * 0.3 + i * 0.1) * 0.002;
-      positionsArray[i3 + 2] += Math.sin(time * 0.4 + i * 0.05) * 0.001;
+      positionsArray[i3] += Math.sin(time * 0.3 + i * 0.1) * 0.001;
+      positionsArray[i3 + 1] += Math.cos(time * 0.2 + i * 0.1) * 0.001;
+      positionsArray[i3 + 2] += Math.sin(time * 0.25 + i * 0.05) * 0.0005;
     }
     
     meshRef.current.geometry.attributes.position.needsUpdate = true;
-    meshRef.current.rotation.y = time * 0.02;
+    meshRef.current.rotation.y = time * 0.015;
   });
 
   return (
@@ -75,10 +63,10 @@ function Particles() {
         />
       </bufferGeometry>
       <pointsMaterial
-        size={0.05}
+        size={0.04}
         vertexColors
         transparent
-        opacity={0.6}
+        opacity={0.4}
         sizeAttenuation
         blending={THREE.AdditiveBlending}
       />
@@ -88,18 +76,18 @@ function Particles() {
 
 function ConnectionLines() {
   const lineRef = useRef<THREE.LineSegments>(null);
-  const count = 100;
+  const count = 30;
   
   const positions = useMemo(() => {
-    const pos = new Float32Array(count * 6); // 2 points per line
+    const pos = new Float32Array(count * 6);
     for (let i = 0; i < count; i++) {
       const i6 = i * 6;
-      const radius1 = Math.random() * 8 + 3;
-      const radius2 = Math.random() * 8 + 3;
+      const radius1 = Math.random() * 10 + 3;
+      const radius2 = Math.random() * 10 + 3;
       const theta1 = Math.random() * Math.PI * 2;
-      const theta2 = theta1 + (Math.random() - 0.5) * 0.5;
+      const theta2 = theta1 + (Math.random() - 0.5) * 0.4;
       const phi1 = Math.random() * Math.PI;
-      const phi2 = phi1 + (Math.random() - 0.5) * 0.5;
+      const phi2 = phi1 + (Math.random() - 0.5) * 0.4;
       
       pos[i6] = radius1 * Math.sin(phi1) * Math.cos(theta1);
       pos[i6 + 1] = radius1 * Math.sin(phi1) * Math.sin(theta1);
@@ -113,8 +101,8 @@ function ConnectionLines() {
 
   useFrame((state) => {
     if (lineRef.current) {
-      lineRef.current.rotation.y = state.clock.elapsedTime * 0.03;
-      lineRef.current.rotation.x = Math.sin(state.clock.elapsedTime * 0.02) * 0.1;
+      lineRef.current.rotation.y = state.clock.elapsedTime * 0.02;
+      lineRef.current.rotation.x = Math.sin(state.clock.elapsedTime * 0.015) * 0.05;
     }
   });
 
@@ -131,7 +119,7 @@ function ConnectionLines() {
       <lineBasicMaterial 
         color="#3b82f6" 
         transparent 
-        opacity={0.15} 
+        opacity={0.08} 
         blending={THREE.AdditiveBlending}
       />
     </lineSegments>
