@@ -171,6 +171,76 @@ const About = () => {
               </div>
             </motion.div>
           </div>
+
+          {/* Education Section */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="max-w-6xl mx-auto mt-16 md:mt-24"
+          >
+            <div className="text-center mb-10 md:mb-12">
+              <span className="text-primary font-medium text-xs md:text-sm uppercase tracking-wider">
+                Education
+              </span>
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mt-3">
+                A Journey of <span className="text-gradient">Continuous Learning</span>
+              </h2>
+              <div className="w-16 h-1 bg-primary mx-auto mt-4 rounded-full" />
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-4 md:gap-6">
+              {[
+                {
+                  level: "Bachelor's Degree",
+                  title: "Bachelor of Science (B.S.) in Computer Science",
+                  institution: "National Open University of Nigeria, Lagos",
+                  duration: "2018 – 2024",
+                },
+                {
+                  level: "Diploma",
+                  title: "Diploma in Software Development",
+                  institution: "CODE360",
+                  duration: "2020 – 2021",
+                },
+                {
+                  level: "SSCE",
+                  title: "Senior Secondary Certificate",
+                  institution: "Adeola Odutola College, Ogun State",
+                  duration: "2006 – 2012",
+                },
+              ].map((edu, index) => (
+                <motion.div
+                  key={edu.title}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.1 }}
+                  whileHover={{ y: -5 }}
+                  className="glass-card gradient-border rounded-xl md:rounded-2xl p-5 md:p-6 flex flex-col"
+                >
+                  <div className="flex items-center gap-2 mb-3">
+                    <div className="p-1.5 rounded-lg bg-primary/10">
+                      <GraduationCap className="w-4 h-4 text-primary" />
+                    </div>
+                    <span className="text-primary font-semibold text-sm">
+                      {edu.level}
+                    </span>
+                  </div>
+                  <h3 className="text-base md:text-lg font-bold text-foreground mb-3 leading-snug">
+                    {edu.title}
+                  </h3>
+                  <p className="text-sm text-muted-foreground mb-2">
+                    {edu.institution}
+                  </p>
+                  <p className="text-sm text-foreground mt-auto">
+                    <span className="font-semibold">Duration:</span> {edu.duration}
+                  </p>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
         </div>
       </section>
 
