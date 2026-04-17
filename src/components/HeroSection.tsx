@@ -16,8 +16,8 @@ export function HeroSection() {
       {/* Subtle gradient background */}
       <div className="absolute inset-0 bg-gradient-to-b from-background via-background to-primary/[0.02]" />
 
-      <div className="relative min-h-screen flex items-center">
-        <div className="container-custom py-8 md:py-12">
+      <div className="relative  flex items-center">
+        <div className="container-custom">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
             {/* Text Content */}
             <motion.div
@@ -151,11 +151,6 @@ export function HeroSection() {
                 ))}
               </motion.div>
             </motion.div>
-<<<<<<< HEAD
-            <section className="relative w-full md:1/2  h-screen">
-              <ComputersCanvas />
-            </section>
-=======
 
             {/* Desktop 3D Canvas */}
             <motion.div
@@ -168,7 +163,6 @@ export function HeroSection() {
                 <ComputersCanvas />
               </div>
             </motion.div>
->>>>>>> a5c90b9c9f601f910b4885899414077f2203e8cb
           </div>
 
           {/* Scroll indicator */}
