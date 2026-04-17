@@ -28,8 +28,54 @@ const Computers = ({ isMobile }: { isMobile: boolean }) => {
 	);
 };
 
+// Preload the model
+useGLTF.preload("/desktop_pc/scene.gltf");
+
+// Fallback component when 3D model fails to load
+const FallbackDisplay = () => (
+	<div className="flex items-center justify-center h-full w-full">
+		<div className="text-center space-y-4">
+			<div className="w-24 h-24 mx-auto bg-gradient-to-br from-primary/20 to-primary/5 rounded-2xl flex items-center justify-center">
+				<svg 
+					className="w-12 h-12 text-primary" 
+					fill="none" 
+					stroke="currentColor" 
+					viewBox="0 0 24 24"
+				>
+					<path 
+						strokeLinecap="round" 
+						strokeLinejoin="round" 
+						strokeWidth={1.5} 
+						d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" 
+					/>
+				</svg>
+			</div>
+			<p className="text-muted-foreground text-sm">3D Model Loading...</p>
+		</div>
+	</div>
+);
+
+// Error boundary wrapper component
+const CanvasErrorBoundary = ({ children }: { children: React.ReactNode }) => {
+	const [hasError, setHasError] = useState(false);
+
+	if (hasError) {
+		return <FallbackDisplay />;
+	}
+
+	return (
+		<div 
+			onError={() => setHasError(true)}
+			className="w-full h-full"
+		>
+			{children}
+		</div>
+	);
+};
+
 const ComputersCanvas = () => {
 	const [isMobile, setIsMobile] = useState(false);
+	const [loadError, setLoadError] = useState(false);
 
 	useEffect(() => {
 		const mediaQuery = window.matchMedia("(max-width: 500px)");
@@ -44,12 +90,17 @@ const ComputersCanvas = () => {
 		};
 	}, []);
 
+	if (loadError) {
+		return <FallbackDisplay />;
+	}
+
 	return (
 		<Canvas
 			frameloop="demand"
 			shadows
 			camera={{ position: [20, 3, 5], fov: 25 }}
 			gl={{ preserveDrawingBuffer: true }}
+			onError={() => setLoadError(true)}
 		>
 			<Suspense fallback={<CanvasLoader />}>
 				<OrbitControls

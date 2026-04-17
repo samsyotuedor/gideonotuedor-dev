@@ -6,6 +6,7 @@ import { ExternalLink, Github, ArrowRight } from "lucide-react";
 
 import churchplusImg from "@/assets/projects/churchplus.png";
 import projectVenusImg from "@/assets/projects/project-venus.png";
+import quizBuilderImg from "@/assets/projects/quiz-builder.png";
 
 const projects = [
   {
@@ -22,6 +23,13 @@ const projects = [
     type: "EdTech Platform",
     image: projectVenusImg,
   },
+  {
+    title: "Quiz Builder",
+    description: "Interactive quiz competition app with leaderboards, live scoring, and prize management.",
+    tech: ["React", "TypeScript", "Tailwind CSS"],
+    type: "EdTech App",
+    image: quizBuilderImg,
+  },
 ];
 
 export function ProjectsPreview() {
@@ -30,16 +38,14 @@ export function ProjectsPreview() {
 
   return (
     <section id="projects" className="section-padding relative" ref={ref}>
-      <div className="absolute right-0 top-1/3 w-96 h-96 bg-accent/5 rounded-full blur-3xl" />
-
       <div className="container-custom relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
-          className="text-center mb-12"
+          className="text-center mb-16"
         >
-          <span className="text-primary font-medium text-sm uppercase tracking-wider">
+          <span className="text-primary font-medium text-sm uppercase tracking-widest">
             Featured Work
           </span>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mt-3">
@@ -47,7 +53,7 @@ export function ProjectsPreview() {
           </h2>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+        <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
           {projects.map((project, index) => (
             <motion.div
               key={project.title}
@@ -57,28 +63,28 @@ export function ProjectsPreview() {
               whileHover={{ y: -5 }}
               className="group"
             >
-              <div className="glass-card gradient-border rounded-2xl overflow-hidden h-full">
-                <div className="h-40 relative overflow-hidden">
+              <div className="rounded-2xl overflow-hidden h-full border border-border/50 bg-card/50 backdrop-blur-sm hover:border-primary/20 transition-all duration-300">
+                <div className="h-44 relative overflow-hidden">
                   <img 
                     src={project.image} 
                     alt={project.title}
                     className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-card/90 via-card/20 to-transparent" />
-                  <div className="absolute top-4 right-4 px-3 py-1 rounded-full bg-card/90 backdrop-blur-sm text-xs font-medium border border-border/50">
+                  <div className="absolute inset-0 bg-gradient-to-t from-card via-transparent to-transparent" />
+                  <div className="absolute top-3 right-3 px-3 py-1 rounded-full bg-card/90 backdrop-blur-sm text-xs font-medium border border-border/50">
                     {project.type}
                   </div>
                 </div>
 
                 <div className="p-5">
-                  <h3 className="text-lg font-semibold mb-2 text-foreground group-hover:text-gradient transition-all">
+                  <h3 className="text-lg font-semibold mb-2 text-foreground">
                     {project.title}
                   </h3>
                   <p className="text-muted-foreground mb-4 text-sm line-clamp-2">
                     {project.description}
                   </p>
 
-                  <div className="flex flex-wrap gap-2 mb-4">
+                  <div className="flex flex-wrap gap-1.5">
                     {project.tech.map((tech) => (
                       <span
                         key={tech}
@@ -87,16 +93,6 @@ export function ProjectsPreview() {
                         {tech}
                       </span>
                     ))}
-                  </div>
-
-                  <div className="flex gap-3">
-                    <button className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2 btn-gradient rounded-xl text-sm font-medium">
-                      <ExternalLink className="w-4 h-4" />
-                      Demo
-                    </button>
-                    <button className="p-2 glass-card rounded-xl hover:glow-primary transition-all">
-                      <Github className="w-4 h-4" />
-                    </button>
                   </div>
                 </div>
               </div>
@@ -108,7 +104,7 @@ export function ProjectsPreview() {
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ delay: 0.5 }}
-          className="text-center mt-10"
+          className="text-center mt-12"
         >
           <Link
             to="/projects"

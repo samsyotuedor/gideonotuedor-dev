@@ -8,19 +8,16 @@ const skillCategories = [
   {
     title: "Frontend",
     icon: Code,
-    color: "from-blue-500 to-cyan-500",
     skills: ["JavaScript", "TypeScript", "React", "Next.js", "Vue.js"],
   },
   {
     title: "UI Tools",
     icon: Palette,
-    color: "from-purple-500 to-pink-500",
     skills: ["Tailwind CSS", "Sass/SCSS", "Figma", "Framer Motion"],
   },
   {
     title: "Workflow",
     icon: GitBranch,
-    color: "from-orange-500 to-red-500",
     skills: ["Git", "CI/CD", "Agile/Scrum", "Testing"],
   },
 ];
@@ -31,16 +28,14 @@ export function SkillsPreview() {
 
   return (
     <section id="skills" className="section-padding relative" ref={ref}>
-      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-3xl" />
-
       <div className="container-custom relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
-          className="text-center mb-12"
+          className="text-center mb-16"
         >
-          <span className="text-primary font-medium text-sm uppercase tracking-wider">
+          <span className="text-primary font-medium text-sm uppercase tracking-widest">
             Technical Skills
           </span>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mt-3">
@@ -56,13 +51,11 @@ export function SkillsPreview() {
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ delay: 0.2 + index * 0.1 }}
               whileHover={{ y: -5 }}
-              className="glass-card gradient-border rounded-2xl p-5 hover:glow-primary transition-all duration-300"
+              className="rounded-2xl border border-border/50 bg-card/50 backdrop-blur-sm p-5 hover:border-primary/20 transition-all duration-300"
             >
               <div className="flex items-center gap-3 mb-4">
-                <div
-                  className={`p-2.5 rounded-xl bg-gradient-to-br ${category.color}`}
-                >
-                  <category.icon className="w-5 h-5 text-white" />
+                <div className="p-2.5 rounded-xl bg-primary/10">
+                  <category.icon className="w-5 h-5 text-primary" />
                 </div>
                 <h3 className="text-lg font-semibold text-foreground">
                   {category.title}
