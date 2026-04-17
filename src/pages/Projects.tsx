@@ -39,6 +39,7 @@ const projects = [
     type: "EdTech App",
     gradient: "from-violet-500 to-purple-500",
     image: quizBuilderImg,
+    demo_url: "http://quiz-spark-flax.vercel.app/",
   },
   {
     title: "Quiver",
