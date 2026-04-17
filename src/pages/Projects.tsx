@@ -39,6 +39,7 @@ const projects = [
     type: "EdTech App",
     gradient: "from-violet-500 to-purple-500",
     image: quizBuilderImg,
+    demo_url: "http://quiz-spark-flax.vercel.app/",
   },
   {
     title: "Quiver",
@@ -163,14 +164,29 @@ const Projects = () => {
 
                     {/* Actions */}
                     <div className="flex gap-3">
-                      <motion.button
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
-                        className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 btn-gradient rounded-xl text-sm font-medium"
-                      >
-                        <ExternalLink className="w-4 h-4" />
-                        View Demo
-                      </motion.button>
+                      {(project as any).demo_url ? (
+                        <motion.a
+                          href={(project as any).demo_url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
+                          className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 btn-gradient rounded-xl text-sm font-medium"
+                        >
+                          <ExternalLink className="w-4 h-4" />
+                          View Demo
+                        </motion.a>
+                      ) : (
+                        <motion.button
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
+                          className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 btn-gradient rounded-xl text-sm font-medium opacity-70 cursor-not-allowed"
+                          disabled
+                        >
+                          <ExternalLink className="w-4 h-4" />
+                          View Demo
+                        </motion.button>
+                      )}
                       <motion.button
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
