@@ -26,19 +26,6 @@ export function HeroSection() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7 }}
             >
-              {/* Status Badge */}
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2 }}
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-primary/20 bg-primary/5 mb-8"
-              >
-                <span className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
-                <span className="text-sm font-medium text-muted-foreground">
-                  Available for new opportunities
-                </span>
-              </motion.div>
-
               {/* Name */}
               <motion.h1
                 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold leading-[1.1] mb-6 tracking-tight"
