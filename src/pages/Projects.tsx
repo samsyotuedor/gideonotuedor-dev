@@ -11,8 +11,9 @@ import quizBuilderImg from "@/assets/projects/quiz-builder.png";
 
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { useSanityProjects } from "@/hooks/useSanityProjects";
 
-const projects = [
+const localProjects = [
   {
     title: "Churchplus",
     description: "A comprehensive church management system with member management, attendance tracking, and financial tools for religious organizations.",
@@ -63,6 +64,8 @@ const projects = [
 
 const Projects = () => {
   const ref = useRef(null);
+  const { sanityProjects } = useSanityProjects();
+  const projects = sanityProjects.length > 0 ? sanityProjects : localProjects;
 
   return (
     <main className="min-h-screen bg-background">
