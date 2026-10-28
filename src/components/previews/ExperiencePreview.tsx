@@ -46,7 +46,7 @@ export function ExperiencePreview() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-60px" }}
               transition={{ delay: index * 0.08, duration: 0.5 }}
-              className="group grid gap-4 py-8 md:grid-cols-[220px_1fr_1fr] md:gap-10 transition-colors hover:bg-card/40 md:px-4 md:-mx-4 rounded-xl"
+              className="group grid gap-4 py-8 md:grid-cols-[220px_1fr_1fr] md:gap-10"
             >
               <div>
                 <p className="font-medium text-primary">{exp.company}</p>
