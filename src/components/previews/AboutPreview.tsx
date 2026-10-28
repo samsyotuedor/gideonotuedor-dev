@@ -1,113 +1,73 @@
 import { motion } from "framer-motion";
-import { useInView } from "framer-motion";
-import { useRef } from "react";
 import { Link } from "react-router-dom";
-import { MapPin, Briefcase, ArrowRight } from "lucide-react";
-
-import javascriptLogo from "@/assets/skills/javascript.svg";
-import typescriptLogo from "@/assets/skills/typescript.svg";
-import reactLogo from "@/assets/skills/react.svg";
-import nextjsLogo from "@/assets/skills/nextjs.svg";
-
-const tools = [
-  { name: "JavaScript", logo: javascriptLogo },
-  { name: "TypeScript", logo: typescriptLogo },
-  { name: "React", logo: reactLogo },
-  { name: "Next.js", logo: nextjsLogo },
-];
+import { MapPin, Briefcase, Layers, Users, ArrowRight } from "lucide-react";
+import { SectionHeading } from "@/components/SectionHeading";
 
 const highlights = [
-  { icon: MapPin, label: "Location", value: "Lagos, Nigeria" },
-  { icon: Briefcase, label: "Experience", value: "4+ Years" },
+  { icon: Briefcase, label: "Experience", value: "4+ years" },
+  { icon: Users, label: "Current role", value: "CTO, Complustech" },
+  { icon: Layers, label: "Focus", value: "Web platforms & SaaS" },
+  { icon: MapPin, label: "Based in", value: "Lagos, Nigeria" },
 ];
 
 export function AboutPreview() {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
-
   return (
-    <section id="about" className="section-padding relative" ref={ref}>
+    <section id="about" className="section-padding relative">
       <div className="container-custom relative z-10">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
-        >
-          <span className="text-primary font-medium text-sm uppercase tracking-widest">
-            About Me
-          </span>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mt-3">
-            Get to Know <span className="text-gradient">Who I Am</span>
-          </h2>
-        </motion.div>
+        <SectionHeading
+          index="01"
+          eyebrow="About"
+          title={
+            <>
+              Engineering products that <span className="text-gradient">people rely on</span>
+            </>
+          }
+          link={{ to: "/about", label: "More about me" }}
+        />
 
-        <div className="max-w-4xl mx-auto">
+        <div className="grid lg:grid-cols-[1.3fr_1fr] gap-10 lg:gap-16 items-start">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="rounded-2xl border border-border/50 bg-card/50 backdrop-blur-sm p-8 mb-8"
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.6 }}
+            className="space-y-5 text-lg leading-relaxed text-muted-foreground"
           >
-            <p className="text-lg leading-relaxed text-muted-foreground">
-              I'm a <span className="text-foreground font-medium">Software Developer and CTO</span> with 4+ years of experience building scalable digital products. I specialize in <span className="text-primary font-medium">JavaScript, TypeScript, React, Next.js, and Vue</span>.
+            <p>
+              I'm a <span className="text-foreground font-medium">Software Developer and CTO</span> with
+              4+ years of experience building scalable digital products. I specialize in{" "}
+              <span className="text-primary font-medium">JavaScript, TypeScript, React, Next.js and Vue</span>.
             </p>
-          </motion.div>
-
-          <div className="grid md:grid-cols-2 gap-6 mb-8">
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={isInView ? { opacity: 1, x: 0 } : {}}
-              transition={{ delay: 0.3 }}
-              className="flex gap-4"
-            >
-              {highlights.map((item) => (
-                <div
-                  key={item.label}
-                  className="rounded-xl border border-border/50 bg-card/50 p-4 flex items-center gap-3 flex-1"
-                >
-                  <div className="p-2 rounded-lg bg-primary/10">
-                    <item.icon className="w-5 h-5 text-primary" />
-                  </div>
-                  <div>
-                    <p className="text-xs text-muted-foreground">{item.label}</p>
-                    <p className="font-medium text-foreground">{item.value}</p>
-                  </div>
-                </div>
-              ))}
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              animate={isInView ? { opacity: 1, x: 0 } : {}}
-              transition={{ delay: 0.4 }}
-              className="flex gap-3 items-center justify-center md:justify-end"
-            >
-              {tools.map((tool) => (
-                <div
-                  key={tool.name}
-                  className="w-12 h-12 rounded-xl border border-border/50 bg-card/50 flex items-center justify-center p-2"
-                >
-                  <img src={tool.logo} alt={tool.name} className="w-6 h-6" />
-                </div>
-              ))}
-            </motion.div>
-          </div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ delay: 0.5 }}
-            className="text-center"
-          >
+            <p>
+              I care about clean architecture, fast interfaces and teams that ship with confidence —
+              setting engineering standards, mentoring developers and turning product goals into
+              reliable releases.
+            </p>
             <Link
               to="/about"
-              className="inline-flex items-center gap-2 text-primary hover:text-primary/80 font-medium transition-colors group"
+              className="group inline-flex items-center gap-2 text-base font-medium text-primary"
             >
-              Learn more about me
-              <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+              Read my story
+              <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
             </Link>
           </motion.div>
+
+          <div className="grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-border bg-border">
+            {highlights.map((item, i) => (
+              <motion.div
+                key={item.label}
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.1 + i * 0.08 }}
+                className="bg-card p-5 md:p-6"
+              >
+                <item.icon className="mb-4 h-5 w-5 text-primary" />
+                <p className="text-xs uppercase tracking-wider text-muted-foreground">{item.label}</p>
+                <p className="mt-1 font-medium text-foreground">{item.value}</p>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </div>
     </section>
