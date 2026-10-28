@@ -1,173 +1,151 @@
 import { motion } from "framer-motion";
-import {
-  Mail,
-  ArrowDown,
-  Github,
-  Linkedin,
-  FileDown,
-  Globe,
-} from "lucide-react";
-import { Suspense, lazy, useState } from "react";
+import { ArrowRight, Github, Linkedin, FileDown, Globe, MapPin } from "lucide-react";
+import { Link } from "react-router-dom";
 import { ComputersCanvas } from "@/components/canvas";
+
+const ease = [0.22, 1, 0.36, 1] as const;
+
+const socials = [
+  { href: "https://github.com/samsyotuedor", icon: Github, label: "GitHub" },
+  { href: "https://linkedin.com/in/gideon-otuedor-92447b212", icon: Linkedin, label: "LinkedIn" },
+  { href: "https://gideonotuedor-dev.vercel.app", icon: Globe, label: "Portfolio" },
+];
+
+const stats = [
+  { value: "4+", label: "Years experience" },
+  { value: "5+", label: "Products shipped" },
+  { value: "35%", label: "Fewer release issues" },
+];
 
 export function HeroSection() {
   return (
-    <section className="relative min-h-screen overflow-hidden pt-14 md:pt-16">
-      {/* Subtle gradient background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-background via-background to-primary/[0.02]" />
+    <section className="relative overflow-hidden pt-20 md:pt-24 pb-12 lg:pb-0">
+      {/* Soft ambient glow */}
+      <div className="pointer-events-none absolute -top-40 left-1/2 h-[520px] w-[900px] -translate-x-1/2 rounded-full bg-primary/10 blur-[120px]" />
+      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,hsl(var(--border)/0.35)_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--border)/0.35)_1px,transparent_1px)] bg-[size:64px_64px] [mask-image:radial-gradient(ellipse_at_top,black_20%,transparent_70%)]" />
 
-      <div className="relative  flex items-center">
-        <div className="container-custom">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
-            {/* Text Content */}
+      <div className="container-custom relative">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.1fr] gap-10 lg:gap-12 items-center lg:min-h-[calc(100vh-6rem)]">
+          {/* Text */}
+          <div className="order-2 lg:order-1">
             <motion.div
-              className="text-left order-2 lg:order-1"
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7 }}
+              transition={{ duration: 0.6, ease }}
+              className="flex items-center gap-3 mb-6 font-raleway text-sm text-muted-foreground"
             >
-              {/* Name */}
-              <motion.h1
-                className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold leading-[1.1] mb-6 tracking-tight"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3 }}
-              >
-                Gideon{" "}
-                <span className="text-gradient">Otuedor</span>
-              </motion.h1>
-
-              {/* Role */}
-              <motion.p
-                className="text-lg md:text-xl font-medium text-foreground/80 mb-4"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4 }}
-              >
-                Software Developer & CTO
-              </motion.p>
-
-              {/* Description */}
-              <motion.p
-                className="text-base md:text-lg text-muted-foreground mb-10 max-w-lg leading-relaxed"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.5 }}
-              >
-                Building scalable, user-focused web applications with modern
-                technologies. Experienced in React, Next.js, Vue, and
-                TypeScript.
-              </motion.p>
-
-              {/* CTA Buttons */}
-              <motion.div
-                className="flex flex-wrap gap-3"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.6 }}
-              >
-                <motion.a
-                  href="mailto:samsyotuedor40@gmail.com"
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl btn-gradient font-medium shadow-lg shadow-primary/20 cursor-pointer"
-                >
-                  <Mail size={18} />
-                  Hire Me
-                </motion.a>
-
-                <motion.a
-                  href="#projects"
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl border border-border bg-card/50 backdrop-blur-sm font-medium hover:border-primary/30 transition-colors cursor-pointer"
-                >
-                  View Projects
-                </motion.a>
-
-                <motion.a
-                  href="/Gideon-Resume.pdf"
-                  download="Gideon-Resume.pdf"
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl border border-border bg-card/50 backdrop-blur-sm font-medium hover:border-primary/30 transition-colors cursor-pointer"
-                >
-                  <FileDown size={18} />
-                  Resume
-                </motion.a>
-              </motion.div>
-
-              {/* Social Links */}
-              <motion.div
-                className="flex gap-3 mt-10"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.7 }}
-              >
-                {[
-                  {
-                    href: "https://github.com/samsyotuedor",
-                    icon: Github,
-                    label: "GitHub",
-                  },
-                  {
-                    href: "https://linkedin.com/in/gideon-otuedor-92447b212",
-                    icon: Linkedin,
-                    label: "LinkedIn",
-                  },
-                  {
-                    href: "https://gideonotuedor-dev.vercel.app",
-                    icon: Globe,
-                    label: "Portfolio",
-                  },
-                ].map((social) => (
-                  <motion.a
-                    key={social.label}
-                    href={social.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    whileHover={{ scale: 1.1, y: -2 }}
-                    className="p-3 rounded-xl border border-border/50 bg-card/30 hover:border-primary/30 hover:bg-primary/5 transition-all duration-300 group cursor-pointer"
-                    aria-label={social.label}
-                  >
-                    <social.icon
-                      size={20}
-                      className="text-muted-foreground group-hover:text-primary transition-colors"
-                    />
-                  </motion.a>
-                ))}
-              </motion.div>
+              <span className="text-primary font-semibold">&lt;hello world /&gt;</span>
+              <span className="h-px w-8 bg-border" />
+              <span className="inline-flex items-center gap-1.5">
+                <MapPin size={14} /> Lagos, Nigeria
+              </span>
             </motion.div>
 
-            {/* Desktop 3D Canvas */}
-            <motion.div
-              className="relative order-1 lg:order-2 flex items-center justify-center lg:justify-end"
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
+            <motion.h1
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.1, ease }}
+              className="text-5xl md:text-6xl xl:text-7xl font-semibold tracking-tight leading-[1.02] text-foreground"
             >
-              <div className="relative w-full h-[550px] sm:h-[600px] lg:h-[700px] xl:h-[750px]">
-                <ComputersCanvas />
-              </div>
+              Gideon
+              <br />
+              <span className="text-gradient">Otuedor</span>
+            </motion.h1>
+
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2, ease }}
+              className="mt-6 text-xl md:text-2xl font-medium text-foreground/90"
+            >
+              Software Developer &amp; CTO
+            </motion.p>
+
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3, ease }}
+              className="mt-4 max-w-xl text-base md:text-lg text-muted-foreground leading-relaxed"
+            >
+              I design and build scalable, user-focused software — from product
+              strategy to production code — with React, Next.js, Vue and TypeScript.
+            </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.4, ease }}
+              className="mt-9 flex flex-wrap items-center gap-3"
+            >
+              <Link
+                to="/projects"
+                className="group inline-flex items-center gap-2 rounded-full btn-gradient px-6 py-3.5 font-medium shadow-lg shadow-primary/20"
+              >
+                View my work
+                <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
+              </Link>
+              <Link
+                to="/contact"
+                className="inline-flex items-center gap-2 rounded-full border border-border bg-card/60 backdrop-blur-sm px-6 py-3.5 font-medium text-foreground hover:border-primary/40 transition-colors"
+              >
+                Hire me
+              </Link>
+              <a
+                href="/Gideon-Resume.pdf"
+                download="Gideon-Otuedor-Resume.pdf"
+                className="inline-flex items-center gap-2 rounded-full px-4 py-3.5 font-medium text-muted-foreground hover:text-foreground transition-colors"
+              >
+                <FileDown size={18} />
+                Resume
+              </a>
+            </motion.div>
+
+            {/* Stats */}
+            <motion.dl
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.8, delay: 0.55 }}
+              className="mt-12 grid max-w-lg grid-cols-3 divide-x divide-border border-y border-border"
+            >
+              {stats.map((s) => (
+                <div key={s.label} className="py-5 px-4 first:pl-0">
+                  <dt className="text-2xl md:text-3xl font-semibold text-foreground">{s.value}</dt>
+                  <dd className="mt-1 text-xs md:text-sm text-muted-foreground">{s.label}</dd>
+                </div>
+              ))}
+            </motion.dl>
+
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.7 }}
+              className="mt-8 flex items-center gap-2"
+            >
+              {socials.map((s) => (
+                <a
+                  key={s.label}
+                  href={s.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={s.label}
+                  className="group rounded-full border border-border/60 p-2.5 hover:border-primary/40 hover:bg-primary/5 transition-colors"
+                >
+                  <s.icon size={18} className="text-muted-foreground group-hover:text-primary transition-colors" />
+                </a>
+              ))}
             </motion.div>
           </div>
 
-          {/* Scroll indicator */}
+          {/* 3D desktop */}
           <motion.div
-            className="absolute bottom-8 left-1/2 -translate-x-1/2"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1.2 }}
+            initial={{ opacity: 0, scale: 0.96 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.9, delay: 0.15, ease }}
+            className="relative order-1 lg:order-2"
           >
-            <motion.a
-              href="#about"
-              animate={{ y: [0, 8, 0] }}
-              transition={{ duration: 2, repeat: Infinity }}
-              className="flex flex-col items-center gap-2 text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
-            >
-              <span className="text-xs uppercase tracking-widest">Scroll</span>
-              <ArrowDown size={16} />
-            </motion.a>
+            <div className="relative w-full h-[420px] sm:h-[520px] lg:h-[640px] xl:h-[720px]">
+              <ComputersCanvas />
+            </div>
           </motion.div>
         </div>
       </div>
