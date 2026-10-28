@@ -50,7 +50,7 @@ export function AboutPreview() {
             className="rounded-2xl border border-border/50 bg-card/50 backdrop-blur-sm p-8 mb-8"
           >
             <p className="text-lg leading-relaxed text-muted-foreground">
-              I'm a <span className="text-foreground font-medium">Front-End Developer and CTO</span> with 4+ years of experience building scalable digital products. I specialize in <span className="text-primary font-medium">JavaScript, TypeScript, React, Next.js, and Vue</span>.
+              I'm a <span className="text-foreground font-medium">Software Developer and CTO</span> with 4+ years of experience building scalable digital products. I specialize in <span className="text-primary font-medium">JavaScript, TypeScript, React, Next.js, and Vue</span>.
             </p>
           </motion.div>
 

@@ -23,7 +23,7 @@ export function SectionHeading({ index, eyebrow, title, description, link }: Sec
     >
       <div className="max-w-2xl">
         <div className="flex items-center gap-3 mb-4">
-          <span className="font-mono text-xs text-primary">{index}</span>
+          <span className="font-raleway text-xs font-semibold text-primary">{index}</span>
           <span className="h-px w-10 bg-primary/40" />
           <span className="text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">
             {eyebrow}

@@ -21,7 +21,7 @@ const experiences = [
     ],
   },
   {
-    title: "Front-End Developer",
+    title: "Software Developer",
     company: "Complustech",
     icon: Zap,
     color: "from-cyan-400 to-blue-500",
@@ -34,7 +34,7 @@ const experiences = [
     ],
   },
   {
-    title: "Front-End Developer",
+    title: "Software Developer",
     company: "Venus (LMS Project)",
     icon: TrendingUp,
     color: "from-green-400 to-emerald-500",
@@ -46,7 +46,7 @@ const experiences = [
     ],
   },
   {
-    title: "Front-End Developer",
+    title: "Software Developer",
     company: "Quiver",
     icon: Zap,
     color: "from-purple-400 to-pink-500",
@@ -58,7 +58,7 @@ const experiences = [
     ],
   },
   {
-    title: "Front-End Developer",
+    title: "Software Developer",
     company: "Product Drive",
     icon: Briefcase,
     color: "from-orange-400 to-red-500",

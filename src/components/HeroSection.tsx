@@ -44,7 +44,7 @@ export function HeroSection() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4 }}
               >
-                Front-End Developer & CTO
+                Software Developer & CTO
               </motion.p>
 
               {/* Description */}

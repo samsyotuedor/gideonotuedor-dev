@@ -15,7 +15,7 @@ const experiences = [
     ],
   },
   {
-    title: "Front-End Developer",
+    title: "Software Developer",
     company: "Complustech",
     icon: Zap,
     achievements: [
