@@ -1,6 +1,5 @@
-import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
-import { Quote, Star, Code2 } from "lucide-react";
+import { Quote, Star } from "lucide-react";
+import { SectionHeading } from "@/components/SectionHeading";
 
 const testimonials = [
   {
@@ -46,7 +45,7 @@ const duplicatedTestimonials = [...testimonials, ...testimonials];
 function TestimonialCard({ testimonial }: { testimonial: typeof testimonials[0] }) {
   return (
     <div className="group relative flex-shrink-0 w-[320px] md:w-[380px]">
-      <div className="rounded-2xl border border-border/50 bg-card/50 backdrop-blur-sm p-6 md:p-8 h-full hover:border-primary/20 transition-all duration-300 relative">
+      <div className="rounded-2xl border border-border bg-card p-6 md:p-8 h-full hover:border-primary/30 transition-all duration-300 relative">
         <Quote className="absolute top-4 right-4 md:top-6 md:right-6 w-6 h-6 md:w-8 md:h-8 text-primary/10" />
         
         <div className="flex gap-1 mb-4">

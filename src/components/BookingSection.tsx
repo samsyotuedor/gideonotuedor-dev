@@ -45,7 +45,6 @@ declare global {
 
 export function BookingSection() {
   const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   // Load Calendly widget script
   useEffect(() => {
