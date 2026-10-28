@@ -11,7 +11,7 @@ const skillCategories = [
   {
     title: "Backend & Data",
     icon: Server,
-    skills: ["Node.js", "REST APIs", "Pinia / Vuex", "Supabase"],
+    skills: ["Node.js", "REST APIs", "GraphQL", "PostgreSQL"],
   },
   {
     title: "UI & Design",
