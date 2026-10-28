@@ -1,6 +1,5 @@
-import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
-import { Quote, Star, Code2 } from "lucide-react";
+import { Quote, Star } from "lucide-react";
+import { SectionHeading } from "@/components/SectionHeading";
 
 const testimonials = [
   {
@@ -40,19 +39,13 @@ const testimonials = [
   },
 ];
 
-const metrics = [
-  { value: "35%", label: "Reduced Release Issues" },
-  { value: "25%", label: "Faster Development" },
-  { value: "40%", label: "Improved Load Times" },
-  { value: "20%", label: "Increased Engagement" },
-];
 
 const duplicatedTestimonials = [...testimonials, ...testimonials];
 
 function TestimonialCard({ testimonial }: { testimonial: typeof testimonials[0] }) {
   return (
     <div className="group relative flex-shrink-0 w-[320px] md:w-[380px]">
-      <div className="rounded-2xl border border-border/50 bg-card/50 backdrop-blur-sm p-6 md:p-8 h-full hover:border-primary/20 transition-all duration-300 relative">
+      <div className="rounded-2xl border border-border bg-card p-6 md:p-8 h-full hover:border-primary/30 transition-all duration-300 relative">
         <Quote className="absolute top-4 right-4 md:top-6 md:right-6 w-6 h-6 md:w-8 md:h-8 text-primary/10" />
         
         <div className="flex gap-1 mb-4">
@@ -82,96 +75,26 @@ function TestimonialCard({ testimonial }: { testimonial: typeof testimonials[0] 
 }
 
 export function TestimonialsSection() {
-  const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
-
   return (
-    <section ref={ref} className="section-padding relative overflow-hidden">
+    <section className="section-padding relative overflow-hidden">
       <div className="container-custom relative z-10">
-        {/* Metrics */}
-        <div className="text-center mb-16">
-          <motion.span 
-            initial={{ opacity: 0, y: 10 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-border/50 bg-card/50 text-sm font-medium text-primary mb-4"
-          >
-            <Code2 className="w-4 h-4" />
-            Key Results & Metrics
-          </motion.span>
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ delay: 0.1 }}
-            className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4"
-          >
-            Impact That <span className="text-gradient">Matters</span>
-          </motion.h2>
-        </div>
+        <SectionHeading
+          index="06"
+          eyebrow="Testimonials"
+          title={
+            <>
+              What people <span className="text-gradient">say</span>
+            </>
+          }
+        />
+      </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-20">
-          {metrics.map((metric, index) => (
-            <motion.div
-              key={metric.label}
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: 0.1 + index * 0.08 }}
-              whileHover={{ scale: 1.03 }}
-              className="rounded-xl md:rounded-2xl border border-border/50 bg-card/50 backdrop-blur-sm p-4 md:p-6 text-center hover:border-primary/20 transition-all duration-300"
-            >
-              <p className="text-3xl sm:text-4xl md:text-5xl font-bold text-gradient mb-2">
-                {metric.value}
-              </p>
-              <p className="text-muted-foreground text-xs md:text-sm">{metric.label}</p>
-            </motion.div>
+      {/* Marquee — slow, right to left, pauses on hover */}
+      <div className="relative overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]">
+        <div className="flex w-max gap-4 md:gap-6 animate-marquee-slow hover:[animation-play-state:paused] pl-6">
+          {duplicatedTestimonials.map((testimonial, index) => (
+            <TestimonialCard key={`${testimonial.name}-${index}`} testimonial={testimonial} />
           ))}
-        </div>
-
-        {/* Testimonials */}
-        <div className="text-center mb-12">
-          <motion.span
-            initial={{ opacity: 0, y: 10 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-border/50 bg-card/50 text-sm font-medium text-accent mb-4"
-          >
-            <Quote className="w-4 h-4" />
-            Testimonials
-          </motion.span>
-          <motion.h3
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ delay: 0.1 }}
-            className="text-xl sm:text-2xl md:text-3xl font-bold"
-          >
-            What People <span className="text-gradient">Say</span>
-          </motion.h3>
-          <p className="text-muted-foreground mt-2 text-sm md:text-base">
-            (Placeholder testimonials - Add real ones later)
-          </p>
-        </div>
-
-        {/* Marquee */}
-        <div className="relative overflow-hidden">
-          <div className="absolute left-0 top-0 bottom-0 w-16 md:w-32 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
-          <div className="absolute right-0 top-0 bottom-0 w-16 md:w-32 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
-          
-          <motion.div
-            className="flex gap-4 md:gap-6"
-            animate={{
-              x: [0, -50 * duplicatedTestimonials.length],
-            }}
-            transition={{
-              x: {
-                repeat: Infinity,
-                repeatType: "loop",
-                duration: 60,
-                ease: "linear",
-              },
-            }}
-          >
-            {duplicatedTestimonials.map((testimonial, index) => (
-              <TestimonialCard key={`${testimonial.name}-${index}`} testimonial={testimonial} />
-            ))}
-          </motion.div>
         </div>
       </div>
     </section>

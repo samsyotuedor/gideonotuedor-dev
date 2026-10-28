@@ -1,124 +1,77 @@
 import { motion } from "framer-motion";
-import { useInView } from "framer-motion";
-import { useRef } from "react";
 import { Link } from "react-router-dom";
-import { Mail, Phone, MapPin, ArrowRight, Github, Linkedin } from "lucide-react";
+import { ArrowRight, Mail, Phone, MapPin } from "lucide-react";
 
 const contactInfo = [
-  {
-    icon: Mail,
-    label: "Email",
-    value: "samsyotuedor40@gmail.com",
-    href: "mailto:samsyotuedor40@gmail.com",
-  },
-  {
-    icon: Phone,
-    label: "Phone",
-    value: "+234 708 581 4726",
-    href: "tel:+2347085814726",
-  },
-  {
-    icon: MapPin,
-    label: "Location",
-    value: "Lagos, Nigeria",
-    href: null,
-  },
-];
-
-const socialLinks = [
-  { icon: Github, href: "https://github.com/samsyotuedor" },
-  { icon: Linkedin, href: "https://linkedin.com/in/gideon-otuedor-92447b212" },
+  { icon: Mail, value: "samsyotuedor40@gmail.com", href: "mailto:samsyotuedor40@gmail.com" },
+  { icon: Phone, value: "+234 708 581 4726", href: "tel:+2347085814726" },
+  { icon: MapPin, value: "Lagos, Nigeria", href: null as string | null },
 ];
 
 export function ContactPreview() {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
-
   return (
-    <section id="contact" className="section-padding relative" ref={ref}>
+    <section id="contact" className="section-padding relative">
       <div className="container-custom relative z-10">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          className="relative overflow-hidden rounded-3xl border border-border bg-card px-6 py-14 md:px-14 md:py-20"
         >
-          <span className="text-primary font-medium text-sm uppercase tracking-widest">
-            Get In Touch
-          </span>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mt-3">
-            Let's <span className="text-gradient">Work Together</span>
-          </h2>
-        </motion.div>
+          <div className="pointer-events-none absolute -right-32 -top-32 h-80 w-80 rounded-full bg-primary/15 blur-[100px]" />
+          <div className="pointer-events-none absolute -bottom-32 -left-32 h-80 w-80 rounded-full bg-accent/10 blur-[100px]" />
 
-        <div className="max-w-2xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ delay: 0.2 }}
-            className="rounded-2xl border border-border/50 bg-card/50 backdrop-blur-sm p-8"
-          >
-            <div className="grid sm:grid-cols-3 gap-6 mb-6">
+          <div className="relative grid gap-12 lg:grid-cols-[1.4fr_1fr] lg:items-end">
+            <div>
+              <div className="mb-4 flex items-center gap-3">
+                <span className="font-raleway text-xs font-semibold text-primary">08</span>
+                <span className="h-px w-10 bg-primary/40" />
+                <span className="text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">
+                  Contact
+                </span>
+              </div>
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-semibold tracking-tight leading-[1.05] text-foreground">
+                Have a project in mind?{" "}
+                <span className="text-gradient">Let's build it.</span>
+              </h2>
+              <p className="mt-5 max-w-xl text-lg text-muted-foreground">
+                I'm open to full-time roles, consulting and product collaborations.
+                Tell me what you're working on.
+              </p>
+              <div className="mt-8 flex flex-wrap gap-3">
+                <Link
+                  to="/contact"
+                  className="group inline-flex items-center gap-2 rounded-full btn-gradient px-6 py-3.5 font-medium shadow-lg shadow-primary/20"
+                >
+                  Send a message
+                  <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
+                </Link>
+                <a
+                  href="mailto:samsyotuedor40@gmail.com"
+                  className="inline-flex items-center gap-2 rounded-full border border-border px-6 py-3.5 font-medium text-foreground hover:border-primary/40 transition-colors"
+                >
+                  <Mail size={18} />
+                  Email me
+                </a>
+              </div>
+            </div>
+
+            <ul className="space-y-4 border-t border-border pt-8 lg:border-l lg:border-t-0 lg:pl-10 lg:pt-0">
               {contactInfo.map((item) => (
-                <div key={item.label} className="text-center">
-                  <div className="w-12 h-12 mx-auto mb-3 rounded-xl bg-primary/10 flex items-center justify-center">
-                    <item.icon className="w-5 h-5 text-primary" />
-                  </div>
-                  <p className="text-xs text-muted-foreground mb-1">{item.label}</p>
+                <li key={item.value} className="flex items-center gap-3 text-foreground">
+                  <item.icon className="h-5 w-5 text-primary" />
                   {item.href ? (
-                    <a
-                      href={item.href}
-                      className="text-sm font-medium text-foreground hover:text-primary transition-colors"
-                    >
+                    <a href={item.href} className="hover:text-primary transition-colors">
                       {item.value}
                     </a>
                   ) : (
-                    <p className="text-sm font-medium text-foreground">{item.value}</p>
+                    <span>{item.value}</span>
                   )}
-                </div>
+                </li>
               ))}
-            </div>
-
-            <div className="flex justify-center gap-3 mb-6">
-              {socialLinks.map((link, index) => (
-                <motion.a
-                  key={index}
-                  href={link.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  whileHover={{ scale: 1.1 }}
-                  className="p-3 rounded-xl border border-border/50 bg-card/30 hover:border-primary/30 transition-all"
-                >
-                  <link.icon className="w-5 h-5 text-muted-foreground" />
-                </motion.a>
-              ))}
-            </div>
-
-            <div className="text-center">
-              <Link
-                to="/contact"
-                className="inline-flex items-center gap-2 px-6 py-3 btn-gradient rounded-xl font-medium"
-              >
-                <Mail size={18} />
-                Send a Message
-              </Link>
-            </div>
-          </motion.div>
-        </div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ delay: 0.4 }}
-          className="text-center mt-8"
-        >
-          <Link
-            to="/contact"
-            className="inline-flex items-center gap-2 text-primary hover:text-primary/80 font-medium transition-colors group"
-          >
-            Go to contact page
-            <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
-          </Link>
+            </ul>
+          </div>
         </motion.div>
       </div>
     </section>

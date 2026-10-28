@@ -66,7 +66,7 @@ export function AboutSection() {
           >
             <div className="glass-card gradient-border rounded-2xl p-8">
               <p className="text-lg leading-relaxed text-muted-foreground mb-6">
-                I'm a <span className="text-foreground font-medium">Front-End Developer and CTO</span> with 4+ years of experience building scalable digital products across multiple industries. I specialize in <span className="text-primary font-medium">JavaScript, TypeScript, React, Next.js, and Vue</span> — with strong focus on UX optimization, code quality, and performance.
+                I'm a <span className="text-foreground font-medium">Software Developer and CTO</span> with 4+ years of experience building scalable digital products across multiple industries. I specialize in <span className="text-primary font-medium">JavaScript, TypeScript, React, Next.js, and Vue</span> — with strong focus on UX optimization, code quality, and performance.
               </p>
               <p className="text-lg leading-relaxed text-muted-foreground">
                 I've led teams, shipped high-impact features, improved deployment pipelines, and delivered applications that users genuinely enjoy using. My approach combines technical excellence with a deep understanding of user needs.

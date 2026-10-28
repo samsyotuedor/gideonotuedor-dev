@@ -1,8 +1,7 @@
 import { motion } from "framer-motion";
-import { useInView } from "framer-motion";
-import { useRef } from "react";
 import { Link } from "react-router-dom";
-import { ExternalLink, Github, ArrowRight } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
+import { SectionHeading } from "@/components/SectionHeading";
 
 import churchplusImg from "@/assets/projects/churchplus.png";
 import projectVenusImg from "@/assets/projects/project-venus.png";
@@ -15,6 +14,7 @@ const projects = [
     tech: ["Vue 3", "Vuex", "Element Plus"],
     type: "Enterprise SaaS",
     image: churchplusImg,
+    href: null as string | null,
   },
   {
     title: "Learning Management System",
@@ -22,6 +22,7 @@ const projects = [
     tech: ["Next.js", "TypeScript", "Tailwind CSS"],
     type: "EdTech Platform",
     image: projectVenusImg,
+    href: null as string | null,
   },
   {
     title: "Quiz Builder",
@@ -29,91 +30,81 @@ const projects = [
     tech: ["React", "TypeScript", "Tailwind CSS"],
     type: "EdTech App",
     image: quizBuilderImg,
+    href: "http://quiz-spark-flax.vercel.app/",
   },
 ];
 
 export function ProjectsPreview() {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
-
   return (
-    <section id="projects" className="section-padding relative" ref={ref}>
+    <section id="projects" className="section-padding relative">
       <div className="container-custom relative z-10">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
-        >
-          <span className="text-primary font-medium text-sm uppercase tracking-widest">
-            Featured Work
-          </span>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mt-3">
-            Projects I've <span className="text-gradient">Built</span>
-          </h2>
-        </motion.div>
+        <SectionHeading
+          index="03"
+          eyebrow="Selected work"
+          title={
+            <>
+              Projects I've <span className="text-gradient">built</span>
+            </>
+          }
+          description="A few products I've designed and engineered, from enterprise SaaS to learning platforms."
+          link={{ to: "/projects", label: "All projects" }}
+        />
 
-        <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-          {projects.map((project, index) => (
-            <motion.div
-              key={project.title}
-              initial={{ opacity: 0, y: 30 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: 0.2 + index * 0.1 }}
-              whileHover={{ y: -5 }}
-              className="group"
-            >
-              <div className="rounded-2xl overflow-hidden h-full border border-border/50 bg-card/50 backdrop-blur-sm hover:border-primary/20 transition-all duration-300">
-                <div className="h-44 relative overflow-hidden">
-                  <img 
-                    src={project.image} 
-                    alt={project.title}
-                    className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-card via-transparent to-transparent" />
-                  <div className="absolute top-3 right-3 px-3 py-1 rounded-full bg-card/90 backdrop-blur-sm text-xs font-medium border border-border/50">
-                    {project.type}
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {projects.map((project, index) => {
+            const Wrapper = project.href ? "a" : Link;
+            const wrapperProps = project.href
+              ? { href: project.href, target: "_blank", rel: "noopener noreferrer" }
+              : { to: "/projects" };
+            return (
+              <motion.div
+                key={project.title}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-60px" }}
+                transition={{ delay: index * 0.1, duration: 0.5 }}
+                className={index === 0 ? "md:col-span-2 lg:col-span-1" : ""}
+              >
+                {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+                <Wrapper {...(wrapperProps as any)} className="group block h-full">
+                  <div className="h-full overflow-hidden rounded-2xl border border-border bg-card transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-xl hover:shadow-primary/5">
+                    <div className="relative aspect-[16/10] overflow-hidden border-b border-border bg-muted">
+                      <img
+                        src={project.image}
+                        alt={`${project.title} screenshot`}
+                        loading="lazy"
+                        className="h-full w-full object-cover object-top transition-transform duration-700 group-hover:scale-[1.04]"
+                      />
+                    </div>
+                    <div className="p-6">
+                      <div className="mb-3 flex items-center justify-between gap-4">
+                        <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                          {project.type}
+                        </span>
+                        <ArrowUpRight
+                          size={18}
+                          className="text-muted-foreground transition-all group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-primary"
+                        />
+                      </div>
+                      <h3 className="text-xl font-semibold text-foreground">{project.title}</h3>
+                      <p className="mt-2 line-clamp-2 text-sm text-muted-foreground">{project.description}</p>
+                      <div className="mt-5 flex flex-wrap gap-1.5">
+                        {project.tech.map((tech) => (
+                          <span
+                            key={tech}
+                            className="rounded-full border border-border px-2.5 py-1 text-xs font-medium text-muted-foreground"
+                          >
+                            {tech}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
                   </div>
-                </div>
-
-                <div className="p-5">
-                  <h3 className="text-lg font-semibold mb-2 text-foreground">
-                    {project.title}
-                  </h3>
-                  <p className="text-muted-foreground mb-4 text-sm line-clamp-2">
-                    {project.description}
-                  </p>
-
-                  <div className="flex flex-wrap gap-1.5">
-                    {project.tech.map((tech) => (
-                      <span
-                        key={tech}
-                        className="px-2.5 py-1 rounded-full text-xs font-medium bg-secondary text-secondary-foreground"
-                      >
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          ))}
+                </Wrapper>
+              </motion.div>
+            );
+          })}
         </div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ delay: 0.5 }}
-          className="text-center mt-12"
-        >
-          <Link
-            to="/projects"
-            className="inline-flex items-center gap-2 text-primary hover:text-primary/80 font-medium transition-colors group"
-          >
-            View all projects
-            <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
-          </Link>
-        </motion.div>
       </div>
     </section>
   );
