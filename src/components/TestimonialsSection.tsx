@@ -76,55 +76,26 @@ function TestimonialCard({ testimonial }: { testimonial: typeof testimonials[0] 
 }
 
 export function TestimonialsSection() {
-  const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
-
   return (
-    <section ref={ref} className="section-padding relative overflow-hidden">
+    <section className="section-padding relative overflow-hidden">
       <div className="container-custom relative z-10">
-        {/* Testimonials */}
-        <div className="text-center mb-12">
-          <motion.span
-            initial={{ opacity: 0, y: 10 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-border/50 bg-card/50 text-sm font-medium text-accent mb-4"
-          >
-            <Quote className="w-4 h-4" />
-            Testimonials
-          </motion.span>
-          <motion.h3
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ delay: 0.1 }}
-            className="text-xl sm:text-2xl md:text-3xl font-bold"
-          >
-            What People <span className="text-gradient">Say</span>
-          </motion.h3>
-        </div>
+        <SectionHeading
+          index="06"
+          eyebrow="Testimonials"
+          title={
+            <>
+              What people <span className="text-gradient">say</span>
+            </>
+          }
+        />
+      </div>
 
-        {/* Marquee */}
-        <div className="relative overflow-hidden">
-          <div className="absolute left-0 top-0 bottom-0 w-16 md:w-32 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
-          <div className="absolute right-0 top-0 bottom-0 w-16 md:w-32 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
-          
-          <motion.div
-            className="flex gap-4 md:gap-6"
-            animate={{
-              x: [0, -50 * duplicatedTestimonials.length],
-            }}
-            transition={{
-              x: {
-                repeat: Infinity,
-                repeatType: "loop",
-                duration: 60,
-                ease: "linear",
-              },
-            }}
-          >
-            {duplicatedTestimonials.map((testimonial, index) => (
-              <TestimonialCard key={`${testimonial.name}-${index}`} testimonial={testimonial} />
-            ))}
-          </motion.div>
+      {/* Marquee — slow, right to left, pauses on hover */}
+      <div className="relative overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]">
+        <div className="flex w-max gap-4 md:gap-6 animate-marquee-slow hover:[animation-play-state:paused] pl-6">
+          {duplicatedTestimonials.map((testimonial, index) => (
+            <TestimonialCard key={`${testimonial.name}-${index}`} testimonial={testimonial} />
+          ))}
         </div>
       </div>
     </section>
