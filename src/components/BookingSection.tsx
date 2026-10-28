@@ -1,7 +1,8 @@
-import { motion, useInView } from "framer-motion";
+import { motion } from "framer-motion";
 import { useRef, useEffect } from "react";
-import { Calendar, Mail, Phone, Clock, Video, MessageSquare, ExternalLink } from "lucide-react";
+import { Calendar, Clock, Video, MessageSquare, ExternalLink } from "lucide-react";
 import { FadeInOnScroll, StaggerContainer, staggerChildVariants } from "./ScrollAnimations";
+import { SectionHeading } from "@/components/SectionHeading";
 
 // Calendly event URLs - Update these with your actual Calendly links
 const CALENDLY_USERNAME = "gideon-otuedor"; // Replace with your Calendly username
@@ -80,112 +81,58 @@ export function BookingSection() {
 
   return (
     <section ref={ref} className="section-padding relative overflow-hidden">
-      {/* Background effects */}
-      <div className="absolute inset-0 bg-gradient-radial opacity-30" />
-      
       <div className="container-custom relative z-10">
-        <FadeInOnScroll>
-          <div className="text-center mb-16">
-            <motion.span 
-              className="inline-block px-4 py-2 rounded-full glass-card text-sm font-medium text-primary mb-4"
-              animate={{ 
-                boxShadow: isInView 
-                  ? ["0 0 20px hsl(210 100% 60% / 0.2)", "0 0 40px hsl(210 100% 60% / 0.4)", "0 0 20px hsl(210 100% 60% / 0.2)"]
-                  : "none"
-              }}
-              transition={{ duration: 2, repeat: Infinity }}
-            >
-              <Clock className="inline-block w-4 h-4 mr-2" />
-              Book a Meeting
-            </motion.span>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
-              Let's <span className="text-gradient">Connect</span>
-            </h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
-              Schedule a call to discuss your project, explore collaboration opportunities, 
-              or get technical guidance on your next big idea.
-            </p>
-          </div>
-        </FadeInOnScroll>
+        <SectionHeading
+          index="07"
+          eyebrow="Book a meeting"
+          title={
+            <>
+              Let's <span className="text-gradient">talk</span>
+            </>
+          }
+          description="Schedule a call to discuss your project, explore collaboration, or get technical guidance on your next idea."
+        />
 
-        <StaggerContainer className="grid md:grid-cols-3 gap-6 mb-12">
+        <StaggerContainer className="grid md:grid-cols-3 gap-6">
           {bookingOptions.map((option) => (
-            <motion.div
-              key={option.title}
-              variants={staggerChildVariants}
-              whileHover={{ y: -8, scale: 1.02 }}
-              className="group relative"
-            >
-              <div className="absolute inset-0 bg-gradient-to-r opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl blur-xl -z-10" 
-                   style={{ background: `linear-gradient(135deg, hsl(var(--primary) / 0.3), hsl(var(--accent) / 0.3))` }} 
-              />
-              
-              <div className="glass-card-strong rounded-2xl p-8 h-full border border-border/50 group-hover:border-primary/30 transition-all duration-300">
-                <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${option.color} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
-                  <option.icon className="w-7 h-7 text-primary-foreground" />
-                </div>
-                
-                <div className="flex items-center gap-2 mb-3">
-                  <h3 className="text-xl font-bold">{option.title}</h3>
-                  <span className="px-2 py-1 rounded-full bg-primary/10 text-primary text-xs font-medium">
+            <motion.div key={option.title} variants={staggerChildVariants} className="group">
+              <div className="flex h-full flex-col rounded-2xl border border-border bg-card p-7 transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-xl hover:shadow-primary/5">
+                <div className="mb-6 flex items-center justify-between">
+                  <div className="inline-flex rounded-xl border border-border p-2.5 transition-colors group-hover:border-primary/40">
+                    <option.icon className="h-5 w-5 text-primary" />
+                  </div>
+                  <span className="inline-flex items-center gap-1.5 text-xs font-medium text-muted-foreground">
+                    <Clock className="h-3.5 w-3.5" />
                     {option.duration}
                   </span>
                 </div>
-                
-                <p className="text-muted-foreground mb-6">{option.description}</p>
-                
-                <motion.button
+
+                <h3 className="text-xl font-semibold text-foreground">{option.title}</h3>
+                <p className="mt-2 mb-8 flex-1 text-muted-foreground">{option.description}</p>
+
+                <button
                   onClick={() => openCalendly(option.calendlyEvent)}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="w-full py-3 rounded-xl btn-gradient font-medium text-sm inline-flex items-center justify-center gap-2 cursor-pointer"
+                  className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-border py-3 text-sm font-medium text-foreground transition-colors hover:border-primary hover:bg-primary hover:text-primary-foreground"
                 >
-                  <Calendar className="w-4 h-4" />
-                  Schedule Now
-                </motion.button>
+                  <Calendar className="h-4 w-4" />
+                  Schedule
+                </button>
               </div>
             </motion.div>
           ))}
         </StaggerContainer>
 
-        {/* Direct Calendly link */}
         <FadeInOnScroll>
-          <div className="text-center mb-8">
-            <motion.a
+          <div className="mt-8 text-center">
+            <a
               href={`https://calendly.com/${CALENDLY_USERNAME}`}
               target="_blank"
               rel="noopener noreferrer"
-              whileHover={{ scale: 1.02 }}
-              className="inline-flex items-center gap-2 text-primary hover:text-accent transition-colors cursor-pointer"
+              className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
             >
-              <span>View all available times on Calendly</span>
-              <ExternalLink className="w-4 h-4" />
-            </motion.a>
-          </div>
-        </FadeInOnScroll>
-
-        {/* Quick contact options */}
-        <FadeInOnScroll>
-          <div className="flex flex-wrap justify-center gap-4">
-            <motion.a
-              href="mailto:samsyotuedor40@gmail.com"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl glass-card hover:glow-primary transition-all duration-300 cursor-pointer"
-            >
-              <Mail className="w-5 h-5 text-primary" />
-              <span>samsyotuedor40@gmail.com</span>
-            </motion.a>
-            
-            <motion.a
-              href="tel:+2347085814726"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl glass-card hover:glow-accent transition-all duration-300 cursor-pointer"
-            >
-              <Phone className="w-5 h-5 text-accent" />
-              <span>+234 708 581 4726</span>
-            </motion.a>
+              See all available times on Calendly
+              <ExternalLink className="h-4 w-4" />
+            </a>
           </div>
         </FadeInOnScroll>
       </div>
