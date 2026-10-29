@@ -14,7 +14,7 @@ const projects = [
     tech: ["Vue 3", "Vuex", "Element Plus"],
     type: "Enterprise SaaS",
     image: churchplusImg,
-    href: null as string | null,
+    href: "https://my.churchplus.co" as string | null,
   },
   {
     title: "Learning Management System",
@@ -22,7 +22,7 @@ const projects = [
     tech: ["Next.js", "TypeScript", "Tailwind CSS"],
     type: "EdTech Platform",
     image: projectVenusImg,
-    href: null as string | null,
+    href: "https://venus-lms.vercel.app/login" as string | null,
   },
   {
     title: "Quiz Builder",

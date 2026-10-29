@@ -24,13 +24,6 @@ export function ContactPreview() {
 
           <div className="relative grid gap-12 lg:grid-cols-[1.4fr_1fr] lg:items-end">
             <div>
-              <div className="mb-4 flex items-center gap-3">
-                <span className="font-raleway text-xs font-semibold text-primary">08</span>
-                <span className="h-px w-10 bg-primary/40" />
-                <span className="text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">
-                  Contact
-                </span>
-              </div>
               <h2 className="text-4xl md:text-5xl lg:text-6xl font-semibold tracking-tight leading-[1.05] text-foreground">
                 Have a project in mind?{" "}
                 <span className="text-gradient">Let's build it.</span>
