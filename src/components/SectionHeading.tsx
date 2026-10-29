@@ -22,13 +22,6 @@ export function SectionHeading({ index, eyebrow, title, description, link }: Sec
       className="mb-12 md:mb-16 flex flex-col gap-6 md:flex-row md:items-end md:justify-between"
     >
       <div className="max-w-2xl">
-        <div className="flex items-center gap-3 mb-4">
-          <span className="font-raleway text-xs font-semibold text-primary">{index}</span>
-          <span className="h-px w-10 bg-primary/40" />
-          <span className="text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">
-            {eyebrow}
-          </span>
-        </div>
         <h2 className="text-3xl md:text-4xl lg:text-5xl font-semibold tracking-tight leading-[1.1] text-foreground">
           {title}
         </h2>
