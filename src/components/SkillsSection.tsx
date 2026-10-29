@@ -60,7 +60,7 @@ export function SkillsSection() {
             My <span className="text-gradient">Expertise</span>
           </h2>
           <p className="text-muted-foreground mt-4 max-w-2xl mx-auto">
-            A comprehensive toolkit built over 4+ years of professional development.
+            A comprehensive toolkit built over 5+ years of professional development.
           </p>
         </motion.div>
 
