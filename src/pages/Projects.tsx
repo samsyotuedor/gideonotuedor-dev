@@ -22,6 +22,7 @@ const localProjects = [
     type: "Enterprise SaaS",
     gradient: "from-blue-500 to-cyan-500",
     image: churchplusImg,
+    demo_url: "https://my.churchplus.co",
   },
   {
     title: "Learning Management System",
@@ -31,6 +32,7 @@ const localProjects = [
     type: "EdTech Platform",
     gradient: "from-green-500 to-emerald-500",
     image: projectVenusImg,
+    demo_url: "https://venus-lms.vercel.app/login",
   },
   {
     title: "Quiz Builder",
