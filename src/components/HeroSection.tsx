@@ -12,7 +12,7 @@ const socials = [
 ];
 
 const stats = [
-  { value: "4+", label: "Years experience" },
+  { value: "5+", label: "Years experience" },
   { value: "5+", label: "Products shipped" },
   { value: "35%", label: "Fewer release issues" },
 ];

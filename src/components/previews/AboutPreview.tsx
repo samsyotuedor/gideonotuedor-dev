@@ -4,7 +4,7 @@ import { MapPin, Briefcase, Layers, Users, ArrowRight } from "lucide-react";
 import { SectionHeading } from "@/components/SectionHeading";
 
 const highlights = [
-  { icon: Briefcase, label: "Experience", value: "4+ years" },
+  { icon: Briefcase, label: "Experience", value: "5+ years" },
   { icon: Users, label: "Current role", value: "CTO, Complustech" },
   { icon: Layers, label: "Focus", value: "Web platforms & SaaS" },
   { icon: MapPin, label: "Based in", value: "Lagos, Nigeria" },
@@ -35,7 +35,7 @@ export function AboutPreview() {
           >
             <p>
               I'm a <span className="text-foreground font-medium">Software Developer and CTO</span> with
-              4+ years of experience building scalable digital products. I specialize in{" "}
+              5+ years of experience building scalable digital products. I specialize in{" "}
               <span className="text-primary font-medium">JavaScript, TypeScript, React, Next.js and Vue</span>.
             </p>
             <p>
