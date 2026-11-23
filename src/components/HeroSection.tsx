@@ -45,7 +45,7 @@ export function HeroSection() {
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.1, ease }}
-              className="text-5xl md:text-6xl xl:text-7xl flex flex-wrap font-semibold tracking-tight leading-[1.02] text-foreground"
+              className="text-5xl md:text-6xl xl:text-7xl flex flex-wrap gap-2 font-semibold tracking-tight leading-[1.02] text-foreground"
             >
               <span>Gideon</span>
               <span className="text-gradient">Otuedor</span>
