@@ -1,0 +1,13 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1795502737857,
+      "tag": "0000_restrict_resume_file_records",
+      "breakpoints": true
+    }
+  ]
+}
